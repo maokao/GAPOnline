@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Matrix Visualization, EDA, Clustering, GAP">
+  <meta name="author" content="Chiun-How Kao">
+
+  <title>GAP Online Demo</title>
+
+  <script src="http://d3js.org/d3.v5.js"></script>
+  <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="http://malsup.github.io/jquery.blockUI.js"></script>
+  <script type="text/javascript" src="js/dendrogram.js"></script>
+  <script type="text/javascript" src="js/seriation.js"></script>
+  <!--<script type="text/javascript" src="r2e.js"></script>-->
+  <script type="text/javascript" src="js/r2e_wasm.js"></script>
+  <!--<script type="text/javascript" src="hctree.js"></script>-->
+  <script type="text/javascript" src="js/hctree_wasm.js"></script>
+  <script src="js/heatmap_utility.js"></script>
+  <script src="js/heatmap.js"></script>
+  <link rel="stylesheet" href="css/heatmap.css" />  
+  <link rel="stylesheet" href="css/lightbox.css" />
+  <script src="js/import_utility.js"></script>
+  <script src="js/papaparse.min.js"></script>
+  <script type="text/javascript" src="js/nodelink.js"></script>
+  <script type="text/javascript" src="js/nodelinkwindow.js"></script>
+  <!-- <script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />-->
+
+  <!-- Custom fonts for this template-->
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <link rel="stylesheet"  href="./style.css">
+
+  <link rel="stylesheet"  href="css/nodelink.css">
+  <link rel="stylesheet"  href="css/nodelinkwindow.css">
+
+  <script>
+  $(document).ready(function() {
+
+    //resetAllParameters("#heatmap");
+    setAllParameters("iris.csv", true, true, 1, 0, 0, 0);
+    heatmap_display(dataFileName, "#heatmap", "Spectral", ",");
+
+  });
+
+/*
+  function handleFiles(file) {
+  //var fileList = this.files;
+    document.getElementById("chooseInput_2").checked="checked";
+    openModal();
+    //currentSlide(1);
+    console.log(file);
+  }
+  */
+
+  function changeFileInput() {
+    document.getElementById("chooseInput_1").checked="checked";
+  }
+
+  </script>
+
+</head>
+
+<body id="page-top">
+
+<!--
+<div id="drag">
+  <div id="title" class="title">
+    <h2>Node-Link Plot</h2>
+    <div>
+        <a class="min" href="javascript:;" title="最小化"></a>
+        <a class="max" href="javascript:;" title="最大化"></a>
+        <a class="close" href="javascript:;" title="關閉"></a>
+    </div>
+  </div>
+  <div class="resizeL"></div>
+  <div class="resizeT"></div>
+  <div class="resizeR"></div>
+  <div class="resizeB"></div>
+  <div class="resizeLT"></div>
+  <div class="resizeTR"></div>
+  <div class="resizeBR"></div>
+  <div class="resizeLB"></div>
+  <div id="nl_content" class="nl_content"></div>
+</div>
+-->
+        <!--<a class="revert" href="javascript:;" title="還原"></a>-->
+
+<div id="myModal" class="modal2">
+  <span class="close2 cursor" onclick="closeModal()" style="color:white;">&times;</span>
+  <div class="card modal-content2 justify-content-center" style="overflow: auto;">
+
+
+
+    <div class="numbertext">
+          <!--<div class="card mySlides">-->
+      <div class="card mb-2">
+        <!-- Card Header - Accordion -->
+        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+        <h6 class="m-0 font-weight-bold text-primary">Data Information</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="collapseCardExample">        
+          <div class="card-body" style="padding: 0.5rem;">
+            <span id="filepath"></span>
+          </div>
+          <div class="row" style="padding-left:15px;padding-right:15px;">
+            <div class="col-xl-3 col-md-6" style="padding-right:0.05rem; padding-left:0.05rem;">
+                <div class="card">
+                  <div class="card-body2">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col">
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: white;border-radius: 0.35rem; height: calc(1.5em + 0.75rem);">&nbsp;No. Row:
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item dropdown"><div id="row_num">151</div>
+                      </li>
+                    </ul>
+                  </nav>
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: white;border-radius: 0.35rem; height: calc(1.5em + 0.75rem);">&nbsp;No. Col:
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item dropdown"><div id="col_num">4</div>
+                      </li>
+                    </ul>
+                  </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6" style="padding-right:0.05rem; padding-left:0.05rem;">
+                <div class="card">
+                  <div class="card-body2">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col">
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: #764529;border-radius: 0.35rem; height: calc(1.5em + 0.75rem); color: white;">&nbsp;<input type="checkbox" id="importHasRowName" name="importHasRowName" value="" onclick="checkHasRowName()">&nbsp;Row name
+                  </nav>
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: #1e3f91;border-radius: 0.35rem; height: calc(1.5em + 0.75rem); color: white;">&nbsp;<input type="checkbox" id="importHasColName" name="importHasColName" value="" onclick="checkHasColName()">&nbsp;Col name
+                  </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6" style="padding-right:0.05rem; padding-left:0.05rem;">
+                <div class="card">
+                  <div class="card-body2">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col">
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: #fdffdb;border-radius: 0.35rem;">&nbsp;Ydiscr.:
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item dropdown">
+                        <select class="form-control" id="importYdiscrCount" style="font-size: 8pt; width: 60px;" onchange="checkYdiscrCount()">
+                          <option>0</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                        </select>
+                      </li>
+                    </ul>
+                  </nav>
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: #ffdbdb;border-radius: 0.35rem;">&nbsp;Yconti.:
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item dropdown">
+                        <select class="form-control" id="importYcontiCount" style="font-size: 8pt; width: 60px;" onchange="checkYcontiCount()">
+                          <option>0</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                        </select>
+                      </li>
+                    </ul>
+                  </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6" style="padding-right:0.05rem; padding-left:0.05rem;">
+                <div class="card">
+                  <div class="card-body2">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col">
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: #dffbff; border-radius: 0.35rem;">&nbsp;Xdiscr.:
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item dropdown">
+                        <select class="form-control" id="importXdiscrCount" style="font-size: 8pt; width: 60px;" onchange="checkXdiscrCount()">
+                          <option>0</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                        </select>
+                      </li>
+                    </ul>
+                  </nav>
+                  <nav class="navbar navbar-expand navbar-light" style="padding: 0rem;background-color: #e8ffe6; border-radius: 0.35rem;">&nbsp;Xconti.:
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item dropdown">
+                        <select class="form-control" id="importXcontiCount" style="font-size: 8pt; width: 60px;" onchange="checkXcontiCount()">
+                          <option>0</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                          <option>6</option>
+                          <option>7</option>
+                          <option>8</option>
+                          <option>9</option>
+                        </select>
+                      </li>
+                    </ul>
+                  </nav>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+          </div>
+          <div style="padding: 0.5rem;">
+            <span id="missing_value">&nbsp;<input type="checkbox" value="" disabled>&nbsp;Missing Value:&nbsp;</span><input type="text" name="missing_value" id="missing_value" class="form-control-inputtext" value="NA" disabled>
+          </div>          
+        </div>
+      </div>
+      <div class="mb-2">
+        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4" style="border: 1px solid #e3e6f0;">
+          <table id="example" style="width=600px;" class="table table-bordered dataTable">
+          </table>
+        </div>
+      </div>
+      <div style="text-align: right; padding: 3px;">
+        <button type="button" class="btn btn-primary" onclick="importOK()">OK</button>
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+
+    <!--</div>-->
+  </div>
+</div>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon">
+          <img src="img/gap.gif"></img>
+        </div>
+        <div class="sidebar-brand-text mx-2">GAP Online <sup>beta</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        File
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">     
+          <i class="fas fa-fw fa-folder-open"></i>
+          <span>Select Data File</span>
+        </a>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <div style="padding:10px;">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" id="chooseInput_1" name="chooseInput" value="example" checked="checked">
+                      <span>Example File</span>
+                    </label>
+                  </div>
+                  <div>
+                    <select id="exampleFileName" class="form-control form-control-sm" onchange="changeFileInput();">
+                      <option value="iris" selected> Iris </option>
+                      <option value="euclidean_distance"> test </option>
+                    </select>
+                  </div>
+                  <hr class="sidebar-divider d-none d-md-block">
+                  <div class="radio">
+                    <label>
+                      <input type="radio" id="chooseInput_2" name="chooseInput" value="fileUpload">
+                      <span>Open File</span>
+                    </label>
+                  </div>
+                  <div class="form-group" style="width: 82%;">
+                      <input type="file" name="uploadFileName" id="uploadFileName" style="width: 170px;">
+                  </div>
+            </div>
+
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseExport" aria-expanded="true" aria-controls="collapseExport">
+          <i class="fas fa-fw fa-save"></i>
+          <span>Export</span>
+        </a>
+        <div id="collapseExport" class="collapse" aria-labelledby="headingExport" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="login.html">Ordering</a>
+            <a class="collapse-item" href="register.html">Data</a>
+            <a class="collapse-item" href="forgot-password.html">Images</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+      <div class="sidebar-heading">
+        Settings
+      </div>
+
+     <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProx" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Proximity</span>
+        </a>
+        <div id="collapseProx" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <div style="padding:10px;">Row Processing:
+            <select id="rowprox" class="form-control form-control-sm">
+              <option value="null" selected> ----- </option>
+              <option value="euclidean_distance">Euclidean Distance</option>
+              <option value="pearson_correlation">Pearson's Correlation</option>
+            </select>
+            </div>
+
+            <div style="padding:10px;">Column Processing:
+            <select id="colprox" class="form-control form-control-sm">
+              <option value="null" selected> ----- </option>
+              <option value="euclidean_distance">Euclidean Distance</option>
+              <option value="pearson_correlation">Pearson's Correlation</option>
+            </select>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+      <div class="sidebar-heading">
+        Options
+      </div>
+
+      <div style="margin: 0 1rem; padding-top: 1rem;">
+        <select id="optionDataMap" class="form-control form-control-sm">
+            <option value="rawdata" selected> Raw Data Matrix </option>
+        </select>
+      </div>
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseColor" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-barcode"></i>
+          <span>Color</span>
+        </a>
+          <div id="collapseColor" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <div style="padding:10px;">Color Spectrum
+              <select id="palette" class="form-control form-control-sm">
+                <option value="RdYlGn">RdYlGn</option>
+                <option value="Spectral" selected>Spectral</option>
+                <option value="RdYlBu">RdYlBu</option>
+                <option value="RdGy">RdGy</option>
+                <option value="RdBu">RdBu</option>
+                <option value="PiYG">PiYG</option>
+                <option value="PRGn">PRGn</option>
+                <option value="BrBG">BrBG</option>
+                <option value="PuOr">PuOr</option>
+              </select>
+            </div>
+            <div style="padding:10px;">Display Condition
+              <select id="displaycondition" class="form-control form-control-sm">
+                <option value="RangeMatrix" selected>Range: Matrix</option>
+                <option value="RangeRow">Range: Row</option>
+                <option value="RangeCol">Range: Column</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Size Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-cube"></i>
+          <span>Zoom</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+           <!--<div class="form-group">-->
+           <div style="padding:10px;">Width:
+              <input type="range" class="form-control-range" id="widthZoomRange" min="1" max="200" value="50">
+              Height:
+              <input type="range" class="form-control-range" id="heightZoomRange" min="1" max="200" value="50">
+           </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Range Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRange" aria-expanded="true" aria-controls="collapseRange">
+          <i class="fas fa-fw fa-wrench"></i>
+          <span>Range</span>
+        </a>
+        <div id="collapseRange" class="collapse" aria-labelledby="headingRange" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Coming Soon!</h6>
+            <!--
+            <a class="collapse-item" href="login.html">Login</a>
+            <a class="collapse-item" href="register.html">Register</a>
+            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">Other Pages:</h6>
+            <a class="collapse-item" href="404.html">404 Page</a>
+            <a class="collapse-item" href="blank.html">Blank Page</a>
+          -->
+          </div>
+        </div>
+      </li>
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+          <div class="m-0 font-weight-bold text-primary">
+            Row: 
+            <select id="roworder" class="form-control-none form-control-sm" disabled="disabled">
+              <option value="sortinit_row" selected>Original Order</option>
+              <option value="averagelinkage">Average-Linkage</option>
+              <option value="centroidlinkage">Centroid-Linkage</option>
+              <option value="completelinkage">Complete-Linkage</option>
+              <option value="singlelinkage">Single-Linkage</option>
+              <option value="null"> ----- </option>
+              <option value="r2e">R2E</option>             
+            </select>
+          </div>&nbsp;
+          <div class="m-0 font-weight-bold text-primary">
+            <select id="rowflip" class="form-control-none form-control-sm" disabled="disabled">
+              <option value="null" selected>Flip: None</option>
+              <option value="r2e" disabled="disabled">Flip: R2E</option>
+              <option value="uncle">Flip: Uncle</option>
+              <option value="grandpa">Flip: GrandPa</option>
+            </select>
+          </div>
+          <div class="topbar-divider d-none d-sm-block"></div>
+          <div class="m-0 font-weight-bold text-primary">
+            Col.: 
+            <select id="colorder" class="form-control-none form-control-sm" disabled="disabled">
+              <option value="sortinit_col" selected>Original Order</option>
+              <option value="averagelinkage">Average-Linkage</option>
+              <option value="centroidlinkage">Centroid-Linkage</option>
+              <option value="completelinkage">Complete-Linkage</option>
+              <option value="singlelinkage">Single-Linkage</option>
+              <option value="null"> ----- </option>
+              <option value="r2e">R2E</option>              
+            </select>
+          </div>&nbsp;
+          <div class="m-0 font-weight-bold text-primary">
+            <select id="colflip" class="form-control-none form-control-sm" disabled="disabled">
+              <option value="null" selected>Flip: None</option>
+              <option value="r2e" disabled="disabled">Flip: R2E</option>
+              <option value="uncle">Flip: Uncle</option>
+              <option value="grandpa">Flip: GrandPa</option>
+            </select>
+          </div>
+          <div class="topbar-divider d-none d-sm-block"></div>
+
+          <!-- Topbar Navbar -->
+          <!-- 暫時關閉
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a href="#" class="btn btn-primary btn-circle btn-sm dropdown-toggle" onClick="createWindow('drag','new window');">
+                  <i><b>Map</b></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a href="#" class="btn btn-primary btn-circle btn-sm dropdown-toggle" onClick="createWindow('drag','Node-Link Plot');">
+                  <i><b>NL</b></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a href="#" class="btn btn-primary btn-circle btn-sm dropdown-toggle" onClick="showPopup()">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+            </li>
+          </ul> 
+          -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) 
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>-->
+
+
+            <!-- Nav Item - Messages -->            
+            <li class="nav-item dropdown no-arrow mx-1">
+              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-align-justify fa-fw"></i>
+                <!-- Counter - Messages 
+                <span class="badge badge-danger badge-counter">7</span>-->
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                <!--<h6 class="dropdown-header">
+                  Color Spectrum
+                </h6>-->
+                <div id="mv_color"></div>
+                <!--<div class="dropdown-item d-flex align-items-center">
+                  <div class="font-weight-bold">
+                    <div class="small" style="text-align: center;">Data Matrix</div>
+                    <div id="mv_color" class="small text-gray-500"></div>
+                  </div>
+                </div>
+
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                    <div class="status-indicator bg-warning"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
+                    <div class="small text-gray-500">Morgan Alvarez · 2d</div>
+                  </div>
+                </a>
+                <a class="dropdown-item d-flex align-items-center" href="#">
+                  <div class="dropdown-list-image mr-3">
+                    <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                    <div class="status-indicator bg-success"></div>
+                  </div>
+                  <div>
+                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
+                    <div class="small text-gray-500">Chicken the Dog · 2w</div>
+                  </div>
+                </a>
+                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+              -->
+              </div>
+            </li>
+
+            
+
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Content Row -->
+          <div id="heatmap" class="row"></div>
+
+
+        </div>
+        <div class="div_right_bottom"><p style="text-align:right;white-space:pre-wrap;" class="">©&nbsp;Web Design By Chiun-How Kao 2020</p></div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer 
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div>
+        </div>
+      </footer>-->
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <!--<script src="vendor/jquery/jquery.min.js"></script>-->
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.js"></script>
+
+  <!-- Page level plugins -->
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/lightbox.js"></script>
+  <script src="js/demo/datatables-demo.js"></script>
+  <script src="js/mydatatable.js"></script>
+  <script>
+    let inputElement = document.getElementById("uploadFileName"),
+      csvs = ["text/csv", "application/vnd.ms-excel"],
+      tsvs = ["text/txt", "text/plain"],
+      example = null;
+
+    inputElement.addEventListener("change", handleFiles, false);
+  </script>
+
+
+</body>
+
+</html>
