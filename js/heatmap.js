@@ -970,6 +970,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                     changePalette(newCondition, newPalette, heatmapId);
             })
             .on("change", function() {
+                gtag('event', 'change condition', {'event_category': '按鈕點擊','event_label': 'change condition'});
                 var newCondition = d3.select("#displaycondition").property("value");
                 var newPalette = d3.select("#palette").property("value");
                 changePalette(newCondition, newPalette, heatmapId);
