@@ -946,7 +946,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#palette")
-            .on("keyup", function() {
+            .on("mouseup", function() {
                 gtag('event', 'change color', {'event_category': '按鈕點擊','event_label': 'change color'});
         		var newPalette = d3.select("#palette").property("value");
                 var newCondition = d3.select("#displaycondition").property("value");
@@ -962,7 +962,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#displaycondition")
-            .on("keyup", function() {
+            .on("mouseup", function() {
                 gtag('event', 'change condition', {'event_category': '按鈕點擊','event_label': 'change condition'});
                 var newCondition = d3.select("#displaycondition").property("value");
                 var newPalette = d3.select("#palette").property("value");
