@@ -1,5 +1,6 @@
 
 function handleFiles() {
+    gtag('event', 'load data', {'event_category': '按鈕點擊','event_label': 'load data'});
     let file = this.files[0];
 
     importDataFileName = URL.createObjectURL(file);
