@@ -762,6 +762,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                     rowProxData[i][j] = Math.random();
                 }
             }*/
+            gtag('event', 'proximity', {'event_category': '按鈕點擊','event_label': 'row prox'});
             var colorID;
             if (this.selectedIndex == 1){
                for(i = 0; i < row_number; i++) {
@@ -806,6 +807,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 }
             }
             */
+            gtag('event', 'proximity', {'event_category': '按鈕點擊','event_label': 'col prox'});
             var colorID;
             if (this.selectedIndex == 1){
                 for(i = 0; i < col_number; i++) {
@@ -866,6 +868,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#roworder").on("change", function() {
+            gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row order'});
             var previousOrderIsR2E = false;
             if(rowOrderId == "r2e")
                 previousOrderIsR2E = true;
@@ -896,6 +899,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#colorder").on("change", function() {
+            gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col order'});
             var previousOrderIsR2E = false;
             if(colOrderId == "r2e")
                 previousOrderIsR2E = true;
@@ -926,7 +930,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#rowflip").on("change", function() {
-
+            gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row flip'});
             rowFlipId = d3.select("#rowflip").property("value");   
             console.log(rowFlipId);
             changeRowFlip(rowFlipId, heatmapId);
@@ -934,7 +938,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#colflip").on("change", function() {
-
+            gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col flip'});
             colFlipId = d3.select("#colflip").property("value");   
             console.log(colFlipId);
             changeColFlip(colFlipId, heatmapId);
@@ -943,6 +947,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#palette")
             .on("keyup", function() {
+                gtag('event', 'change color', {'event_category': '按鈕點擊','event_label': 'change color'});
         		var newPalette = d3.select("#palette").property("value");
                 var newCondition = d3.select("#displaycondition").property("value");
         		if (newPalette != null)						// when interfaced with jQwidget, the ComboBox handles keyup event but value is then not available ?
@@ -957,6 +962,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#displaycondition")
             .on("keyup", function() {
+                gtag('event', 'change condition', {'event_category': '按鈕點擊','event_label': 'change condition'});
                 var newCondition = d3.select("#displaycondition").property("value");
                 var newPalette = d3.select("#palette").property("value");
                 if (newCondition != null)                     // when interfaced with jQwidget, the ComboBox handles keyup event but value is then not available ?
@@ -970,7 +976,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#widthZoomRange").on("mouseup", function() {
-
+            gtag('event', 'zoom', {'event_category': '按鈕點擊','event_label': 'change width'});
             var widthZoomRange = d3.select("#widthZoomRange").property("value");   
             //console.log(widthZoomRange);
             changeWidth(widthZoomRange, heatmapId);
@@ -978,7 +984,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#heightZoomRange").on("mouseup", function() {
-
+            gtag('event', 'zoom', {'event_category': '按鈕點擊','event_label': 'change height'});
             var heightZoomRange = d3.select("#heightZoomRange").property("value");   
             changeHeight(heightZoomRange, heatmapId);
         });
