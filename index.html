@@ -20,6 +20,8 @@
   <title>GAP Online Demo</title>
 
   <script src="https://d3js.org/d3.v5.js"></script>
+  <script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+  <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
   <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="https://malsup.github.io/jquery.blockUI.js"></script>
@@ -58,21 +60,10 @@
   <script>
   $(document).ready(function() {
 
-    //resetAllParameters("#heatmap");
     setAllParameters("iris.csv", true, true, 1, 0, 0, 0);
     heatmap_display(dataFileName, "#heatmap", "Spectral", ",");
 
   });
-
-/*
-  function handleFiles(file) {
-  //var fileList = this.files;
-    document.getElementById("chooseInput_2").checked="checked";
-    openModal();
-    //currentSlide(1);
-    console.log(file);
-  }
-  */
 
   function changeFileInput() {
     document.getElementById("chooseInput_1").checked="checked";
@@ -316,7 +307,6 @@
                   <div>
                     <select id="exampleFileName" class="form-control form-control-sm" onchange="changeFileInput();">
                       <option value="iris" selected> Iris </option>
-                      <option value="euclidean_distance"> test </option>
                     </select>
                   </div>
                   <hr class="sidebar-divider d-none d-md-block">
@@ -637,7 +627,7 @@
 
 
         </div>
-        <div class="div_right_bottom"><p style="text-align:right;white-space:pre-wrap;" class="">©&nbsp;Web Design By Chiun-How Kao 2020</p></div>
+        <div class="div_right_bottom"><p style="text-align:right;white-space:pre-wrap;" class="">©&nbsp;<a href="http://gap.stat.sinica.edu.tw" target="_blank" style="color: #858796;">Lab for Information Visualzation</a><br>Institute of Statistical Science Academia Sinica</br>Web Design By Chiun-How Kao 2020</p></div>
         <!-- /.container-fluid -->
 
       </div>

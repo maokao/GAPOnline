@@ -102,38 +102,89 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         .style("position", "absolute")
         .style("visibility", "hidden");
 
-    //==================================================
-    // http://bl.ocks.org/mbostock/3680958
     function zoom() {
-    	//svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         svg.attr('transform', 'translate(' + (viewerPosLeft+d3.event.transform.x) + ',' + (viewerPosTop+d3.event.transform.y-100) + ') scale(' + d3.event.transform.k + ')');
     }
 
-    // define the zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
-    //var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
     var zoomListener = d3.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
 
     //==================================================
     var viewerWidth = $(document).width();
     var viewerHeight = $(document).height()-70;
-    //var viewerPosTop = 200;
-    //var viewerPosLeft = 100;
 
-    //legendElementWidth = cellWidth;
+    d3.text(url).then(function(textString) {
+        var dataset;
+        var psv = d3.dsvFormat(delimiter);
+        if(hasColName)
+        {         
+            dataset = psv.parse(textString);           
+        }
+        else
+        {
+            var tmpColCount = importColCount;
+            var header = "v0";
+            if(hasRowName)
+            {
+                header = "Name";
 
-    // http://bl.ocks.org/mbostock/5577023
-    //var colors = colorbrewer[paletteName][classesNumber];
-    //var rawdata = d3.dsvFormat(",");
-    //rawdata.parse(url, function(dataset) {
-    //d3.csv(url)
-    d3.dsv(delimiter, url)
-        .then(function(dataset) {
-
+                for( i=0 ;i< yd; i++ )       
+                {
+                    header = header.concat(delimiter) + "yd" + i;    
+                }
+                for( i=0 ;i< yc; i++ )       
+                {
+                    header = header.concat(delimiter) + "yc" + i;    
+                }
+            }
+            else
+            {
+                if(yd>0)
+                {
+                    header = "yd0";
+                    for( i=1 ;i< yd; i++ )       
+                    {
+                        header = header.concat(delimiter) + "yd" + i;    
+                    }
+                    for( i=0 ;i< yc; i++ )       
+                    {
+                        header = header.concat(delimiter) + "yc" + i;    
+                    } 
+                }
+                else
+                {
+                    if(yd>0)
+                    {
+                        header = "yc0";
+                        for( i=1 ;i< yc; i++ )       
+                        {
+                            header = header.concat(delimiter) + "yc" + i;    
+                        }
+                    }
+                }                                    
+            }
+            for( i=0 ;i< (tmpColCount-yd-yc); i++ )
+            {
+                if(yd==0 && yc==0)
+                {
+                    if(i==0)
+                        header = "v0";
+                    else
+                        header = header.concat(delimiter) + "v" + i;
+                }
+                else
+                    header = header.concat(delimiter) + "v" + i;
+            }
+            var tmpData = header + "\n" + textString;
+            dataset = psv.parse(tmpData);
+            console.log(dataset);
+        }
+ 
+        //Start to Setup all Heatmap Parameters       
         //setup data size
         row_number = dataset.length;
 
-        if(!hasColName)
-            row_number = row_number + 1;   
+        //if(!hasColName)
+            //row_number = row_number + 1;   
 
         if(xc>0)
         {
@@ -184,14 +235,19 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //put data to variables
         for( i=0 ;i< row_number; i++)
         {
-            row_name.push(dataset[i+xCov].name);
+            if(hasRowName)
+                row_name.push(Object.values(dataset[i+xCov])[0]);
+            else
+                row_name.push("r"+i);
+            //row_name.push(dataset[i+xCov].name);
         }
         for( i=0 ;i< col_number; i++ )
         {
-            //col_name.push(Object.keys(dataset[0])[i]);
-
-            col_name.push(dataset.columns[i+yCov+yN]);
-            console.log(dataset.columns[i+yCov+yN]);
+            if(hasColName)
+                col_name.push(dataset.columns[i+yCov+yN]);
+            else
+                col_name.push("v"+i);
+            //console.log(dataset.columns[i+yCov+yN]);
         }
         
         for( i=0 ;i< row_number; i++)

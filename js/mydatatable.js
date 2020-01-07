@@ -19,7 +19,7 @@ function handleFiles() {
         } else {
         	$.blockUI();
   
-            var csvString = "";
+            //var csvString = "";
             var reader = new FileReader();
             reader.onload = function() {
                 csvString = reader.result;
