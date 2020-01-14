@@ -1298,6 +1298,8 @@ function redrawColLabels(heatmapId) {
                     {
                         if(xd>0)
                             temp_y = temp_y + (-3+xd_Y);
+                        else
+                            temp_y = temp_y + (-3);
                     }
                     return "translate(" + cellWidth / 2 + ", "+temp_y+") rotate(-90) rotate(45, 0, " + (i * cellWidth) + ")";
                 });            
@@ -2254,7 +2256,7 @@ function setupxdLabel(x, y, heatmapId) {
             })
             .on("click", function(d, i) {
                 rowSortOrder = !rowSortOrder;
-                sortByValues("r", i, rowSortOrder);
+                sortByValues("c", i, colSortOrder);
                 d3.select("#order").property("selectedIndex", 0);
                 //$("#order").jqxComboBox({selectedIndex: 0});
             });
@@ -2289,7 +2291,7 @@ function setupxcLabel(x, y, heatmapId) {
             })
             .on("click", function(d, i) {
                 rowSortOrder = !rowSortOrder;
-                sortByValues("r", i, rowSortOrder);
+                sortByValues("c", i, colSortOrder);
                 d3.select("#order").property("selectedIndex", 0);
                 //$("#order").jqxComboBox({selectedIndex: 0});
             });
@@ -2329,7 +2331,7 @@ function setupydLabel(x, y, heatmapId) {
             })
             .on("click", function(d, i) {
                 colSortOrder = !colSortOrder;
-                sortByValues("c", i, colSortOrder);
+                sortByValues("r", i, rowSortOrder);
                 d3.select("#order").property("selectedIndex", 0);
             });
 }
@@ -2368,7 +2370,7 @@ function setupycLabel(x, y, heatmapId) {
             })
             .on("click", function(d, i) {
                 colSortOrder = !colSortOrder;
-                sortByValues("c", i, colSortOrder);
+                sortByValues("r", i, rowSortOrder);
                 d3.select("#order").property("selectedIndex", 0);
             });
 }

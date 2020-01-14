@@ -724,7 +724,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                         var col = parseInt(d3.select(this).attr("col"));
                         return sorted.indexOf(col) * cellWidth;
                     });
-                if(t.select("#mv3"))
+                //if(t.select("#mv3"))
+                if(!isColProxfirst)
                 {
                     /*t.select("#mv3").selectAll(".cell")
                         .attr("x", function(d) {
@@ -791,27 +792,51 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                             if(xc>0)
                             {
                                 if(xd>0)
-                                    temp_y = temp_y + (-5+xd_Y);
+                                    temp_y = temp_y + (-3+xd_Y);
                                 else
-                                    temp_y = temp_y + (-5+xc_Y);
+                                    temp_y = temp_y + (-3+xc_Y);
                             }
                             else
                             {
                                 if(xd>0)
-                                    temp_y = temp_y + (-5+xd_Y);
+                                    temp_y = temp_y + (-3+xd_Y);
                             }
                             return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
                             //return "translate(" + cellWidth / 2 + ", -3) rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
                         });
                 }    
                 else{
+                    //redrawColLabels(heatmapId); 
                     t.selectAll(".colLabel")
+                        .attr("x", 0)
+                        .attr("y", function(d, i) {
+                            return sorted.indexOf(i) * cellWidth;
+                        })
+                        .attr("transform", function(d, i) {
+                            var temp_y = 0;
+                            if(xc>0)
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-3+xd_Y);
+                                else
+                                    temp_y = temp_y + (-3+xc_Y);
+                            }
+                            else
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-3+xd_Y);
+                                else
+                                    temp_y = temp_y + (-3);
+                            }
+                            return "translate(" + cellWidth / 2 + ", "+temp_y+") rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
+                        }); 
+                    /*t.selectAll(".colLabel")
                         .attr("y", function(d, i) {
                             return sorted.indexOf(i) * cellWidth;
                         })
                         .attr("transform", function(d, i) {
                             return "translate(" + cellWidth / 2 + ", -3) rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
-                        });
+                        });*/
                 }
             } else { // sort on rows
                 sorted = d3.range(row_number).sort(function(a, b) {
