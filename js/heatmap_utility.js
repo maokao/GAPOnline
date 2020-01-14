@@ -1606,19 +1606,23 @@ function changeWidth(widthZoomRange, heatmapId) {
 
         if(yd>0)
         {
-            redrawHeatmap("mv11", yd_X, 0, 11, heatmapId);    
+            redrawHeatmap("mv11", yd_X, 0, 11, heatmapId);  
+            redrawCovLabel(heatmapId,"yd");  
         }
         if(yc>0)
         {
             redrawHeatmap("mv12", yc_X, 0, 12, heatmapId);    
+            redrawCovLabel(heatmapId,"yc");  
         }
         if(xd>0)
         {
             redrawHeatmap("mv13", 0, xd_Y, 13, heatmapId);    
+            redrawCovLabel(heatmapId,"xd");  
         }
         if(xc>0)
         {
-            redrawHeatmap("mv14", 0, xc_Y, 14, heatmapId);    
+            redrawHeatmap("mv14", 0, xc_Y, 14, heatmapId);   
+            redrawCovLabel(heatmapId,"xc");  
         }
         if(!isRowProxfirst)
         {
@@ -1666,19 +1670,23 @@ function changeHeight(heightZoomRange, heatmapId) {
         if(yd>0)
         {
             redrawHeatmap("mv11", yd_X, 0, 11, heatmapId); 
+            redrawCovLabel(heatmapId,"yd");  
             //redrawHeatmap("mv11", -10-yd*cellWidth, 0, 11, heatmapId);  
         }
         if(yc>0)
         {
             redrawHeatmap("mv12", yc_X, 0, 12, heatmapId);    
+            redrawCovLabel(heatmapId,"yc");  
         }
         if(xd>0)
         {
-            redrawHeatmap("mv13", 0, xd_Y, 13, heatmapId);    
+            redrawHeatmap("mv13", 0, xd_Y, 13, heatmapId);   
+            redrawCovLabel(heatmapId,"xd");  
         }
         if(xc>0)
         {
             redrawHeatmap("mv14", 0, xc_Y, 14, heatmapId);    
+            redrawCovLabel(heatmapId,"xc");  
         }
         if(!isRowProxfirst)
         {
@@ -2215,6 +2223,199 @@ function drawColorLegend(svgId, viewerPosTop, colorScale, displayText, minValue,
             })
             .attr("y", viewerPosTop + 24);
 */
+}
+
+//#########################################################
+function setupxdLabel(x, y, heatmapId) {
+     var svg = d3.select(heatmapId).select("svg").select("#gap");
+            var rowLabels = svg.append("g")
+            .attr("class", "xdLabels")
+            .selectAll(".xdLabel")
+            //.data(data.index)
+            .data(xd_name)
+            .enter().append("text")
+            .text(function(d) {
+                //return d.count > 1 ? d.join("/") : d;
+                return d;
+            })
+            .attr("x", x)
+            .attr("y", function(d, i) {
+                return (i * xcov_cellHeight)+y;
+            })
+            .attr("class", "xdLabel mono")
+            .attr("id", function(d, i) {
+                return "xdLabel_" + i;
+            })
+            .on('mouseover', function(d, i) {
+                d3.select('#xdLabel_' + i).classed("hover", true);
+            })
+            .on('mouseout', function(d, i) {
+                d3.select('#xdLabel_' + i).classed("hover", false);
+            })
+            .on("click", function(d, i) {
+                rowSortOrder = !rowSortOrder;
+                sortByValues("r", i, rowSortOrder);
+                d3.select("#order").property("selectedIndex", 0);
+                //$("#order").jqxComboBox({selectedIndex: 0});
+            });
+}
+
+//#########################################################
+function setupxcLabel(x, y, heatmapId) {
+     var svg = d3.select(heatmapId).select("svg").select("#gap");
+            var rowLabels = svg.append("g")
+            .attr("class", "xcLabels")
+            .selectAll(".xcLabel")
+            //.data(data.index)
+            .data(xc_name)
+            .enter().append("text")
+            .text(function(d) {
+                //return d.count > 1 ? d.join("/") : d;
+                return d;
+            })
+            .attr("x", x)
+            .attr("y", function(d, i) {
+                return (i * xcov_cellHeight)+y;
+            })
+            .attr("class", "xcLabel mono")
+            .attr("id", function(d, i) {
+                return "xcLabel_" + i;
+            })
+            .on('mouseover', function(d, i) {
+                d3.select('#xcLabel_' + i).classed("hover", true);
+            })
+            .on('mouseout', function(d, i) {
+                d3.select('#xcLabel_' + i).classed("hover", false);
+            })
+            .on("click", function(d, i) {
+                rowSortOrder = !rowSortOrder;
+                sortByValues("r", i, rowSortOrder);
+                d3.select("#order").property("selectedIndex", 0);
+                //$("#order").jqxComboBox({selectedIndex: 0});
+            });
+}
+
+//#########################################################
+function setupydLabel(x, y, heatmapId) {
+     var svg = d3.select(heatmapId).select("svg").select("#gap");
+        var colLabels = svg.append("g")
+            .attr("class", "ydLabels")
+            .selectAll(".ydLabel")
+            //.data(data.columns)
+            .data(yd_name)
+            .enter().append("text")
+            .text(function(d) {
+                //d.shift();
+                //return d.count > 1 ? d.reverse().join("/") : d.reverse();
+                return d;
+            })
+            .attr("x", 0)
+            .attr("y", function(d, i) {
+                return (i * ycov_cellWidth)+x;
+            })
+            .style("text-anchor", "left")
+            .attr("transform", function(d, i) {
+                return "translate(" + ycov_cellWidth + ", -3) rotate(-90) rotate(0, 0, " + (i * cellWidth) + ")";
+            })
+            .attr("class", "ydLabel mono")
+            .attr("id", function(d, i) {
+                return "ydLabel_" + i;
+            })
+            .on('mouseover', function(d, i) {
+                d3.select('#ydLabel_' + i).classed("hover", true);
+            })
+            .on('mouseout', function(d, i) {
+                d3.select('#ydLabel_' + i).classed("hover", false);
+            })
+            .on("click", function(d, i) {
+                colSortOrder = !colSortOrder;
+                sortByValues("c", i, colSortOrder);
+                d3.select("#order").property("selectedIndex", 0);
+            });
+}
+
+//#########################################################
+function setupycLabel(x, y, heatmapId) {
+     var svg = d3.select(heatmapId).select("svg").select("#gap");
+        var colLabels = svg.append("g")
+            .attr("class", "ycLabels")
+            .selectAll(".ycLabel")
+            //.data(data.columns)
+            .data(yc_name)
+            .enter().append("text")
+            .text(function(d) {
+                //d.shift();
+                //return d.count > 1 ? d.reverse().join("/") : d.reverse();
+                return d;
+            })
+            .attr("x", 0)
+            .attr("y", function(d, i) {
+                return (i * ycov_cellWidth)+x;
+            })
+            .style("text-anchor", "left")
+            .attr("transform", function(d, i) {
+                return "translate(" + ycov_cellWidth + ", -3) rotate(-90) rotate(0, 0, " + (i * cellWidth) + ")";
+            })
+            .attr("class", "ycLabel mono")
+            .attr("id", function(d, i) {
+                return "ycLabel_" + i;
+            })
+            .on('mouseover', function(d, i) {
+                d3.select('#ycLabel_' + i).classed("hover", true);
+            })
+            .on('mouseout', function(d, i) {
+                d3.select('#ycLabel_' + i).classed("hover", false);
+            })
+            .on("click", function(d, i) {
+                colSortOrder = !colSortOrder;
+                sortByValues("c", i, colSortOrder);
+                d3.select("#order").property("selectedIndex", 0);
+            });
+}
+
+//#########################################################
+function redrawCovLabel(heatmapId, mode) {
+    var selectLabel = "";
+    if(mode=="yc")
+        selectLabel = ".ycLabel";
+    else if(mode=="yd")
+        selectLabel = ".ydLabel";
+    else if(mode=="xc")
+        selectLabel = ".xcLabel";
+    else
+        selectLabel = ".xdLabel";
+
+     var svg = d3.select(heatmapId).select("svg").select("#gap");
+        var colLabels = svg.selectAll(selectLabel)
+            .attr("x", function(d, i) {
+                if(mode=="yc")
+                    return 0;
+                else if(mode=="yd")
+                    return 0;
+                else if(mode=="xc")
+                    return col_number*cellWidth+5;
+                else
+                    return col_number*cellWidth+5;
+            })
+            .attr("y", function(d, i) {
+                if(mode=="yc")
+                    return (i * ycov_cellWidth)+yc_X-col_fontsize/2;
+                else if(mode=="yd")
+                    return (i * ycov_cellWidth)+yd_X-col_fontsize/2;
+                else if(mode=="xc")
+                    return (i * xcov_cellHeight)+xc_Y+xcov_cellHeight-row_fontsize/2;
+                else
+                    return (i * xcov_cellHeight)+xd_Y+xcov_cellHeight-row_fontsize/2;
+            })
+            .style("text-anchor", "left")
+            .attr("transform", function(d, i) {
+                if(mode=="yc")
+                    return "translate(" + ycov_cellWidth + ", -3) rotate(-90) rotate(0, 0, " + (i * cellWidth) + ")";
+                else if(mode=="yd")
+                    return "translate(" + ycov_cellWidth + ", -3) rotate(-90) rotate(0, 0, " + (i * cellWidth) + ")";
+                else
+                    return null;
+            });
 }
 
 //#########################################################

@@ -26,6 +26,10 @@ function resetAllParameters(heatmapId) {
 	colProxData.length = 0;
 	row_name.length = 0;
 	col_name.length = 0;
+	yd_name.length = 0;
+	yc_name.length = 0;
+	xd_name.length = 0;
+	xc_name.length = 0;
 	isRowProxfirst = true;
 	isColProxfirst = true;
 	hasRowName = true;

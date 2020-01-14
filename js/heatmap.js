@@ -10,6 +10,8 @@ var xcov_cellHeight = 12;
 var ycov_cellWidth = 12;
 var ycov_cellHeight = 6;    //equal cellHeight
 var colorSpecHeight = 24;
+var row_fontsize = 8;
+var col_fontsize = 8;
 var max_value;
 var min_value;
 var rp_max_value;
@@ -24,6 +26,10 @@ var rowProxData = [];
 var colProxData = [];
 var row_name = [];
 var col_name = [];
+var yd_name = [];
+var yc_name = [];
+var xd_name = [];
+var xc_name = [];
 var isRowProxfirst = true;
 var isColProxfirst = true;
 var hasRowName = true;
@@ -249,7 +255,39 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 col_name.push("v"+i);
             //console.log(dataset.columns[i+yCov+yN]);
         }
-        
+        for( i=0 ;i< xd; i++)
+        {
+            if(hasRowName)
+                xd_name.push(Object.values(dataset[i])[0]);
+            else
+                xd_name.push("xd"+i);
+            //row_name.push(dataset[i+xCov].name);
+        }
+        for( i=0 ;i< xc; i++)
+        {
+            if(hasRowName)
+                xc_name.push(Object.values(dataset[i+xd])[0]);
+            else
+                xc_name.push("xc"+i);
+            //row_name.push(dataset[i+xCov].name);
+        }
+        for( i=0 ;i< yd; i++ )
+        {
+            if(hasColName)
+                yd_name.push(dataset.columns[i+yN]);
+            else
+                yd_name.push("yd"+i);
+            //console.log(dataset.columns[i+yCov+yN]);
+        }
+        for( i=0 ;i< yc; i++ )
+        {
+            if(hasColName)
+                yc_name.push(dataset.columns[i+yd+yN]);
+            else
+                yc_name.push("yc"+i);
+            //console.log(dataset.columns[i+yCov+yN]);
+        }
+
         for( i=0 ;i< row_number; i++)
         {
             tempdata = [];
@@ -577,24 +615,28 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         if(yc>0)
         {
             //yc_X = -5-yc*cellWidth; 
+            setupycLabel(yc_X-col_fontsize/2, -5, heatmapId);
             setupHeatmap2(ycData,"mv12",yc_X,0,12, heatmapId, d3.interpolateSpectral);
             $("#optionDataMap").append($("<option></option>").attr("value", "yc").text("Yconti. covariates"));
         }
         if(yd>0)
         {
             //yd_X = yc_X -5-yd*cellWidth;
+            setupydLabel(yd_X-col_fontsize/2, -5, heatmapId);
             setupHeatmap2(ydData,"mv11",yd_X,0,11, heatmapId, d3.schemeSet1);
             $("#optionDataMap").append($("<option></option>").attr("value", "yd").text("Ydisc. covariates"));
         }
         if(xc>0)
         {
             //yc_X = -5-yc*cellWidth; 
+            setupxcLabel(col_number*cellWidth+5, xc_Y+xcov_cellHeight-row_fontsize/2, heatmapId);
             setupHeatmap2(xcData,"mv14",0,xc_Y,14, heatmapId, d3.interpolateSpectral);
             $("#optionDataMap").append($("<option></option>").attr("value", "xc").text("Xconti. covariates"));
         }
         if(xd>0)
         {
             //yd_X = yc_X -5-yd*cellWidth;
+            setupxdLabel(col_number*cellWidth+5, xd_Y+xcov_cellHeight-row_fontsize/2, heatmapId);
             setupHeatmap2(xdData,"mv13",0,xd_Y,13, heatmapId, d3.schemeSet1);
             $("#optionDataMap").append($("<option></option>").attr("value", "xd").text("Xdisc. covariates"));
         }
@@ -684,7 +726,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                     });
                 if(t.select("#mv3"))
                 {
-                    t.select("#mv3").selectAll(".cell")
+                    /*t.select("#mv3").selectAll(".cell")
                         .attr("x", function(d) {
                             var col = parseInt(d3.select(this).attr("col"));
                             return sorted.indexOf(col) * cellWidth;
@@ -708,6 +750,58 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                             var temp_y = -5-col_number*cellWidth+cellWidth / 1.5;
                             return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
                             //return "translate(" + cellSize / 2 + ", -3) rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellSize) + ")";
+                        });*/
+                    t.select("#mv3").selectAll(".cell")
+                        .attr("x", function(d) {
+                            var col = parseInt(d3.select(this).attr("col"));
+                            return sorted.indexOf(col) * cellWidth;
+                        });  
+                    t.select("#mv3").selectAll(".row")
+                        .attr("y", function(d) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            return sorted.indexOf(row) * cellWidth;
+                        })
+                        .attr("transform", function(d, i) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            var temp_x = $("#mv3")[0].getAttribute("x");
+                            var temp_y = sorted.indexOf(row) * cellWidth-10-col_number*cellWidth;
+
+                            if(xc>0)
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-5+xd_Y);
+                                else
+                                    temp_y = temp_y + (-5+xc_Y);
+                            }
+                            else
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-5+xd_Y);
+                            }
+                            //return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
+                            return "translate(" + temp_x + "," + temp_y + ")";
+                        });
+
+                    t.selectAll(".colLabel")
+                        .attr("y", function(d, i) {
+                            return sorted.indexOf(i) * cellWidth;
+                        })
+                        .attr("transform", function(d, i) {
+                            var temp_y = -10-col_number*cellWidth+cellWidth / 1.5;
+                            if(xc>0)
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-5+xd_Y);
+                                else
+                                    temp_y = temp_y + (-5+xc_Y);
+                            }
+                            else
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-5+xd_Y);
+                            }
+                            return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
+                            //return "translate(" + cellWidth / 2 + ", -3) rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
                         });
                 }    
                 else{
