@@ -939,7 +939,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             }*/
             gtag('event', 'proximity', {'event_category': '按鈕點擊','event_label': 'row prox'});
             var colorID;
-            if (this.selectedIndex == 1){
+            if (this.value == "euclidean_distance"){
                 var rowProxData1D = runProximity(0, 0, 0);
                 for(i = 0; i < row_number; i++) {
                     for(j = 0; j < row_number; j++) {
@@ -950,7 +950,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 rowIsSimilarity = false;
             }
-            else if(this.selectedIndex == 2){
+            else if(this.value == "pearson_correlation"){
                 var rowProxData1D = runProximity(1, 0, 0);
                 for(i = 0; i < row_number; i++) {
                     for(j = 0; j < row_number; j++) {
@@ -961,7 +961,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
-            else if(this.selectedIndex == 3){
+            else if(this.value == "kendalls_tau"){
                 var rowProxData1D = runProximity(2, 0, 0);
                 for(i = 0; i < row_number; i++) {
                     for(j = 0; j < row_number; j++) {
@@ -972,7 +972,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
-            else if(this.selectedIndex == 4){
+            else if(this.value == "spearman_rank"){
                 var rowProxData1D = runProximity(3, 0, 0);
                 for(i = 0; i < row_number; i++) {
                     for(j = 0; j < row_number; j++) {
@@ -983,7 +983,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
-            else if(this.selectedIndex == 5){
+            else if(this.value == "atan_correlation"){
                 var rowProxData1D = runProximity(4, 0, 0);
                 for(i = 0; i < row_number; i++) {
                     for(j = 0; j < row_number; j++) {
@@ -994,7 +994,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
-            else if(this.selectedIndex == 6){
+            else if(this.value == "city_block"){
                 var rowProxData1D = runProximity(5, 0, 0);
                 for(i = 0; i < row_number; i++) {
                     for(j = 0; j < row_number; j++) {
@@ -1005,8 +1005,41 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 rowIsSimilarity = false;
             }
-            else if(this.selectedIndex == 7){
+            else if(this.value == "abs_pearson_correlation"){
                 var rowProxData1D = runProximity(6, 0, 0);
+                for(i = 0; i < row_number; i++) {
+                    for(j = 0; j < row_number; j++) {
+                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
+                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
+                    }
+                } 
+                colorID = d3.interpolateRdBu;
+                rowIsSimilarity = true;
+            }
+            else if(this.value == "uncentered_correlation"){
+                var rowProxData1D = runProximity(7, 0, 0);
+                for(i = 0; i < row_number; i++) {
+                    for(j = 0; j < row_number; j++) {
+                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
+                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
+                    }
+                } 
+                colorID = d3.interpolateRdBu;
+                rowIsSimilarity = true;
+            }
+            else if(this.value == "abs_uncentered_correlation"){
+                var rowProxData1D = runProximity(8, 0, 0);
+                for(i = 0; i < row_number; i++) {
+                    for(j = 0; j < row_number; j++) {
+                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
+                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
+                    }
+                } 
+                colorID = d3.interpolateRdBu;
+                rowIsSimilarity = true;
+            }
+            else if(this.value == "covariance"){
+                var rowProxData1D = runProximity(9, 0, 0);
                 for(i = 0; i < row_number; i++) {
                     for(j = 0; j < row_number; j++) {
                         //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
@@ -1043,7 +1076,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             */
             gtag('event', 'proximity', {'event_category': '按鈕點擊','event_label': 'col prox'});
             var colorID;
-            if (this.selectedIndex == 1){
+            if (this.value == "euclidean_distance"){
                 var colProxData1D = runProximity(0, 1, 0);
                 for(i = 0; i < col_number; i++) {
                     for(j = 0; j < col_number; j++) {
@@ -1054,7 +1087,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 colIsSimilarity = false;
             }
-            else if (this.selectedIndex == 2){
+            else if (this.value == "pearson_correlation"){
                 var colProxData1D = runProximity(1, 1, 0);
                 for(i = 0; i < col_number; i++) {
                     for(j = 0; j < col_number; j++) {
@@ -1065,7 +1098,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
-            else if (this.selectedIndex == 3){
+            else if (this.value == "kendalls_tau"){
                 var colProxData1D = runProximity(2, 1, 0);
                 for(i = 0; i < col_number; i++) {
                     for(j = 0; j < col_number; j++) {
@@ -1076,7 +1109,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
-            else if (this.selectedIndex == 4){
+            else if (this.value == "spearman_rank"){
                 var colProxData1D = runProximity(3, 1, 0);
                 for(i = 0; i < col_number; i++) {
                     for(j = 0; j < col_number; j++) {
@@ -1087,7 +1120,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
-            else if (this.selectedIndex == 5){
+            else if (this.value == "atan_correlation"){
                 var colProxData1D = runProximity(4, 1, 0);
                 for(i = 0; i < col_number; i++) {
                     for(j = 0; j < col_number; j++) {
@@ -1098,7 +1131,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
-            else if (this.selectedIndex == 6){
+            else if (this.value == "city_block"){
                 var colProxData1D = runProximity(5, 1, 0);
                 for(i = 0; i < col_number; i++) {
                     for(j = 0; j < col_number; j++) {
@@ -1109,7 +1142,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 rowIsSimilarity = false;
             }
-            else if (this.selectedIndex == 7){
+            else if (this.value == "abs_pearson_correlation"){
                 var colProxData1D = runProximity(6, 1, 0);
                 for(i = 0; i < col_number; i++) {
                     for(j = 0; j < col_number; j++) {
@@ -1120,6 +1153,40 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
+            else if (this.value == "uncentered_correlation"){
+                var colProxData1D = runProximity(7, 1, 0);
+                for(i = 0; i < col_number; i++) {
+                    for(j = 0; j < col_number; j++) {
+                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
+                        colProxData[i][j] = colProxData1D[i*col_number+j];
+                    }
+                }
+                colorID = d3.interpolateRdBu;
+                colIsSimilarity = true;
+            }
+            else if (this.value == "abs_uncentered_correlation"){
+                var colProxData1D = runProximity(8, 1, 0);
+                for(i = 0; i < col_number; i++) {
+                    for(j = 0; j < col_number; j++) {
+                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
+                        colProxData[i][j] = colProxData1D[i*col_number+j];
+                    }
+                }
+                colorID = d3.interpolateRdBu;
+                colIsSimilarity = true;
+            }
+            else if (this.value == "covariance"){
+                var colProxData1D = runProximity(9, 1, 0);
+                for(i = 0; i < col_number; i++) {
+                    for(j = 0; j < col_number; j++) {
+                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
+                        colProxData[i][j] = colProxData1D[i*col_number+j];
+                    }
+                }
+                colorID = d3.interpolateRdBu;
+                colIsSimilarity = true;
+            }
+
             $("#colorder").prop("disabled",false);
 
             if(isColProxfirst)
