@@ -1230,11 +1230,11 @@ function updateGlobalBufferViews() {
 
 
 var STATIC_BASE = 1024,
-    STACK_BASE = 5856,
+    STACK_BASE = 5888,
     STACKTOP = STACK_BASE,
-    STACK_MAX = 5248736,
-    DYNAMIC_BASE = 5248736,
-    DYNAMICTOP_PTR = 5824;
+    STACK_MAX = 5248768,
+    DYNAMIC_BASE = 5248768,
+    DYNAMICTOP_PTR = 5856;
 
 assert(STACK_BASE % 16 === 0, 'stack must start aligned');
 assert(DYNAMIC_BASE % 16 === 0, 'heap must start aligned');
@@ -1741,7 +1741,7 @@ var ASM_CONSTS = [];
 
 
 
-// STATICTOP = STATIC_BASE + 4832;
+// STATICTOP = STATIC_BASE + 4864;
 /* global initializers */ /*__ATINIT__.push();*/
 
 
@@ -1752,7 +1752,7 @@ var ASM_CONSTS = [];
 
 
 /* no memory initializer */
-var tempDoublePtr = 5840
+var tempDoublePtr = 5872
 assert(tempDoublePtr % 8 == 0);
 
 function copyTempFloat(ptr) { // functions, because inlining this code increases code size too much
@@ -2140,6 +2140,13 @@ asm["___errno_location"] = function() {
   return real____errno_location.apply(null, arguments);
 };
 
+var real__computeProximity = asm["_computeProximity"];
+asm["_computeProximity"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return real__computeProximity.apply(null, arguments);
+};
+
 var real__ellipse_sort = asm["_ellipse_sort"];
 asm["_ellipse_sort"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
@@ -2232,6 +2239,12 @@ var ___errno_location = Module["___errno_location"] = function() {
   assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
   assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
   return Module["asm"]["___errno_location"].apply(null, arguments)
+};
+
+var _computeProximity = Module["_computeProximity"] = function() {
+  assert(runtimeInitialized, 'you need to wait for the runtime to be ready (e.g. wait for main() to be called)');
+  assert(!runtimeExited, 'the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)');
+  return Module["asm"]["_computeProximity"].apply(null, arguments)
 };
 
 var _ellipse_sort = Module["_ellipse_sort"] = function() {

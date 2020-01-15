@@ -2027,13 +2027,13 @@ function changeProx(prefs, nowID, heatmapId, mode, colorID) {
             .interpolator(colorID);    
     }
            
-    var t = svg.transition().duration(500);
+    //var t = svg.transition().duration(500);
     d3.select("#"+nowID).selectAll(".row")
         .data(prefs)
         .selectAll(".cell")
         .data(function(d) { return d });
 
-    t.selectAll(".cell")
+    svg.selectAll(".cell")
         .style("fill", function(d) {
                 if (d != null) return colorScale(d);
                 else return "url(#diagonalHatch)";
