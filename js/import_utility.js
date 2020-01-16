@@ -114,6 +114,7 @@ function importOK() {
     setAllParameters(importDataFileName, document.getElementById('importHasRowName').checked, document.getElementById('importHasColName').checked, importYdiscrCount, importYcontiCount, importXdiscrCount, importXcontiCount);
     heatmap_display(dataFileName, "#heatmap", "Spectral", sep);
     document.getElementById("myModal").style.display = "none";
+    $("#exampleFileName")[0].selectedIndex = 0;
 }
 
 //#########################################################

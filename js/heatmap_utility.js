@@ -2421,6 +2421,39 @@ function redrawCovLabel(heatmapId, mode) {
 }
 
 //#########################################################
+//setAllParameters(tmp_dataFileName, tmp_hasRowName, tmp_hasColName, tmp_yd, tmp_yc, tmp_xd, tmp_xc)
+function loadExample(filename) {
+    
+    if(filename == "iris")
+    {
+        resetAllParameters("#heatmap");
+        removeAllColorLegend();
+        var sep = ",";
+        var dataFileName = "iris.csv";   
+        setAllParameters(dataFileName, true, true, 1, 0, 0, 0);
+        heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
+    }
+    else if(filename == "crab")
+    {
+        resetAllParameters("#heatmap");
+        removeAllColorLegend();
+        var sep = "\t";
+        var dataFileName = "CRAB.txt";   
+        setAllParameters(dataFileName, true, true, 3, 0, 0, 0);
+        heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
+    }
+    else if(filename == "mona_lisa")
+    {
+        resetAllParameters("#heatmap");
+        removeAllColorLegend();
+        var sep = "\t";
+        var dataFileName = "Mona_Lisa_300_217_1.txt";   
+        setAllParameters(dataFileName, true, true, 0, 0, 0, 0);
+        heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
+    }
+}
+
+//#########################################################
 function pearsonCorrelation(prefs, p1, p2, n, mode) {
     if(mode == 0)   //for row
     {

@@ -71,6 +71,7 @@
 
   function changeFileInput() {
     document.getElementById("chooseInput_1").checked="checked";
+    loadExample(document.getElementById("exampleFileName").value);
   }
 
   </script>
@@ -312,6 +313,8 @@
                     <select id="exampleFileName" class="form-control form-control-sm" onchange="changeFileInput();">
                       <option value="null"> ----- </option>
                       <option value="iris" selected> Iris </option>
+                      <option value="crab"> Crab </option>
+                      <option value="mona_lisa"> Mona Lisa </option>
                     </select>
                   </div>
                   <hr class="sidebar-divider d-none d-md-block">
