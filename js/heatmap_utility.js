@@ -15,7 +15,7 @@ function changeRowOrder(newOrder, heatmapId) {
     else
         nowFlip = 0;
     //var t = svg.transition().duration(1000);
-    if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage") { 
+    if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage" || newOrder == "random") { 
         if(newOrder == "r2e")   // R2E sort on rows  
         {
             console.log("start r2e");
@@ -31,25 +31,37 @@ function changeRowOrder(newOrder, heatmapId) {
                 row_r2e_order = sorted;
                 $("#rowflip option[value='r2e']").prop("disabled",false);   
             }           
-            console.log("Row R2E: "+sorted);
+            //console.log("Row R2E: "+sorted);
+        }
+        else if(newOrder == "random")   // Random sort on rows  
+        {
+            console.log("start random");
+            if(!firstRunRowTree)
+                d3.selectAll("#rowTree").remove();
+            var random_order = [];
+            for(var i=0; i<row_number; i++)
+                random_order[i] = i;
+            shuffle(random_order);     
+            sorted = random_order;    
+            //console.log("Row Random: "+sorted);
         }
         else if (newOrder == "singlelinkage")  // singlelinkage sort on rows
         {
             console.log("start single linkage");
             sorted = runHCTree(sortedTarget, 0, nowFlip, "rowTree", col_number*cellWidth+row_number*cellHeight+13, 0, heatmapId, rowIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted);
+            //console.log(sorted);
         }
         else if (newOrder == "averagelinkage")  // averagelinkage sort on rows
         {
             console.log("start average linkage");
             sorted = runHCTree(sortedTarget, 2, nowFlip, "rowTree", col_number*cellWidth+row_number*cellHeight+13, 0, heatmapId, rowIsSimilarity);
-            console.log(sorted);
+            //console.log(sorted);
         }
         else    //completelinkage sorts on rows
         {
             console.log("start complete linkage");
             sorted = runHCTree(sortedTarget, 1, nowFlip, "rowTree", col_number*cellWidth+row_number*cellHeight+13, 0, heatmapId, rowIsSimilarity);
-            console.log(sorted);            
+            //console.log(sorted);            
         }
 
         svg.select("#mv").selectAll(".row")
@@ -237,7 +249,7 @@ function changeColOrder(newOrder, heatmapId) {
     else
         nowFlip = 0;
     //var t = svg.transition().duration(1000);
-    if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage") { 
+    if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage" || newOrder == "random") { 
         var tree_y = (-10-col_number*cellWidth);
 
         if(xc>0)
@@ -267,25 +279,37 @@ function changeColOrder(newOrder, heatmapId) {
                 $("#colflip option[value='r2e']").prop("disabled",false);    
             } 
 
-            console.log("Col. R2E: "+sorted);
+            //console.log("Col. R2E: "+sorted);
+        }
+        else if(newOrder == "random")   // Random sort on rows  
+        {
+            console.log("start random");
+            if(!firstRunColTree)
+                d3.selectAll("#colTree").remove();
+            var random_order = [];
+            for(var i=0; i<col_number; i++)
+                random_order[i] = i;
+            shuffle(random_order);     
+            sorted = random_order;    
+            //console.log("Row Random: "+sorted);
         }
         else if (newOrder == "singlelinkage")  // singlelinkage sort on rows
         {
             console.log("start single linkage"); //+$('.colLabels')[0].getBoundingClientRect().width
             sorted = runHCTree(sortedTarget, 0, nowFlip, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted);
+            //console.log(sorted);
         }
         else if (newOrder == "averagelinkage")  // averagelinkage sort on rows
         {
             console.log("start average linkage");
             sorted = runHCTree(sortedTarget, 2, nowFlip, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);
-            console.log(sorted);
+            //console.log(sorted);
         }
         else    //completelinkage sorts on rows
         {
             console.log("start complete linkage");
             sorted = runHCTree(sortedTarget, 1, nowFlip, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);
-            console.log(sorted);            
+            //console.log(sorted);            
         }
 
         svg.select("#mv").selectAll(".cell")
@@ -2420,6 +2444,13 @@ function redrawCovLabel(heatmapId, mode) {
             });
 }
 
+//#########################################################
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 //#########################################################
 //setAllParameters(tmp_dataFileName, tmp_hasRowName, tmp_hasColName, tmp_yd, tmp_yc, tmp_xd, tmp_xc)
 function loadExample(filename) {
