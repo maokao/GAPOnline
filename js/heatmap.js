@@ -123,7 +123,9 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         var psv = d3.dsvFormat(delimiter);
         if(hasColName)
         {         
-            dataset = psv.parse(textString);           
+            //console.log(textString);
+            dataset = psv.parse(textString);   
+            //console.log(dataset);        
         }
         else
         {
@@ -182,7 +184,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             }
             var tmpData = header + "\n" + textString;
             dataset = psv.parse(tmpData);
-            console.log(dataset);
+            //console.log(dataset);
         }
  
         //Start to Setup all Heatmap Parameters       
@@ -242,10 +244,10 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         for( i=0 ;i< row_number; i++)
         {
             if(hasRowName)
-                row_name.push(Object.values(dataset[i+xCov])[0]);
+                row_name.push(dataset[i+xCov][dataset.columns[0]]);
+                //row_name.push(Object.values(dataset[i+xCov])[0]);
             else
                 row_name.push("r"+i);
-            //row_name.push(dataset[i+xCov].name);
         }
         for( i=0 ;i< col_number; i++ )
         {
@@ -258,18 +260,18 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         for( i=0 ;i< xd; i++)
         {
             if(hasRowName)
-                xd_name.push(Object.values(dataset[i])[0]);
+                xd_name.push(dataset[i][dataset.columns[0]]);
+                //xd_name.push(Object.values(dataset[i])[0]);
             else
                 xd_name.push("xd"+i);
-            //row_name.push(dataset[i+xCov].name);
         }
         for( i=0 ;i< xc; i++)
         {
             if(hasRowName)
-                xc_name.push(Object.values(dataset[i+xd])[0]);
+                xc_name.push(dataset[i+xd][dataset.columns[0]]);
+                //xc_name.push(Object.values(dataset[i+xd])[0]);
             else
                 xc_name.push("xc"+i);
-            //row_name.push(dataset[i+xCov].name);
         }
         for( i=0 ;i< yd; i++ )
         {
@@ -293,7 +295,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             tempdata = [];
             for( j=0 ;j< col_number; j++ )
             {
-                tempdata.push(Object.values(dataset[i+xCov])[j+yCov+yN]);
+                tempdata.push(Number(dataset[i+xCov][dataset.columns[j+yCov+yN]]));
+                //tempdata.push(Object.values(dataset[i+xCov])[j+yCov+yN]);
             } 
             data.push(tempdata);  
         }
@@ -305,7 +308,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0 ;j< col_number; j++)
                 {
-                    tempdata.push(Object.values(dataset[i])[j+yCov+yN]);
+                    tempdata.push(Number(dataset[i][dataset.columns[j+yCov+yN]]));
+                    //tempdata.push(Object.values(dataset[i])[j+yCov+yN]);
                 }   
                 xdData.push(tempdata);   
             }
@@ -346,7 +350,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0 ;j< col_number; j++)
                 {
-                    tempdata.push(Object.values(dataset[i+xd])[j+yCov+yN]);
+                    tempdata.push(Number(dataset[i+xd][dataset.columns[j+yCov+yN]]));
                 }   
                 xcData.push(tempdata);   
             }
@@ -376,7 +380,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0; j<yd; j++ )
                 {
-                    tempdata.push(Object.values(dataset[i+xCov])[j+yN]);
+                    tempdata.push(Number(dataset[i+xCov][dataset.columns[j+yN]]));
+                    //tempdata.push(Object.values(dataset[i+xCov])[j+yN]);
                 } 
                 ydData.push(tempdata);  
             }     
@@ -419,7 +424,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0 ;j< yc; j++ )
                 {
-                    tempdata.push(Object.values(dataset[i+xCov])[j+yd+yN]);
+                    tempdata.push(Number(dataset[i+xCov][dataset.columns[j+yd+yN]]));
+                    //tempdata.push(Object.values(dataset[i+xCov])[j+yd+yN]);
                 } 
                 ycData.push(tempdata);  
             }        
@@ -445,6 +451,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         max_value = d3.max(data, function(row) { return d3.max(row) });
         min_value = d3.min(data, function(row) { return d3.min(row) });
+        //max_value = d3.max(data, function(row) { return d3.max(row, function(d) { return +d })});
+        //min_value = d3.min(data, function(row) { return d3.min(row, function(d) { return +d })});
 
         for( j=0 ;j< col_number; j++)
         {
