@@ -766,22 +766,22 @@ function changeRowFlip(newFlip, heatmapId) {
     if (newFlip == "null")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 0, "rowTree", col_number*cellWidth+row_number*cellHeight+13, 0, heatmapId, rowIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted);   
+            //console.log(sorted);   
     }
     else if(newFlip == "r2e")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 1, "rowTree", col_number*cellWidth+row_number*cellHeight+13, 0, heatmapId, rowIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted);    
+            //console.log(sorted);    
     }
     else if (newFlip == "uncle")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 2, "rowTree", col_number*cellWidth+row_number*cellHeight+13, 0, heatmapId, rowIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted);
+            //console.log(sorted);
     }
     else if (newFlip == "grandpa")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 3, "rowTree", col_number*cellWidth+row_number*cellHeight+13, 0, heatmapId, rowIsSimilarity);
-            console.log(sorted);
+            //console.log(sorted);
     }
 
     svg.select("#mv").selectAll(".row")
@@ -901,22 +901,22 @@ function changeColFlip(newFlip, heatmapId) {
     if (newFlip == "null")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 0, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted);   
+            //console.log(sorted);   
     }
     else if(newFlip == "r2e")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 1, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted); 
+            //console.log(sorted); 
     }
     else if (newFlip == "uncle")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 2, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted); 
+            //console.log(sorted); 
     }
     else if (newFlip == "grandpa")
     {
             sorted = runHCTree(sortedTarget, nowOrder, 3, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);    //sortedTarget, hctType, nowID, x, y, heatmapId, isSimilarity
-            console.log(sorted); 
+            //console.log(sorted); 
     }
 
     svg.select("#mv").selectAll(".cell")
@@ -1069,6 +1069,10 @@ function changePalette(conditionName, paletteName, heatmapId) {
         colorID = d3.interpolatePuOr;
     else if(paletteName == "Grey")
         colorID = d3.interpolateGreys;
+    else if(paletteName == "YlGnBu")
+        colorID = d3.interpolateYlGnBu;
+    else if(paletteName == "YlOrRd")
+        colorID = d3.interpolateYlOrRd;
     else
         colorID = d3.interpolateRdBu;
 
