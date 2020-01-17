@@ -12,6 +12,8 @@ var ycov_cellHeight = 6;    //equal cellHeight
 var colorSpecHeight = 24;
 var row_fontsize = 8;
 var col_fontsize = 8;
+var xcov_fontsize = 8;
+var ycov_fontsize = 8;
 var max_value;
 var min_value;
 var rp_max_value;
@@ -503,6 +505,33 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         xcov_cellWidth = x_ratio;    //equal cellWidth
         ycov_cellHeight = y_ratio;    //equal cellHeight
 
+        if(cellHeight<6)
+            row_fontsize = cellHeight-1;
+        else if(cellHeight>=6 && cellHeight<10)    
+            row_fontsize = cellHeight-2;
+        else if(cellHeight>=10 && cellHeight<12)    
+            row_fontsize = cellHeight-3;
+        else if(cellHeight>=12 && cellHeight<=24)    
+            row_fontsize = 8;
+        else
+            row_fontsize = cellHeight/3;
+
+        if(row_fontsize<1)
+            row_fontsize = 1;
+
+        if(cellWidth<6)
+            col_fontsize = cellWidth-1;
+        else if(cellWidth>=6 && cellWidth<10)
+            col_fontsize = cellWidth-2;
+        else if(cellWidth>=10 && cellWidth<12)
+            col_fontsize = cellWidth-2;
+        else if(cellWidth>=12 && cellWidth<=24)
+            col_fontsize = 8;
+        else  
+            col_fontsize = cellWidth/3;
+        if(col_fontsize<1)
+            col_fontsize = 1;
+
         var colorScale = d3.scaleSequential()
             .domain([max_value, min_value])
             .interpolator(d3.interpolateSpectral);
@@ -544,6 +573,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 return (i * cellHeight);
             })
             .style("text-anchor", "end")
+            .style("font-size", row_fontsize+"px")
             .attr("transform", function(d, i) {
                 if(yc>0)
                 {
@@ -593,6 +623,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 return (i * cellWidth);
             })
             .style("text-anchor", "left")
+            .style("font-size", col_fontsize+"px")
             .attr("transform", function(d, i) {
                 if(xc>0)
                 {

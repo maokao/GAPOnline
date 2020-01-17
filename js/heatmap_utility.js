@@ -1250,6 +1250,20 @@ function changeLegentTextForRawDataMatrix(conditionName) {
 //#########################################################
 function redrawRowLabels(heatmapId) {
         var svg = d3.select(heatmapId);
+        if(cellHeight<6)
+            row_fontsize = cellHeight-1;
+        else if(cellHeight>=6 && cellHeight<10)    
+            row_fontsize = cellHeight-2;
+        else if(cellHeight>=10 && cellHeight<12)    
+            row_fontsize = cellHeight-3;
+        else if(cellHeight>=12 && cellHeight<=24)    
+            row_fontsize = 8;
+        else
+            row_fontsize = cellHeight/3;
+
+        if(row_fontsize<1)
+            row_fontsize = 1;
+
         svg.selectAll(".rowLabel")
             .attr("x", 0)
             .attr("y", function(d, i) {
@@ -1259,6 +1273,7 @@ function redrawRowLabels(heatmapId) {
                     return (rowCurrentOrder.indexOf(i) * cellHeight);
             })
             .style("text-anchor", "end")
+            .style("font-size", row_fontsize+"px")
             .attr("transform", function(d, i) {
                 if(yc>0)
                 {
@@ -1280,6 +1295,19 @@ function redrawRowLabels(heatmapId) {
 //#########################################################
 function redrawColLabels(heatmapId) {
         var svg = d3.select(heatmapId);
+
+        if(cellWidth<6)
+            col_fontsize = cellWidth-1;
+        else if(cellWidth>=6 && cellWidth<10)
+            col_fontsize = cellWidth-2;
+        else if(cellWidth>=10 && cellWidth<12)
+            col_fontsize = cellWidth-2;
+        else if(cellWidth>=12 && cellWidth<=24)
+            col_fontsize = 8;
+        else  
+            col_fontsize = cellWidth/3;
+        if(col_fontsize<1)
+            col_fontsize = 1;
         //if(svg.select("#mv3"))
         if(!isColProxfirst)
         {
@@ -1290,6 +1318,7 @@ function redrawColLabels(heatmapId) {
                     else
                         return sorted.indexOf(i) * cellWidth;
                 })
+                .style("font-size", col_fontsize+"px")
                 .attr("transform", function(d, i) {
                     var temp_y = -10-col_number*cellWidth+cellWidth / 1.5;
                     if(xc>0)
@@ -1315,6 +1344,7 @@ function redrawColLabels(heatmapId) {
                 .attr("y", function(d, i) {
                     return (i * cellWidth);
                 })
+                .style("font-size", col_fontsize+"px")
                 .attr("transform", function(d, i) {
                     var temp_y = 0;
                     if(xc>0)
@@ -2431,13 +2461,13 @@ function redrawCovLabel(heatmapId, mode) {
             })
             .attr("y", function(d, i) {
                 if(mode=="yc")
-                    return (i * ycov_cellWidth)+yc_X-col_fontsize/2;
+                    return (i * ycov_cellWidth)+yc_X-ycov_fontsize/2;
                 else if(mode=="yd")
-                    return (i * ycov_cellWidth)+yd_X-col_fontsize/2;
+                    return (i * ycov_cellWidth)+yd_X-ycov_fontsize/2;
                 else if(mode=="xc")
-                    return (i * xcov_cellHeight)+xc_Y+xcov_cellHeight-row_fontsize/2;
+                    return (i * xcov_cellHeight)+xc_Y+xcov_cellHeight-xcov_fontsize/2;
                 else
-                    return (i * xcov_cellHeight)+xd_Y+xcov_cellHeight-row_fontsize/2;
+                    return (i * xcov_cellHeight)+xd_Y+xcov_cellHeight-xcov_fontsize/2;
             })
             .style("text-anchor", "left")
             .attr("transform", function(d, i) {
