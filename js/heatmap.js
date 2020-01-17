@@ -160,7 +160,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 }
                 else
                 {
-                    if(yd>0)
+                    if(yc>0)
                     {
                         header = "yc0";
                         for( i=1 ;i< yc; i++ )       

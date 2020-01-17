@@ -37,7 +37,9 @@ function handleFiles() {
                     "header": true,
                     "delimitersToGuess": [',', '\t'],
                     "skipEmptyLines": true,
-                    "dynamicTyping": true,
+                    "dynamicTyping": false,
+                    //"worker": true,
+                    "fastMode": true,
                     "complete": results => {
                         if ($.fn.DataTable.isDataTable("#example")) {
                             example.destroy();
