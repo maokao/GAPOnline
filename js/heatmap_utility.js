@@ -1047,7 +1047,7 @@ function changeColFlip(newFlip, heatmapId) {
 //#########################################################
 function changePalette(conditionName, paletteName, heatmapId) {
     var colorID = d3.interpolateRdBu;
-    console.log("conditionName: "+conditionName);
+    //console.log("conditionName: "+conditionName);
     //var colors = colorbrewer[paletteName][classesNumber];
     if(paletteName == "RdYlGn")
         colorID = d3.interpolateRdYlGn;
@@ -1067,6 +1067,8 @@ function changePalette(conditionName, paletteName, heatmapId) {
         colorID = d3.interpolateBrBG;
     else if(paletteName == "PuOr")
         colorID = d3.interpolatePuOr;
+    else if(paletteName == "Grey")
+        colorID = d3.interpolateGreys;
     else
         colorID = d3.interpolateRdBu;
 

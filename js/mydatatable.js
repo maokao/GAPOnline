@@ -19,7 +19,7 @@ function handleFiles() {
         } else {
         	$.blockUI();
   
-            //var csvString = "";
+            var csvString = "";
             var reader = new FileReader();
             reader.onload = function() {
                 csvString = reader.result;
@@ -54,6 +54,7 @@ function handleFiles() {
                             "searching": false,  
                             "paging": false,
                             "ordering": false,  
+                            "bProcessing": true,
                             //"decimal": "\t",
                             //"fixedHeader": true,                   
                             "columns": results.meta.fields.map(c => ({

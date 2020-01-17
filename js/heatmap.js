@@ -494,6 +494,15 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         for( i=0 ;i< col_number; i++)
             colCurrentOrder[i] = i;
 
+        var x_ratio = Math.ceil(viewerWidth/(col_number+row_number/2));
+        var y_ratio = Math.ceil(viewerHeight/row_number);
+        cellOriWidth = x_ratio;
+        cellOriHeight = y_ratio;
+        cellWidth = x_ratio;
+        cellHeight = y_ratio;
+        xcov_cellWidth = x_ratio;    //equal cellWidth
+        ycov_cellHeight = y_ratio;    //equal cellHeight
+
         var colorScale = d3.scaleSequential()
             .domain([max_value, min_value])
             .interpolator(d3.interpolateSpectral);
