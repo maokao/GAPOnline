@@ -1103,7 +1103,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             if(isRowProxfirst)
             {
                 setupHeatmap2(rowProxData,"mv2", col_number*cellWidth+10, 0, 1, heatmapId, colorID);
-                $("#optionDataMap").append($("<option></option>").attr("value", "rp").text("Row Proximity Matrix"));
+                $("#optionDataMap").append($("<option></option>").attr("value", "rp").text(" Row Proximity Matrix "));
                 //drawColorLegend("rp_colorspec", viewerPosTop, colorID, "Row Proximity Matrix");
                 isRowProxfirst = false;
             }
@@ -1254,7 +1254,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 }
                 setupHeatmap2(colProxData,"mv3", 0, colProxY, 2, heatmapId ,colorID);
                 changeColLabelsPosition(heatmapId, col_number);
-                $("#optionDataMap").append($("<option></option>").attr("value", "cp").text("Column Proximity Matrix"));
+                $("#optionDataMap").append($("<option></option>").attr("value", "cp").text(" Column Proximity Matrix "));
                 //drawColorLegend("cp_colorspec", viewerPosTop, colorID, "Col. Proximity Matrix");
                 isColProxfirst = false;
             }

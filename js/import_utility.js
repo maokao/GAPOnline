@@ -89,6 +89,11 @@ function resetAllParameters(heatmapId) {
 	viewerPosLeft = 100;
 	optionTargetDataMap = "rawdata";
 	isNodeLinkfirst = true;
+	$("#optionDataMap").empty();
+	$("#optionDataMap").append($("<option></option>")
+		.attr("value", "rawdata")
+		.attr("selected", "selected")
+		.text(" Raw Data Matrix "));
 }
 
 //#########################################################
