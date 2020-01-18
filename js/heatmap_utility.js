@@ -2315,8 +2315,8 @@ function setupxdLabel(x, y, heatmapId) {
                 d3.select('#xdLabel_' + i).classed("hover", false);
             })
             .on("click", function(d, i) {
-                rowSortOrder = !rowSortOrder;
-                sortByValues("c", i, colSortOrder);
+                xdSortOrder = !xdSortOrder;
+                sortByValuesCov("r", i, xdSortOrder, "#mv13");
                 d3.select("#order").property("selectedIndex", 0);
                 //$("#order").jqxComboBox({selectedIndex: 0});
             });
@@ -2350,8 +2350,8 @@ function setupxcLabel(x, y, heatmapId) {
                 d3.select('#xcLabel_' + i).classed("hover", false);
             })
             .on("click", function(d, i) {
-                rowSortOrder = !rowSortOrder;
-                sortByValues("c", i, colSortOrder);
+                xcSortOrder = !xcSortOrder;
+                sortByValuesCov("r", i, xcSortOrder, "#mv14");
                 d3.select("#order").property("selectedIndex", 0);
                 //$("#order").jqxComboBox({selectedIndex: 0});
             });
@@ -2390,8 +2390,8 @@ function setupydLabel(x, y, heatmapId) {
                 d3.select('#ydLabel_' + i).classed("hover", false);
             })
             .on("click", function(d, i) {
-                colSortOrder = !colSortOrder;
-                sortByValues("r", i, rowSortOrder);
+                ydSortOrder = !ydSortOrder;
+                sortByValuesCov("c", i, ydSortOrder, "#mv11");
                 d3.select("#order").property("selectedIndex", 0);
             });
 }
@@ -2429,8 +2429,8 @@ function setupycLabel(x, y, heatmapId) {
                 d3.select('#ycLabel_' + i).classed("hover", false);
             })
             .on("click", function(d, i) {
-                colSortOrder = !colSortOrder;
-                sortByValues("r", i, rowSortOrder);
+                ycSortOrder = !ycSortOrder;
+                sortByValuesCov("c", i, ycSortOrder, "#mv12");
                 d3.select("#order").property("selectedIndex", 0);
             });
 }
@@ -2478,6 +2478,228 @@ function redrawCovLabel(heatmapId, mode) {
                 else
                     return null;
             });
+}
+
+//==================================================
+// Change ordering of cells
+function sortByValuesCov(rORc, i, sortOrder, target) {
+            //var svg = d3.select(heatmapId).select("svg").select("#gap").select("#mv");
+            var t = svg.transition().duration(1000);
+            var values = [];
+            var sorted;
+            d3.select(target).selectAll(".c" + rORc + i)
+                .filter(function(d) {
+                    if (d != null) values.push(d);
+                    else values.push(-999); // to handle NaN
+                });
+            //console.log(values);      
+            if (rORc == "r") { // sort on cols
+                sorted = d3.range(col_number).sort(function(a, b) {
+                    if (sortOrder) {
+                        return values[b] - values[a];
+                    } else {
+                        return values[a] - values[b];
+                    }
+                });
+                t.select("#mv").selectAll(".cell")
+                    .attr("x", function(d) {
+                        var col = parseInt(d3.select(this).attr("col"));
+                        return sorted.indexOf(col) * cellWidth;
+                    });
+                //if(t.select("#mv3"))
+                if(t.select("#mv13"))
+                {
+                    t.select("#mv13").selectAll(".cell")                      
+                        .attr("x", function(d) {
+                            var col = parseInt(d3.select(this).attr("col"));
+                            return sorted.indexOf(col) * cellWidth;
+                        });
+                }
+                if(t.select("#mv14"))
+                {
+                    t.select("#mv14").selectAll(".cell")                      
+                        .attr("x", function(d) {
+                            var col = parseInt(d3.select(this).attr("col"));
+                            return sorted.indexOf(col) * cellWidth;
+                        });
+                }
+                if(!isColProxfirst)
+                {
+                    t.select("#mv3").selectAll(".cell")
+                        .attr("x", function(d) {
+                            var col = parseInt(d3.select(this).attr("col"));
+                            return sorted.indexOf(col) * cellWidth;
+                        });  
+                    t.select("#mv3").selectAll(".row")
+                        .attr("y", function(d) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            return sorted.indexOf(row) * cellWidth;
+                        })
+                        .attr("transform", function(d, i) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            var temp_x = $("#mv3")[0].getAttribute("x");
+                            var temp_y = sorted.indexOf(row) * cellWidth-10-col_number*cellWidth;
+
+                            if(xc>0)
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-5+xd_Y);
+                                else
+                                    temp_y = temp_y + (-5+xc_Y);
+                            }
+                            else
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-5+xd_Y);
+                            }
+                            //return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
+                            return "translate(" + temp_x + "," + temp_y + ")";
+                        });
+
+                    t.selectAll(".colLabel")
+                        .attr("y", function(d, i) {
+                            return sorted.indexOf(i) * cellWidth;
+                        })
+                        .attr("transform", function(d, i) {
+                            var temp_y = -10-col_number*cellWidth+cellWidth / 1.5;
+                            if(xc>0)
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-3+xd_Y);
+                                else
+                                    temp_y = temp_y + (-3+xc_Y);
+                            }
+                            else
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-3+xd_Y);
+                            }
+                            return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
+                            //return "translate(" + cellWidth / 2 + ", -3) rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
+                        });
+                }    
+                else{
+                    //redrawColLabels(heatmapId); 
+                    t.selectAll(".colLabel")
+                        .attr("x", 0)
+                        .attr("y", function(d, i) {
+                            return sorted.indexOf(i) * cellWidth;
+                        })
+                        .attr("transform", function(d, i) {
+                            var temp_y = 0;
+                            if(xc>0)
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-3+xd_Y);
+                                else
+                                    temp_y = temp_y + (-3+xc_Y);
+                            }
+                            else
+                            {
+                                if(xd>0)
+                                    temp_y = temp_y + (-3+xd_Y);
+                                else
+                                    temp_y = temp_y + (-3);
+                            }
+                            return "translate(" + cellWidth / 2 + ", "+temp_y+") rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
+                        }); 
+                    /*t.selectAll(".colLabel")
+                        .attr("y", function(d, i) {
+                            return sorted.indexOf(i) * cellWidth;
+                        })
+                        .attr("transform", function(d, i) {
+                            return "translate(" + cellWidth / 2 + ", -3) rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
+                        });*/
+                }
+            } else { // sort on rows
+                sorted = d3.range(row_number).sort(function(a, b) {
+                    if (sortOrder) {
+                        return values[b] - values[a];
+                    } else {
+                        return values[a] - values[b];
+                    }
+                });
+
+                t.select("#mv").selectAll(".row")
+                    .attr("y", function(d) {
+                        var row = parseInt(d3.select(this).attr("id"));
+                        return sorted.indexOf(row) * cellHeight;
+                    })
+                    .attr("transform", function(d, i) {
+                        var row = parseInt(d3.select(this).attr("id"));
+                        return "translate(0," + sorted.indexOf(row) * cellHeight + ")";
+                    });
+                if(t.select("#mv2"))
+                {
+                    //console.log("yes");
+                    t.select("#mv2").selectAll(".cell")
+                        .attr("x", function(d) {
+                            var col = parseInt(d3.select(this).attr("col"));
+                            return sorted.indexOf(col) * cellHeight;
+                        });  
+                    t.select("#mv2").selectAll(".row")
+                        .attr("y", function(d) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            return sorted.indexOf(row) * cellHeight;
+                        })
+                        .attr("transform", function(d, i) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            var temp_x = $("#mv2")[0].getAttribute("x");
+                            return "translate(" + temp_x + "," + sorted.indexOf(row) * cellHeight + ")";
+                        });
+
+                }
+                if(t.select("#mv11"))
+                {
+                    t.select("#mv11").selectAll(".row")
+                        .attr("y", function(d) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            //console.log(sorted.indexOf(row));
+                            return sorted.indexOf(row) * cellHeight;
+                        })
+                        .attr("transform", function(d, i) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            var temp_x = $("#mv11")[0].getAttribute("x");
+                            return "translate(0," + sorted.indexOf(row) * cellHeight + ")";
+                        });
+
+                }
+                if(t.select("#mv12"))
+                {
+                    t.select("#mv12").selectAll(".row")
+                        .attr("y", function(d) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            //console.log(sorted.indexOf(row));
+                            return sorted.indexOf(row) * cellHeight;
+                        })
+                        .attr("transform", function(d, i) {
+                            var row = parseInt(d3.select(this).attr("id"));
+                            var temp_x = $("#mv12")[0].getAttribute("x");
+                            return "translate(0," + sorted.indexOf(row) * cellHeight + ")";
+                        });
+
+                }
+                t.selectAll(".rowLabel")
+                    .attr("y", function(d, i) {
+                        return sorted.indexOf(i) * cellHeight;
+                    })
+                    .attr("transform", function(d, i) {
+                        if(yc>0)
+                        {
+                            if(yd>0)
+                                return "translate("+(-3+yd_X)+"," + cellHeight / 1.5 + ")";
+                            else
+                                return "translate("+(-3+yc_X)+"," + cellHeight / 1.5 + ")";
+                        }
+                        else
+                        {
+                            if(yd>0)
+                                return "translate("+(-3+yd_X)+"," + cellHeight / 1.5 + ")";
+                            else
+                                return "translate(-3," + cellHeight / 1.5 + ")";
+                        }
+                    });
+            }
 }
 
 //#########################################################

@@ -99,6 +99,10 @@ var importXdiscrCount = 0;
 var importXcontiCount = 0;
 var importOldYCount = 0;
 var importOldXCount = 0;
+var ydSortOrder = false;
+var ycSortOrder = false;
+var xdSortOrder = false;
+var xcSortOrder = false;
 
 //#########################################################
 function heatmap_display(url, heatmapId, paletteName, delimiter) {

@@ -89,6 +89,10 @@ function resetAllParameters(heatmapId) {
 	viewerPosLeft = 100;
 	optionTargetDataMap = "rawdata";
 	isNodeLinkfirst = true;
+	ydSortOrder = false;
+	ycSortOrder = false;
+	xdSortOrder = false;
+	xcSortOrder = false;
 	$("#optionDataMap").empty();
 	$("#optionDataMap").append($("<option></option>")
 		.attr("value", "rawdata")
