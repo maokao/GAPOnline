@@ -417,18 +417,22 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <div style="padding:10px;">Color Spectrum
               <select id="palette" class="form-control form-control-sm">
-                <option value="RdYlGn">RdYlGn</option>
-                <option value="Spectral" selected>Spectral</option>
-                <option value="RdYlBu">RdYlBu</option>
-                <option value="RdGy">RdGy</option>
-                <option value="RdBu">RdBu</option>
-                <option value="PiYG">PiYG</option>
-                <option value="PRGn">PRGn</option>
-                <option value="BrBG">BrBG</option>
-                <option value="PuOr">PuOr</option>
-                <option value="Grey">Grey</option>
-                <option value="YlGnBu">YlGnBu</option>
-                <option value="YlOrRd">YlOrRd</option>
+                <optgroup label =  "Sequential palettes">
+                  <option value="Grey">Grey</option>
+                  <option value="YlGnBu">YlGnBu</option>
+                  <option value="YlOrRd">YlOrRd</option>
+                </optgroup>
+                <optgroup label =  "Diverging palettes">
+                  <option value="Spectral" selected>Spectral</option>
+                  <option value="RdYlGn">RdYlGn</option>
+                  <option value="RdYlBu">RdYlBu</option>
+                  <option value="RdGy">RdGy</option>
+                  <option value="RdBu">RdBu</option>
+                  <option value="PiYG">PiYG</option>
+                  <option value="PRGn">PRGn</option>
+                  <option value="BrBG">BrBG</option>
+                  <option value="PuOr">PuOr</option>
+                </optgroup>
               </select>
             </div>
             <div style="padding:10px;">Display Condition
