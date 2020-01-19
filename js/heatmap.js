@@ -1067,6 +1067,11 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 setupHeatmap2(rowProxData,"mv2", col_number*cellWidth+10, 0, 1, heatmapId, colorID);
                 $("#optionDataMap").append($("<option></option>").attr("value", "rp").text(" Row Proximity Matrix "));
                 //drawColorLegend("rp_colorspec", viewerPosTop, colorID, "Row Proximity Matrix");
+                $("#roworder option[value='averagelinkage']").removeAttr('disabled');
+                $("#roworder option[value='singlelinkage']").removeAttr('disabled');
+                $("#roworder option[value='completelinkage']").removeAttr('disabled');
+                $("#roworder option[value='r2e']").removeAttr('disabled');
+
                 isRowProxfirst = false;
             }
             else
@@ -1174,6 +1179,11 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 changeColLabelsPosition(heatmapId, col_number);
                 $("#optionDataMap").append($("<option></option>").attr("value", "cp").text(" Column Proximity Matrix "));
                 //drawColorLegend("cp_colorspec", viewerPosTop, colorID, "Col. Proximity Matrix");
+                $("#colorder option[value='averagelinkage']").removeAttr('disabled');
+                $("#colorder option[value='singlelinkage']").removeAttr('disabled');
+                $("#colorder option[value='completelinkage']").removeAttr('disabled');
+                $("#colorder option[value='r2e']").removeAttr('disabled');
+                
                 isColProxfirst = false;
             }
             else

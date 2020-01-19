@@ -50,12 +50,16 @@ function resetAllParameters(heatmapId) {
 	col_output_order_array = null;
 	row_r2e_order.length = 0;
 	col_r2e_order.length = 0;
+	row_r2e_order = [];
+	col_r2e_order = [];
 	rowOrderId = "sortinit_row";
 	colOrderId = "sortinit_col";
 	rowFlipId = "null";
 	colFlipId = "null";
 	rowCurrentOrder.length = 0;
 	colCurrentOrder.length = 0;
+	rowCurrentOrder = [];
+	colCurrentOrder = [];
 	yN = 0;
 	yd = 0;
 	xd = 0;
@@ -98,6 +102,26 @@ function resetAllParameters(heatmapId) {
 		.attr("value", "rawdata")
 		.attr("selected", "selected")
 		.text(" Raw Data Matrix "));
+
+
+    $("#rowprox").prop('selectedIndex', 0);  
+    $("#colprox").prop('selectedIndex', 0); 
+	$("#roworder option[value='averagelinkage']").attr('disabled', 'disabled');
+    $("#roworder option[value='singlelinkage']").attr('disabled', 'disabled');
+    $("#roworder option[value='completelinkage']").attr('disabled', 'disabled');
+    $("#roworder option[value='r2e']").attr('disabled', 'disabled');
+	$("#colorder option[value='averagelinkage']").attr('disabled', 'disabled');
+    $("#colorder option[value='singlelinkage']").attr('disabled', 'disabled');
+    $("#colorder option[value='completelinkage']").attr('disabled', 'disabled');
+    $("#colorder option[value='r2e']").attr('disabled', 'disabled');
+    $("#roworder").prop('selectedIndex', 0);  
+    $("#colorder").prop('selectedIndex', 0); 
+    $("#rowflip").prop('selectedIndex', 0);  
+    $("#colflip").prop('selectedIndex', 0);  
+    $("#rowflip option[value='r2e']").prop("disabled",true);  
+    $("#colflip option[value='r2e']").prop("disabled",true);  
+    $("#rowflip").prop("disabled",true);
+    $("#colflip").prop("disabled",true);
 }
 
 //#########################################################
