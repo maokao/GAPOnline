@@ -771,6 +771,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                         return values[a] - values[b];
                     }
                 });
+                console.log(sorted);
+                colCurrentOrder = sorted;
                 t.select("#mv").selectAll(".cell")
                     .attr("x", function(d) {
                         var col = parseInt(d3.select(this).attr("col"));
@@ -898,7 +900,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                         return values[a] - values[b];
                     }
                 });
-
+                rowCurrentOrder = sorted;
                 t.select("#mv").selectAll(".row")
                     .attr("y", function(d) {
                         var row = parseInt(d3.select(this).attr("id"));
@@ -993,114 +995,70 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             var colorID;
             if (this.value == "euclidean_distance"){
                 var rowProxData1D = runProximity(0, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = EuclideanDistance(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateSpectral;
                 rowIsSimilarity = false;
             }
             else if(this.value == "pearson_correlation"){
                 var rowProxData1D = runProximity(1, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
             else if(this.value == "kendalls_tau"){
                 var rowProxData1D = runProximity(2, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
             else if(this.value == "spearman_rank"){
                 var rowProxData1D = runProximity(3, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
             else if(this.value == "atan_correlation"){
                 var rowProxData1D = runProximity(4, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
             else if(this.value == "city_block"){
                 var rowProxData1D = runProximity(5, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateSpectral;
                 rowIsSimilarity = false;
             }
             else if(this.value == "abs_pearson_correlation"){
                 var rowProxData1D = runProximity(6, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
             else if(this.value == "uncentered_correlation"){
                 var rowProxData1D = runProximity(7, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
             else if(this.value == "abs_uncentered_correlation"){
                 var rowProxData1D = runProximity(8, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
             else if(this.value == "covariance"){
                 var rowProxData1D = runProximity(9, 0, 0);
-                for(i = 0; i < row_number; i++) {
-                    for(j = 0; j < row_number; j++) {
-                        //rowProxData[i][j] = pearsonCorrelation(data,i,j,col_number, 0);
-                        rowProxData[i][j] = rowProxData1D[i*row_number+j];
-                    }
-                } 
+
                 colorID = d3.interpolateRdBu;
                 rowIsSimilarity = true;
             }
+
+            for(i = 0; i < row_number; i++) {
+                for(j = 0; j < row_number; j++) {
+                    rowProxData[i][j] = rowProxData1D[i*row_number+j];
+                }
+            } 
 
             $("#roworder").prop("disabled",false);
             //console.log("a:"+rowProxData[0][1]);
@@ -1130,113 +1088,69 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             var colorID;
             if (this.value == "euclidean_distance"){
                 var colProxData1D = runProximity(0, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = EuclideanDistance(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateSpectral;
                 colIsSimilarity = false;
             }
             else if (this.value == "pearson_correlation"){
                 var colProxData1D = runProximity(1, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
             else if (this.value == "kendalls_tau"){
                 var colProxData1D = runProximity(2, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
             else if (this.value == "spearman_rank"){
                 var colProxData1D = runProximity(3, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
             else if (this.value == "atan_correlation"){
                 var colProxData1D = runProximity(4, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
             else if (this.value == "city_block"){
                 var colProxData1D = runProximity(5, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateSpectral;
                 rowIsSimilarity = false;
             }
             else if (this.value == "abs_pearson_correlation"){
                 var colProxData1D = runProximity(6, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
             else if (this.value == "uncentered_correlation"){
                 var colProxData1D = runProximity(7, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
             else if (this.value == "abs_uncentered_correlation"){
                 var colProxData1D = runProximity(8, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
             }
             else if (this.value == "covariance"){
                 var colProxData1D = runProximity(9, 1, 0);
-                for(i = 0; i < col_number; i++) {
-                    for(j = 0; j < col_number; j++) {
-                        //colProxData[i][j] = pearsonCorrelation(data,i,j,row_number,1);
-                        colProxData[i][j] = colProxData1D[i*col_number+j];
-                    }
-                }
+
                 colorID = d3.interpolateRdBu;
                 colIsSimilarity = true;
+            }
+
+            for(i = 0; i < col_number; i++) {
+                for(j = 0; j < col_number; j++) {
+                    colProxData[i][j] = colProxData1D[i*col_number+j];
+                }
             }
 
             $("#colorder").prop("disabled",false);

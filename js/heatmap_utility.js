@@ -1876,9 +1876,9 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
                 if(mode == 0)
                     return "translate(" + 0 + "," + (i* cellHeight+y) + ")"; 
                 else if(mode == 1)
-                    return "translate(" + 0 + "," + (i* cellHeight+y) + ")"; 
+                    return "translate(" + 0 + "," + (rowCurrentOrder.indexOf(i)* cellHeight+y) + ")"; 
                 else if(mode == 2)
-                    return "translate(" + 0 + "," + (i* cellWidth+y) + ")"; 
+                    return "translate(" + 0 + "," + (colCurrentOrder.indexOf(i)* cellWidth+y) + ")"; 
                 else if(mode == 13)
                     return "translate(" + 0 + "," + (i* xcov_cellHeight+y) + ")"; 
                 else if(mode == 14)
@@ -1902,7 +1902,9 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
                 if(mode == 0)
                     return i * cellWidth + x;
                 else if(mode == 1)
-                    return i * cellHeight + x;
+                    return rowCurrentOrder.indexOf(i) * cellHeight + x;
+                else if(mode == 2)
+                    return colCurrentOrder.indexOf(i) * cellWidth + x;
                 else if(mode == 11)
                     return i * ycov_cellWidth + x;
                 else if(mode == 12)
@@ -2112,7 +2114,7 @@ function changeColLabelsPosition(heatmapId, col_number) {
     svg.selectAll(".colLabel")
         .attr("x", 0)
         .attr("y", function(d, i) {
-            return (i * cellWidth);
+            return (colCurrentOrder.indexOf(i) * cellWidth);
         })
         .style("text-anchor", "left")
         .attr("transform", function(d, i) {
@@ -2501,6 +2503,7 @@ function sortByValuesCov(rORc, i, sortOrder, target) {
                         return values[a] - values[b];
                     }
                 });
+                colCurrentOrder = sorted;
                 t.select("#mv").selectAll(".cell")
                     .attr("x", function(d) {
                         var col = parseInt(d3.select(this).attr("col"));
@@ -2619,7 +2622,7 @@ function sortByValuesCov(rORc, i, sortOrder, target) {
                         return values[a] - values[b];
                     }
                 });
-
+                rowCurrentOrder = sorted;
                 t.select("#mv").selectAll(".row")
                     .attr("y", function(d) {
                         var row = parseInt(d3.select(this).attr("id"));
