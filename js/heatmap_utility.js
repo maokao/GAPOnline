@@ -16,6 +16,7 @@ function changeRowOrder(newOrder, heatmapId) {
         nowFlip = 0;
     //var t = svg.transition().duration(1000);
     if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage" || newOrder == "random") { 
+        
         if(newOrder == "r2e")   // R2E sort on rows  
         {
             console.log("start r2e");

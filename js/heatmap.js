@@ -1183,7 +1183,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 $("#colorder option[value='singlelinkage']").removeAttr('disabled');
                 $("#colorder option[value='completelinkage']").removeAttr('disabled');
                 $("#colorder option[value='r2e']").removeAttr('disabled');
-                
+
                 isColProxfirst = false;
             }
             else
@@ -1205,6 +1205,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#roworder").on("change", function() {
             gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row order'});
+            $("#roworder_side").prop('selectedIndex', $("#roworder").prop('selectedIndex'));
             var previousOrderIsR2E = false;
             if(rowOrderId == "r2e")
                 previousOrderIsR2E = true;
@@ -1217,17 +1218,20 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 if(previousOrderIsR2E)
                 {
                     $("#rowflip").prop('selectedIndex', 1);
+                    $("#rowflip_side").prop('selectedIndex', 1);
                     rowFlipId = "r2e";
                 }
             }
             else if(rowOrderId == "r2e")
             {
-                $("#rowflip").prop('selectedIndex', 0);   
+                $("#rowflip").prop('selectedIndex', 0);  
+                $("#rowflip_side").prop('selectedIndex', 0); 
                 rowFlipId = "null";
             }
             else if(rowOrderId == "sortinit_row")
             {
-                $("#rowflip").prop('selectedIndex', 0);   
+                $("#rowflip").prop('selectedIndex', 0);  
+                $("#rowflip_side").prop('selectedIndex', 0); 
                 rowFlipId = "null";
             }
             changeRowOrder(rowOrderId, heatmapId);
@@ -1236,6 +1240,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#colorder").on("change", function() {
             gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col order'});
+            $("#colorder_side").prop('selectedIndex', $("#colorder").prop('selectedIndex'));
             var previousOrderIsR2E = false;
             if(colOrderId == "r2e")
                 previousOrderIsR2E = true;
@@ -1248,17 +1253,20 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 if(previousOrderIsR2E)
                 {
                     $("#colflip").prop('selectedIndex', 1);
+                    $("#colflip_side").prop('selectedIndex', 1);
                     colFlipId = "r2e";
                 }
             }
             else if(colOrderId == "r2e")
             {
-                $("#colflip").prop('selectedIndex', 0);   
+                $("#colflip").prop('selectedIndex', 0);  
+                $("#colflip_side").prop('selectedIndex', 0); 
                 colFlipId = "null";
             }
             else if(colOrderId == "sortinit_col")
             {
-                $("#colflip").prop('selectedIndex', 0);   
+                $("#colflip").prop('selectedIndex', 0); 
+                $("#colflip_side").prop('selectedIndex', 0); 
                 colFlipId = "null";
             }
             changeColOrder(colOrderId, heatmapId);
@@ -1267,6 +1275,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#rowflip").on("change", function() {
             gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row flip'});
+            $("#rowflip").prop('selectedIndex', $("#rowflip_side").prop('selectedIndex'));
             rowFlipId = d3.select("#rowflip").property("value");   
             console.log(rowFlipId);
             changeRowFlip(rowFlipId, heatmapId);
@@ -1275,6 +1284,94 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#colflip").on("change", function() {
             gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col flip'});
+            $("#colflip").prop('selectedIndex', $("#colflip_side").prop('selectedIndex'));
+            colFlipId = d3.select("#colflip").property("value");   
+            console.log(colFlipId);
+            changeColFlip(colFlipId, heatmapId);
+        });
+        //==================================================
+        d3.select("#roworder_side").on("change", function() {
+            gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row order'});
+            $("#roworder").prop('selectedIndex', $("#roworder_side").prop('selectedIndex'));
+            var previousOrderIsR2E = false;
+            if(rowOrderId == "r2e")
+                previousOrderIsR2E = true;
+            else
+                previousOrderIsR2E = false;
+            rowOrderId = d3.select("#roworder").property("value");   
+            console.log(rowOrderId);
+            if (rowOrderId == "singlelinkage" || rowOrderId == "averagelinkage" || rowOrderId == "completelinkage") 
+            { 
+                if(previousOrderIsR2E)
+                {
+                    $("#rowflip").prop('selectedIndex', 1);
+                    $("#rowflip_side").prop('selectedIndex', 1);
+                    rowFlipId = "r2e";
+                }
+            }
+            else if(rowOrderId == "r2e")
+            {
+                $("#rowflip").prop('selectedIndex', 0);  
+                $("#rowflip_side").prop('selectedIndex', 0); 
+                rowFlipId = "null";
+            }
+            else if(rowOrderId == "sortinit_row")
+            {
+                $("#rowflip").prop('selectedIndex', 0);  
+                $("#rowflip_side").prop('selectedIndex', 0); 
+                rowFlipId = "null";
+            }
+            changeRowOrder(rowOrderId, heatmapId);
+        });
+
+        //==================================================
+        d3.select("#colorder_side").on("change", function() {
+            gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col order'});
+            $("#colorder").prop('selectedIndex', $("#colorder_side").prop('selectedIndex'));
+            var previousOrderIsR2E = false;
+            if(colOrderId == "r2e")
+                previousOrderIsR2E = true;
+            else
+                previousOrderIsR2E = false;
+            colOrderId = d3.select("#colorder").property("value");   
+            console.log(colOrderId);
+            if (colOrderId == "singlelinkage" || colOrderId == "averagelinkage" || colOrderId == "completelinkage") 
+            { 
+                if(previousOrderIsR2E)
+                {
+                    $("#colflip").prop('selectedIndex', 1);
+                    $("#colflip_side").prop('selectedIndex', 1);
+                    colFlipId = "r2e";
+                }
+            }
+            else if(colOrderId == "r2e")
+            {
+                $("#colflip").prop('selectedIndex', 0);  
+                $("#colflip_side").prop('selectedIndex', 0); 
+                colFlipId = "null";
+            }
+            else if(colOrderId == "sortinit_col")
+            {
+                $("#colflip").prop('selectedIndex', 0); 
+                $("#colflip_side").prop('selectedIndex', 0); 
+                colFlipId = "null";
+            }
+            changeColOrder(colOrderId, heatmapId);
+        });
+
+        //==================================================
+        d3.select("#rowflip_side").on("change", function() {
+            gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row flip'});
+            $("#rowflip_side").prop('selectedIndex', $("#rowflip").prop('selectedIndex'));
+            rowFlipId = d3.select("#rowflip").property("value");   
+            console.log(rowFlipId);
+            changeRowFlip(rowFlipId, heatmapId);
+        });
+
+        //==================================================
+        d3.select("#colflip_side").on("change", function() {
+            gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col flip'});
+            $("#colflip_side").prop('selectedIndex', $("#colflip").prop('selectedIndex'));
             colFlipId = d3.select("#colflip").property("value");   
             console.log(colFlipId);
             changeColFlip(colFlipId, heatmapId);

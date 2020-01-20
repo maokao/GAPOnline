@@ -395,6 +395,55 @@
         </div>
       </li>
 
+
+     <li class="nav-item seriation-hidden">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeriation" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Seriation</span>
+        </a>
+        <div id="collapseSeriation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <div style="padding:10px;">Row:</br>
+            <select id="roworder_side" class="form-control-none form-control-sm">
+              <option value="sortinit_row" selected>Original Order</option>
+              <option value="averagelinkage" disabled>Average-Linkage</option>
+              <option value="singlelinkage" disabled>Single-Linkage</option>
+              <option value="completelinkage" disabled>Complete-Linkage</option>
+              <option value="centroidlinkage" disabled>Centroid-Linkage</option>              
+              <option value="null"> ----- </option>
+              <option value="r2e" disabled>R2E</option>  
+              <option value="random">Random</option>               
+            </select>
+            <select id="rowflip_side" class="form-control-none form-control-sm" disabled="disabled">
+              <option value="null" selected>Flip: None</option>
+              <option value="r2e" disabled="disabled">Flip: R2E</option>
+              <option value="uncle">Flip: Uncle</option>
+              <option value="grandpa">Flip: GrandPa</option>
+            </select>
+            </div>
+
+            <div style="padding:10px;">Col.:</br>
+            <select id="colorder_side" class="form-control-none form-control-sm">
+              <option value="sortinit_col" selected>Original Order</option>
+              <option value="averagelinkage" disabled>Average-Linkage</option>
+              <option value="singlelinkage" disabled>Single-Linkage</option>
+              <option value="completelinkage" disabled>Complete-Linkage</option>
+              <option value="centroidlinkage" disabled>Centroid-Linkage</option>   
+              <option value="null"> ----- </option>
+              <option value="r2e" disabled>R2E</option>     
+              <option value="random">Random</option>             
+            </select>
+            <select id="colflip_side" class="form-control-none form-control-sm" disabled="disabled">
+              <option value="null" selected>Flip: None</option>
+              <option value="r2e" disabled="disabled">Flip: R2E</option>
+              <option value="uncle">Flip: Uncle</option>
+              <option value="grandpa">Flip: GrandPa</option>
+            </select>
+            </div>
+          </div>
+        </div>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
       <div class="sidebar-heading">
@@ -516,7 +565,7 @@
           </button>
 
           <!-- Topbar Search -->
-          <div class="m-0 font-weight-bold text-primary">
+          <div class="m-0 font-weight-bold text-primary topbar-hidden">
             Row: 
             <select id="roworder" class="form-control-none form-control-sm">
               <option value="sortinit_row" selected>Original Order</option>
@@ -529,7 +578,7 @@
               <option value="random">Random</option>               
             </select>
           </div>&nbsp;
-          <div class="m-0 font-weight-bold text-primary">
+          <div class="m-0 font-weight-bold text-primary topbar-hidden">
             <select id="rowflip" class="form-control-none form-control-sm" disabled="disabled">
               <option value="null" selected>Flip: None</option>
               <option value="r2e" disabled="disabled">Flip: R2E</option>
@@ -537,8 +586,8 @@
               <option value="grandpa">Flip: GrandPa</option>
             </select>
           </div>
-          <div class="topbar-divider d-none d-sm-block"></div>
-          <div class="m-0 font-weight-bold text-primary">
+          <div class="topbar-divider topbar-hidden"></div>
+          <div class="m-0 font-weight-bold text-primary topbar-hidden">
             Col.: 
             <select id="colorder" class="form-control-none form-control-sm">
               <option value="sortinit_col" selected>Original Order</option>
@@ -551,7 +600,7 @@
               <option value="random">Random</option>             
             </select>
           </div>&nbsp;
-          <div class="m-0 font-weight-bold text-primary">
+          <div class="m-0 font-weight-bold text-primary topbar-hidden">
             <select id="colflip" class="form-control-none form-control-sm" disabled="disabled">
               <option value="null" selected>Flip: None</option>
               <option value="r2e" disabled="disabled">Flip: R2E</option>
@@ -559,10 +608,11 @@
               <option value="grandpa">Flip: GrandPa</option>
             </select>
           </div>
-          <div class="topbar-divider d-none d-sm-block"></div>
+          <div class="topbar-divider topbar-hidden"></div>
 
           <!-- Topbar Navbar -->
           <!-- 暫時關閉
+          <div class="topbar-divider d-none d-sm-block topbar-hidden"></div>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown no-arrow mx-1">
                 <a href="#" class="btn btn-primary btn-circle btn-sm dropdown-toggle" onClick="createWindow('drag','new window');">
