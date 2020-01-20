@@ -1072,6 +1072,11 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 $("#roworder option[value='completelinkage']").removeAttr('disabled');
                 $("#roworder option[value='r2e']").removeAttr('disabled');
 
+                $("#roworder_side option[value='averagelinkage']").removeAttr('disabled');
+                $("#roworder_side option[value='singlelinkage']").removeAttr('disabled');
+                $("#roworder_side option[value='completelinkage']").removeAttr('disabled');
+                $("#roworder_side option[value='r2e']").removeAttr('disabled');
+
                 isRowProxfirst = false;
             }
             else
@@ -1183,6 +1188,11 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 $("#colorder option[value='singlelinkage']").removeAttr('disabled');
                 $("#colorder option[value='completelinkage']").removeAttr('disabled');
                 $("#colorder option[value='r2e']").removeAttr('disabled');
+
+                $("#colorder_side option[value='averagelinkage']").removeAttr('disabled');
+                $("#colorder_side option[value='singlelinkage']").removeAttr('disabled');
+                $("#colorder_side option[value='completelinkage']").removeAttr('disabled');
+                $("#colorder_side option[value='r2e']").removeAttr('disabled');
 
                 isColProxfirst = false;
             }
