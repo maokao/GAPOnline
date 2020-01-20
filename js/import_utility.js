@@ -122,6 +122,23 @@ function resetAllParameters(heatmapId) {
     $("#colflip option[value='r2e']").prop("disabled",true);  
     $("#rowflip").prop("disabled",true);
     $("#colflip").prop("disabled",true);
+
+	$("#roworder_side option[value='averagelinkage']").attr('disabled', 'disabled');
+    $("#roworder_side option[value='singlelinkage']").attr('disabled', 'disabled');
+    $("#roworder_side option[value='completelinkage']").attr('disabled', 'disabled');
+    $("#roworder_side option[value='r2e']").attr('disabled', 'disabled');
+	$("#colorder_side option[value='averagelinkage']").attr('disabled', 'disabled');
+    $("#colorder_side option[value='singlelinkage']").attr('disabled', 'disabled');
+    $("#colorder_side option[value='completelinkage']").attr('disabled', 'disabled');
+    $("#colorder_side option[value='r2e']").attr('disabled', 'disabled');
+    $("#roworder_side").prop('selectedIndex', 0);  
+    $("#colorder_side").prop('selectedIndex', 0); 
+    $("#rowflip_side").prop('selectedIndex', 0);  
+    $("#colflip_side").prop('selectedIndex', 0);  
+    $("#rowflip_side option[value='r2e']").prop("disabled",true);  
+    $("#colflip_side option[value='r2e']").prop("disabled",true);  
+    $("#rowflip_side").prop("disabled",true);
+    $("#colflip_side").prop("disabled",true);
 }
 
 //#########################################################

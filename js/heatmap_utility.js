@@ -3,7 +3,12 @@
 function changeRowOrder(newOrder, heatmapId) {
     var sortedTarget = 0; //0 for rows
     var svg = d3.select(heatmapId);
-    $("#rowflip").prop("disabled",false);
+    if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage")
+    {
+        $("#rowflip").prop("disabled",false);
+        $("#rowflip_side").prop("disabled",false);
+    }
+    
     var nowFlip = 0;
 
     if(rowFlipId == "r2e")
@@ -31,6 +36,7 @@ function changeRowOrder(newOrder, heatmapId) {
                 sorted = runR2E(sortedTarget);
                 row_r2e_order = sorted;
                 $("#rowflip option[value='r2e']").prop("disabled",false);   
+                $("#rowflip_side option[value='r2e']").prop("disabled",false);   
             }           
             //console.log("Row R2E: "+sorted);
         }
@@ -238,7 +244,11 @@ function changeRowOrder(newOrder, heatmapId) {
 function changeColOrder(newOrder, heatmapId) {
     var sortedTarget = 1; //1 for columns
     var svg = d3.select(heatmapId);
-    $("#colflip").prop("disabled",false);
+    if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage")
+    {
+        $("#colflip").prop("disabled",false);
+        $("#colflip_side").prop("disabled",false);
+    }
     var nowFlip = 0;
 
     if(colFlipId == "r2e")
@@ -277,7 +287,8 @@ function changeColOrder(newOrder, heatmapId) {
             {
                 sorted = runR2E(sortedTarget);
                 col_r2e_order = sorted;   
-                $("#colflip option[value='r2e']").prop("disabled",false);    
+                $("#colflip option[value='r2e']").prop("disabled",false);  
+                $("#colflip_side option[value='r2e']").prop("disabled",false);     
             } 
 
             //console.log("Col. R2E: "+sorted);
