@@ -570,6 +570,15 @@ pre code {
   display: block;  
 }
 
+@media (max-width: 575.98px) {
+  .seriation-hidden {
+    display: block;
+  }
+  .topbar-hidden {
+    display: none;  
+  }  
+}
+
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
