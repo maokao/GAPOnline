@@ -317,7 +317,8 @@ function changeColOrder(newOrder, heatmapId) {
                 var col = parseInt(d3.select(this).attr("col"));
                 return sorted.indexOf(col) * cellWidth;
             });
-        if(svg.select("#mv3"))
+        //if(svg.select("#mv3"))
+        if(!isColProxfirst)
         {
             svg.select("#mv3").selectAll(".cell")
                 .attr("x", function(d) {
@@ -393,6 +394,8 @@ function changeColOrder(newOrder, heatmapId) {
                     {
                         if(xd>0)
                             temp_y = temp_y + (-3+xd_Y);
+                        else
+                            temp_y = -3;
                     }
                     //return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
                     return "translate(" + cellWidth / 2 + ", " + temp_y + ") rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
