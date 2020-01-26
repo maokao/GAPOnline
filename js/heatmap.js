@@ -1285,7 +1285,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#rowflip").on("change", function() {
             gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row flip'});
-            $("#rowflip").prop('selectedIndex', $("#rowflip_side").prop('selectedIndex'));
+            $("#rowflip_side").prop('selectedIndex', $("#rowflip").prop('selectedIndex'));
             rowFlipId = d3.select("#rowflip").property("value");   
             console.log(rowFlipId);
             changeRowFlip(rowFlipId, heatmapId);
@@ -1294,7 +1294,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#colflip").on("change", function() {
             gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col flip'});
-            $("#colflip").prop('selectedIndex', $("#colflip_side").prop('selectedIndex'));
+            $("#colflip_side").prop('selectedIndex', $("#colflip").prop('selectedIndex'));
             colFlipId = d3.select("#colflip").property("value");   
             console.log(colFlipId);
             changeColFlip(colFlipId, heatmapId);
@@ -1372,7 +1372,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#rowflip_side").on("change", function() {
             gtag('event', 'row order', {'event_category': '按鈕點擊','event_label': 'row flip'});
-            $("#rowflip_side").prop('selectedIndex', $("#rowflip").prop('selectedIndex'));
+            $("#rowflip").prop('selectedIndex', $("#rowflip_side").prop('selectedIndex'));
             rowFlipId = d3.select("#rowflip").property("value");   
             console.log(rowFlipId);
             changeRowFlip(rowFlipId, heatmapId);
@@ -1381,7 +1381,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#colflip_side").on("change", function() {
             gtag('event', 'col order', {'event_category': '按鈕點擊','event_label': 'col flip'});
-            $("#colflip_side").prop('selectedIndex', $("#colflip").prop('selectedIndex'));
+            $("#colflip").prop('selectedIndex', $("#colflip_side").prop('selectedIndex'));
             colFlipId = d3.select("#colflip").property("value");   
             console.log(colFlipId);
             changeColFlip(colFlipId, heatmapId);
