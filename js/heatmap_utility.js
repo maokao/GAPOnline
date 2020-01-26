@@ -460,7 +460,8 @@ function changeColOrder(newOrder, heatmapId) {
             });
         if(!firstRunColTree)
             d3.selectAll("#colTree").remove();
-        if(svg.select("#mv3"))
+        //if(svg.select("#mv3"))
+        if(!isColProxfirst)
         {
             svg.select("#mv3").selectAll(".cell")
                 .attr("x", function(d) {
@@ -521,6 +522,24 @@ function changeColOrder(newOrder, heatmapId) {
                     return i * cellWidth;
                 })            
                 .attr("transform", function(d, i) {
+                    var temp_y = 0;
+                    if(xc>0)
+                    {
+                        if(xd>0)
+                            temp_y = temp_y + (-3+xd_Y);
+                        else
+                            temp_y = temp_y + (-3+xc_Y);
+                    }
+                    else
+                    {
+                        if(xd>0)
+                            temp_y = temp_y + (-3+xd_Y);
+                        else
+                            temp_y = -3;
+                    }
+                    //return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
+                    return "translate(" + cellWidth / 2 + ", " + temp_y + ") rotate(-90) rotate(45, 0, " + (i * cellWidth) + ")";
+/*
                     var temp_y = -10-col_number*cellWidth+cellWidth / 1.5;
                     if(xc>0)
                     {
@@ -536,6 +555,7 @@ function changeColOrder(newOrder, heatmapId) {
                     }
                     //return "translate("+ (-3+5+col_number*cellWidth) + "," + temp_y + ")";
                     return "translate(" + cellWidth / 2 + ", " + temp_y + ") rotate(-90) rotate(45, 0, " + (i * cellWidth) + ")";
+*/
                 });    
         }
 
