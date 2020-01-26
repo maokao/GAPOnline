@@ -237,6 +237,9 @@ function changeRowOrder(newOrder, heatmapId) {
                         return "translate(-3," + ycov_cellHeight / 1.5 + ")";
                 }
             });
+        for( i=0 ;i< row_number; i++)
+            rowCurrentOrder[i] = i;
+
     } 
 }
 
@@ -448,7 +451,8 @@ function changeColOrder(newOrder, heatmapId) {
                 });
         }  
 
-    } else if (newOrder == "sortinit_col") { // initial sort on cols (alphabetically if produced like this)
+    } 
+    else if (newOrder == "sortinit_col") { // initial sort on cols (alphabetically if produced like this)
         svg.select("#mv").selectAll(".cell")
             .attr("x", function(d) {
                 var col = parseInt(d3.select(this).attr("col"));
@@ -567,6 +571,8 @@ function changeColOrder(newOrder, heatmapId) {
                     return "translate(" + temp_x + "," + temp_y + ")";
                 });
         }
+        for( i=0 ;i< col_number; i++)
+            colCurrentOrder[i] = i;
     }
 }
 
@@ -2746,7 +2752,7 @@ function loadExample(filename) {
         removeAllColorLegend();
         var sep = "\t";
         var dataFileName = "CRAB.txt";   
-        setAllParameters(dataFileName, true, true, 3, 0, 0, 0);
+        setAllParameters(dataFileName, true, true, 3, 1, 0, 0);
         heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
     }
     else if(filename == "mona_lisa")
