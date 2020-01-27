@@ -326,6 +326,7 @@ function changeColOrder(newOrder, heatmapId) {
             sorted = runHCTree(sortedTarget, 1, nowFlip, "colTree", col_number*cellWidth+10+d3.selectAll('.colLabels').node().getBBox().width, tree_y, heatmapId, colIsSimilarity);
             //console.log(sorted);            
         }
+        colCurrentOrder = sorted;
 
         svg.select("#mv").selectAll(".cell")
             .attr("x", function(d) {
@@ -388,7 +389,6 @@ function changeColOrder(newOrder, heatmapId) {
                     //return "translate(" + cellWidth / 2 + ", -3) rotate(-90) rotate(45, 0, " + (sorted.indexOf(i) * cellWidth) + ")";
                 });
 
-            colCurrentOrder = sorted;
         } 
         else
         {
