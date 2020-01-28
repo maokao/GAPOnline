@@ -29,12 +29,12 @@ function changeRowOrder(newOrder, heatmapId) {
                 d3.selectAll("#rowTree").remove();
             if(row_r2e_order.length>0)
             {
-                sorted = row_r2e_order;   
+                sorted = row_r2e_order.slice();   
             }
             else
             {
                 sorted = runR2E(sortedTarget);
-                row_r2e_order = sorted;
+                row_r2e_order = sorted.slice();
                 $("#rowflip option[value='r2e']").prop("disabled",false);   
                 $("#rowflip_side option[value='r2e']").prop("disabled",false);   
             }           
@@ -284,12 +284,12 @@ function changeColOrder(newOrder, heatmapId) {
                 d3.selectAll("#colTree").remove();
             if(col_r2e_order.length>0)
             {
-                sorted = col_r2e_order;   
+                sorted = col_r2e_order.slice(); 
             }
             else
             {
                 sorted = runR2E(sortedTarget);
-                col_r2e_order = sorted;   
+                col_r2e_order = sorted.slice();   
                 $("#colflip option[value='r2e']").prop("disabled",false);  
                 $("#colflip_side option[value='r2e']").prop("disabled",false);     
             } 
