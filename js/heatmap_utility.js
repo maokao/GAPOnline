@@ -1287,8 +1287,12 @@ function changePalette(conditionName, paletteName, heatmapId) {
     }
     else if(optionTargetDataMap == "rp")
     {
+        var minInputRange1 = $('#inputRange1').data('slider').getValue()[0];
+        var maxInputRange1 = $('#inputRange1').data('slider').getValue()[1];
+        var minInputRange2 = $('#inputRange2').data('slider').getValue()[0];
+        var maxInputRange2 = $('#inputRange2').data('slider').getValue()[1];
         var colorScale = null; 
-        if(rowIsSimilarity==true)
+        /*if(rowIsSimilarity==true)
         {
             colorScale = d3.scaleSequential()
                     .domain([1, -1])
@@ -1299,13 +1303,30 @@ function changePalette(conditionName, paletteName, heatmapId) {
             colorScale = d3.scaleSequential()
                     .domain([rp_max_value, rp_min_value])
                     .interpolator(colorID);        
-        }
+        }*/
+        colorScale = d3.scaleSequential()
+                    .domain([maxInputRange2, minInputRange2])
+                    .interpolator(colorID); 
 
         var svg = d3.select(heatmapId);
         var t = svg.transition().duration(500);
         t.select("#mv2").selectAll(".cell")
             .style("fill", function(d) {
-                    if (d != null) return colorScale(d);
+
+                    if (d != null)
+                    {
+                        if(d<minInputRange1 || d>maxInputRange1)
+                            return "#ffffff";
+                        else
+                        {
+                            if(d<minInputRange2)
+                                return colorScale(minInputRange2);
+                            else if(d>maxInputRange2)
+                                return colorScale(maxInputRange2);
+                            else
+                                return colorScale(d);
+                        }
+                    } 
                     else return "url(#diagonalHatch)";
             });
         d3.select("#rp_colorspec").select("svg").selectAll(".cellLegend")
@@ -1317,8 +1338,12 @@ function changePalette(conditionName, paletteName, heatmapId) {
     }
     else if(optionTargetDataMap == "cp")
     { 
+        var minInputRange1 = $('#inputRange1').data('slider').getValue()[0];
+        var maxInputRange1 = $('#inputRange1').data('slider').getValue()[1];
+        var minInputRange2 = $('#inputRange2').data('slider').getValue()[0];
+        var maxInputRange2 = $('#inputRange2').data('slider').getValue()[1];
         var colorScale = null; 
-        if(colIsSimilarity==true)
+        /*if(colIsSimilarity==true)
         {
             colorScale = d3.scaleSequential()
                     .domain([1, -1])
@@ -1329,13 +1354,29 @@ function changePalette(conditionName, paletteName, heatmapId) {
             colorScale = d3.scaleSequential()
                     .domain([cp_max_value, cp_min_value])
                     .interpolator(colorID);        
-        }
+        }*/
+        colorScale = d3.scaleSequential()
+                    .domain([maxInputRange2, minInputRange2])
+                    .interpolator(colorID); 
 
         var svg = d3.select(heatmapId);
         var t = svg.transition().duration(500);
         t.select("#mv3").selectAll(".cell")
             .style("fill", function(d) {
-                    if (d != null) return colorScale(d);
+                    if (d != null)
+                    {
+                        if(d<minInputRange1 || d>maxInputRange1)
+                            return "#ffffff";
+                        else
+                        {
+                            if(d<minInputRange2)
+                                return colorScale(minInputRange2);
+                            else if(d>maxInputRange2)
+                                return colorScale(maxInputRange2);
+                            else
+                                return colorScale(d);
+                        }
+                    } 
                     else return "url(#diagonalHatch)";
             });
         d3.select("#cp_colorspec").select("svg").selectAll(".cellLegend")

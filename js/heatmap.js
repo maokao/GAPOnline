@@ -103,6 +103,25 @@ var ydSortOrder = false;
 var ycSortOrder = false;
 var xdSortOrder = false;
 var xcSortOrder = false;
+var rdPalette;
+var rpPalette;
+var cpPalette;
+var ydPalette;
+var ycPalette;
+var xdPalette;
+var xcPalette;
+var rdminInputRange1;
+var rpminInputRange1;
+var cpminInputRange1;
+var rdmaxInputRange1;
+var rpmaxInputRange1;
+var cpmaxInputRange1;
+var rdminInputRange2;
+var rpminInputRange2;
+var cpminInputRange2;
+var rdmaxInputRange2;
+var rpmaxInputRange2;
+var cpmaxInputRange2;
 
 //#########################################################
 function heatmap_display(url, heatmapId, paletteName, delimiter) {
@@ -664,13 +683,18 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //reset input range UI
         resetInputRange(min_value,max_value);
-
+        rdPalette = "Spectral";
+        rdminInputRange1 = min_value;
+        rdmaxInputRange1 = max_value;
+        rdminInputRange2 = min_value;
+        rdmaxInputRange2 = max_value;
         setupHeatmap2(data,"mv",0,0,0, heatmapId, d3.interpolateSpectral);
         
         if(yc>0)
         {
             //yc_X = -5-yc*cellWidth; 
             setupycLabel(yc_X-col_fontsize/2, -5, heatmapId);
+            ycPalette = "Spectral";
             setupHeatmap2(ycData,"mv12",yc_X,0,12, heatmapId, d3.interpolateSpectral);
             $("#optionDataMap").append($("<option></option>").attr("value", "yc").text("Yconti. covariates"));
         }
@@ -678,6 +702,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         {
             //yd_X = yc_X -5-yd*cellWidth;
             setupydLabel(yd_X-col_fontsize/2, -5, heatmapId);
+            //ydPalette = "Spectral";
             setupHeatmap2(ydData,"mv11",yd_X,0,11, heatmapId, d3.schemeSet1);
             $("#optionDataMap").append($("<option></option>").attr("value", "yd").text("Ydisc. covariates"));
         }
@@ -685,6 +710,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         {
             //yc_X = -5-yc*cellWidth; 
             setupxcLabel(col_number*cellWidth+5, xc_Y+xcov_cellHeight-row_fontsize/2, heatmapId);
+            xcPalette = "Spectral";
             setupHeatmap2(xcData,"mv14",0,xc_Y,14, heatmapId, d3.interpolateSpectral);
             $("#optionDataMap").append($("<option></option>").attr("value", "xc").text("Xconti. covariates"));
         }
@@ -692,6 +718,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         {
             //yd_X = yc_X -5-yd*cellWidth;
             setupxdLabel(col_number*cellWidth+5, xd_Y+xcov_cellHeight-row_fontsize/2, heatmapId);
+            //xdPalette = "Spectral";
             setupHeatmap2(xdData,"mv13",0,xd_Y,13, heatmapId, d3.schemeSet1);
             $("#optionDataMap").append($("<option></option>").attr("value", "xd").text("Xdisc. covariates"));
         }
@@ -1000,60 +1027,70 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 var rowProxData1D = runProximity(0, 0, 0);
 
                 colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
                 rowIsSimilarity = false;
             }
             else if(this.value == "pearson_correlation"){
                 var rowProxData1D = runProximity(1, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
             else if(this.value == "kendalls_tau"){
                 var rowProxData1D = runProximity(2, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
             else if(this.value == "spearman_rank"){
                 var rowProxData1D = runProximity(3, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
             else if(this.value == "atan_correlation"){
                 var rowProxData1D = runProximity(4, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
             else if(this.value == "city_block"){
                 var rowProxData1D = runProximity(5, 0, 0);
 
                 colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
                 rowIsSimilarity = false;
             }
             else if(this.value == "abs_pearson_correlation"){
                 var rowProxData1D = runProximity(6, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
             else if(this.value == "uncentered_correlation"){
                 var rowProxData1D = runProximity(7, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
             else if(this.value == "abs_uncentered_correlation"){
                 var rowProxData1D = runProximity(8, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
             else if(this.value == "covariance"){
                 var rowProxData1D = runProximity(9, 0, 0);
 
                 colorID = d3.interpolateRdBu;
+                rpPalette = "RdBu";
                 rowIsSimilarity = true;
             }
 
@@ -1084,6 +1121,21 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             }
             else
                 changeProx(rowProxData,"mv2", heatmapId, 1, colorID);
+
+            if(rowIsSimilarity)
+            {
+                rpminInputRange1 = -1;
+                rpmaxInputRange1 = 1;
+                rpminInputRange2 = -1;
+                rpmaxInputRange2 = 1;
+            }
+            else
+            {
+                rpminInputRange1 = rp_min_value;
+                rpmaxInputRange1 = rp_max_value;
+                rpminInputRange2 = rp_min_value;
+                rpmaxInputRange2 = rp_max_value;    
+            }
         });
 
         //==================================================
@@ -1103,60 +1155,70 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 var colProxData1D = runProximity(0, 1, 0);
 
                 colorID = d3.interpolateSpectral;
+                cpPalette = "Spectral";
                 colIsSimilarity = false;
             }
             else if (this.value == "pearson_correlation"){
                 var colProxData1D = runProximity(1, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
             else if (this.value == "kendalls_tau"){
                 var colProxData1D = runProximity(2, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
             else if (this.value == "spearman_rank"){
                 var colProxData1D = runProximity(3, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
             else if (this.value == "atan_correlation"){
                 var colProxData1D = runProximity(4, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
             else if (this.value == "city_block"){
                 var colProxData1D = runProximity(5, 1, 0);
 
                 colorID = d3.interpolateSpectral;
+                cpPalette = "Spectral";
                 rowIsSimilarity = false;
             }
             else if (this.value == "abs_pearson_correlation"){
                 var colProxData1D = runProximity(6, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
             else if (this.value == "uncentered_correlation"){
                 var colProxData1D = runProximity(7, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
             else if (this.value == "abs_uncentered_correlation"){
                 var colProxData1D = runProximity(8, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
             else if (this.value == "covariance"){
                 var colProxData1D = runProximity(9, 1, 0);
 
                 colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
                 colIsSimilarity = true;
             }
 
@@ -1202,11 +1264,47 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             else
                 changeProx(colProxData,"mv3", heatmapId, 2, colorID);
 
+            if(colIsSimilarity)
+            {
+                cpminInputRange1 = -1;
+                cpmaxInputRange1 = 1;
+                cpminInputRange2 = -1;
+                cpmaxInputRange2 = 1;
+            }
+            else
+            {
+                cpminInputRange1 = cp_min_value;
+                cpmaxInputRange1 = cp_max_value;
+                cpminInputRange2 = cp_min_value;
+                cpmaxInputRange2 = cp_max_value;    
+            }
+
         });
 
         //==================================================
         d3.select("#optionDataMap").on("change", function() {
            optionTargetDataMap = d3.select("#optionDataMap").property("value");    
+           if(optionTargetDataMap == "rawdata")
+           {
+                setInputRange(rdminInputRange1,rdmaxInputRange1,rdminInputRange2,rdmaxInputRange2,min_value, max_value);
+                $('#palette').val(rdPalette);
+           }
+           else if(optionTargetDataMap == "rp")
+           {
+                if(rowIsSimilarity==true)
+                    setInputRange(rpminInputRange1,rpmaxInputRange1,rpminInputRange2,rpmaxInputRange2,-1,1);
+                else
+                    setInputRange(rpminInputRange1,rpmaxInputRange1,rpminInputRange2,rpmaxInputRange2,rp_min_value, rp_max_value);
+                $('#palette').val(rpPalette);
+           }
+           else if(optionTargetDataMap == "cp")
+           {
+                if(colIsSimilarity==true)
+                    resetInputRange(cpminInputRange1,cpmaxInputRange1,cpminInputRange2,cpmaxInputRange2,-1,1);
+                else
+                    resetInputRange(cpminInputRange1,cpmaxInputRange1,cpminInputRange2,cpmaxInputRange2,cp_min_value, cp_max_value);
+                $('#palette').val(cpPalette);
+           }
         });
 
         //==================================================
@@ -1394,6 +1492,21 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         d3.select("#palette")
             .on("mouseup", function() {
                 gtag('event', 'change color', {'event_category': '按鈕點擊','event_label': 'change color'});
+                if(optionTargetDataMap == "rawdata")
+                    rdPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "rp")
+                    rpPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "cp")
+                    cpPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "yc")
+                    ycPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "yd")
+                    ydPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "xc")
+                    xcPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "xd")
+                    xdPalette = d3.select("#palette").property("value");
+
         		var newPalette = d3.select("#palette").property("value");
                 var newCondition = d3.select("#displaycondition").property("value");
         		if (newPalette != null)						// when interfaced with jQwidget, the ComboBox handles keyup event but value is then not available ?
@@ -1401,6 +1514,20 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             })
             .on("change", function() {
                 gtag('event', 'change color', {'event_category': '按鈕點擊','event_label': 'change color'});
+                if(optionTargetDataMap == "rawdata")
+                    rdPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "rp")
+                    rpPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "cp")
+                    cpPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "yc")
+                    ycPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "yd")
+                    ydPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "xc")
+                    xcPalette = d3.select("#palette").property("value");
+                else if(optionTargetDataMap == "xd")
+                    xdPalette = d3.select("#palette").property("value");
 		        var newPalette = d3.select("#palette").property("value");
                 var newCondition = d3.select("#displaycondition").property("value");
                 changePalette(newCondition, newPalette, heatmapId);
@@ -1441,6 +1568,22 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //d3.select("#inputRange1").on("change", function() {
         $('#inputRange1').slider().on('change', function(event) {
             gtag('event', 'sectional display', {'event_category': '按鈕點擊','event_label': 'sectional display'});
+            if(optionTargetDataMap == "rawdata")
+            {
+                rdminInputRange1 = $('#inputRange1').data('slider').getValue()[0];
+                rdmaxInputRange1 = $('#inputRange1').data('slider').getValue()[1];   
+            }        
+            else if(optionTargetDataMap == "rp")
+            {
+                rpminInputRange1 = $('#inputRange1').data('slider').getValue()[0];
+                rpmaxInputRange1 = $('#inputRange1').data('slider').getValue()[1];   
+            } 
+            else if(optionTargetDataMap == "cp")
+            {
+                cpminInputRange1 = $('#inputRange1').data('slider').getValue()[0];
+                cpmaxInputRange1 = $('#inputRange1').data('slider').getValue()[1];   
+            } 
+
             //var minInputRange1 = $('#inputRange1').data('slider').getValue()[0];
             //var maxInputRange1 = $('#inputRange1').data('slider').getValue()[1];
             var newCondition = d3.select("#displaycondition").property("value");
@@ -1452,6 +1595,22 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //d3.select("#inputRange2").on("mouseup", function() {
         $('#inputRange2').slider().on('change', function(event) {
             gtag('event', 'restricted display', {'event_category': '按鈕點擊','event_label': 'restricted display'});
+            if(optionTargetDataMap == "rawdata")
+            {
+                rdminInputRange2 = $('#inputRange2').data('slider').getValue()[0];
+                rdmaxInputRange2 = $('#inputRange2').data('slider').getValue()[1];   
+            }        
+            else if(optionTargetDataMap == "rp")
+            {
+                rpminInputRange2 = $('#inputRange2').data('slider').getValue()[0];
+                rpmaxInputRange2 = $('#inputRange2').data('slider').getValue()[1];   
+            } 
+            else if(optionTargetDataMap == "cp")
+            {
+                cpminInputRange2 = $('#inputRange2').data('slider').getValue()[0];
+                cpmaxInputRange2 = $('#inputRange2').data('slider').getValue()[1];   
+            } 
+
             var newCondition = d3.select("#displaycondition").property("value");
             var newPalette = d3.select("#palette").property("value");
             changePalette(newCondition, newPalette, heatmapId);
