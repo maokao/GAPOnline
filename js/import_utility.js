@@ -139,6 +139,8 @@ function resetAllParameters(heatmapId) {
     $("#colflip_side option[value='r2e']").prop("disabled",true);  
     $("#rowflip_side").prop("disabled",true);
     $("#colflip_side").prop("disabled",true);
+
+    $('#palette').val("Spectral");
 }
 
 //#########################################################
