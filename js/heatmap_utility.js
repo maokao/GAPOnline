@@ -1119,17 +1119,28 @@ function changePalette(conditionName, paletteName, heatmapId) {
 
     if(optionTargetDataMap == "rawdata")
     {
+        var minInputRange1 = $('#inputRange1').data('slider').getValue()[0];
+        var maxInputRange1 = $('#inputRange1').data('slider').getValue()[1];
+        var minInputRange2 = $('#inputRange2').data('slider').getValue()[0];
+        var maxInputRange2 = $('#inputRange2').data('slider').getValue()[1];
         if(conditionName == "RangeMatrix")
         {
             var colorScale = d3.scaleSequential()
-                        .domain([max_value, min_value])
+                        //.domain([max_value, min_value])
+                        .domain([maxInputRange2, minInputRange2])
                         .interpolator(colorID);  
 
             var svg = d3.select(heatmapId);
             var t = svg.transition().duration(500);
             t.select("#mv").selectAll(".cell")
                 .style("fill", function(d) {
-                        if (d != null) return colorScale(d);
+                        if (d != null) 
+                        {
+                            if(d<minInputRange1 || d>maxInputRange1)
+                                return "#ffffff";
+                            else
+                                return colorScale(d);
+                        }
                         else return "url(#diagonalHatch)";
                 });
             d3.select("#md_colorspec").select("svg").selectAll(".cellLegend")
@@ -1151,12 +1162,53 @@ function changePalette(conditionName, paletteName, heatmapId) {
                 .style("fill", function(d) {
 
                     var rownum = d3.select(this).attr("row");
-                    var colorScale = d3.scaleSequential()
-                        .domain([data_row_max_value[rownum], data_row_min_value[rownum]])
-                        .interpolator(colorID);  
+                    var colorScale;
+                    if(data_row_min_value[rownum]<minInputRange2)
+                    {
+                        if(data_row_max_value[rownum]>maxInputRange2)
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([maxInputRange2, minInputRange2])
+                                .interpolator(colorID); 
+                        }
+                        else
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([data_row_max_value[rownum], minInputRange2])
+                                .interpolator(colorID);                   
+                        }
+                    }
+                    else
+                    {
+                        if(data_row_max_value[rownum]>maxInputRange2)
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([maxInputRange2, data_row_min_value[rownum]])
+                                .interpolator(colorID);  
+                        }
+                        else
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([data_row_max_value[rownum], data_row_min_value[rownum]])
+                                .interpolator(colorID);     
+                        }
+                    }
+                    if (d != null) 
+                    {
+                        if(d<minInputRange1 || d>maxInputRange1)
+                            return "#ffffff";
+                        else
+                        {
+                            if(d<minInputRange2)
+                                return colorScale(minInputRange2);
+                            else if(d>maxInputRange2)
+                                return colorScale(maxInputRange2);
+                            else
+                                return colorScale(d);
+                        }
+                    }
+                    else return "url(#diagonalHatch)";  
 
-                        if (d != null) return colorScale(d);
-                        else return "url(#diagonalHatch)";
                 });
             d3.select("#md_colorspec").select("svg").selectAll(".cellLegend")
                 .style("fill", function(d, i) {
@@ -1177,12 +1229,53 @@ function changePalette(conditionName, paletteName, heatmapId) {
                 .style("fill", function(d) {
 
                     var colnum = d3.select(this).attr("col");
-                    var colorScale = d3.scaleSequential()
-                        .domain([data_max_value[colnum], data_min_value[colnum]])
-                        .interpolator(colorID);  
- 
-                        if (d != null) return colorScale(d);
-                        else return "url(#diagonalHatch)";
+                    var colorScale;
+                    if(data_min_value[colnum]<minInputRange2)
+                    {
+                        if(data_max_value[colnum]>maxInputRange2)
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([maxInputRange2, minInputRange2])
+                                .interpolator(colorID); 
+                        }
+                        else
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([data_max_value[colnum], minInputRange2])
+                                .interpolator(colorID);                   
+                        }
+                    }
+                    else
+                    {
+                        if(data_max_value[colnum]>maxInputRange2)
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([maxInputRange2, data_min_value[colnum]])
+                                .interpolator(colorID);  
+                        }
+                        else
+                        {
+                            colorScale = d3.scaleSequential()
+                                .domain([data_max_value[colnum], data_min_value[colnum]])
+                                .interpolator(colorID);    
+                        }
+                    }
+                    if (d != null) 
+                    {
+                        if(d<minInputRange1 || d>maxInputRange1)
+                            return "#ffffff";
+                        else
+                        {
+                            if(d<minInputRange2)
+                                return colorScale(minInputRange2);
+                            else if(d>maxInputRange2)
+                                return colorScale(maxInputRange2);
+                            else
+                                return colorScale(d);
+                        }
+                    }
+                    else return "url(#diagonalHatch)";  
+                     
                 });
             d3.select("#md_colorspec").select("svg").selectAll(".cellLegend")
                 .style("fill", function(d, i) {

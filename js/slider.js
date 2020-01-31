@@ -1,5 +1,7 @@
 (function( $ ){
 $( document ).ready( function() {
+	//$("#inputRange1").slider({});
+	//$("#inputRange2").slider({});
 	$( '.input-range').each(function(){
 		var value = $(this).attr('data-slider-value');
 		var separator = value.indexOf(',');
@@ -14,7 +16,7 @@ $( document ).ready( function() {
 		$( this ).slider({
 			formatter: function(value) {
 				//console.log(value);
-				return '$' + value;
+				return value;
 			},
 			min: parseFloat( $( this ).attr('data-slider-min') ),
 			max: parseFloat( $( this ).attr('data-slider-max') ), 
@@ -22,8 +24,23 @@ $( document ).ready( function() {
 			value: value,
 			tooltip_split: $( this ).attr('data-slider-tooltip_split'),
 			tooltip: $( this ).attr('data-slider-tooltip')
+			
 		});
 	});
 	
  } );
 } )( jQuery );
+
+function resetInputRange(minValue, maxValue)
+{
+        //$("#inputRange1").slider({range: [minValue,maxValue]});
+        $("#inputRange1").slider({min: minValue});
+        $("#inputRange1").slider({max: maxValue});
+        $("#inputRange1").slider('refresh');
+        $('#inputRange1').slider('setValue',[minValue,maxValue]);
+
+        $("#inputRange2").slider({min: minValue});
+        $("#inputRange2").slider({max: maxValue});
+        $("#inputRange2").slider('refresh');
+        $('#inputRange2').slider('setValue',[minValue,maxValue]);
+}

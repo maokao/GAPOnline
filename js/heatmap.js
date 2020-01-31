@@ -662,6 +662,9 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             });
 
 
+        //reset input range UI
+        resetInputRange(min_value,max_value);
+
         setupHeatmap2(data,"mv",0,0,0, heatmapId, d3.interpolateSpectral);
         
         if(yc>0)
@@ -1432,6 +1435,26 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             gtag('event', 'zoom', {'event_category': '按鈕點擊','event_label': 'change height'});
             var heightZoomRange = d3.select("#heightZoomRange").property("value");   
             changeHeight(heightZoomRange, heatmapId);
+        });
+
+        //==================================================
+        //d3.select("#inputRange1").on("change", function() {
+        $('#inputRange1').slider().on('change', function(event) {
+            gtag('event', 'sectional display', {'event_category': '按鈕點擊','event_label': 'sectional display'});
+            //var minInputRange1 = $('#inputRange1').data('slider').getValue()[0];
+            //var maxInputRange1 = $('#inputRange1').data('slider').getValue()[1];
+            var newCondition = d3.select("#displaycondition").property("value");
+            var newPalette = d3.select("#palette").property("value");
+            changePalette(newCondition, newPalette, heatmapId);
+        });
+
+        //==================================================
+        //d3.select("#inputRange2").on("mouseup", function() {
+        $('#inputRange2').slider().on('change', function(event) {
+            gtag('event', 'restricted display', {'event_category': '按鈕點擊','event_label': 'restricted display'});
+            var newCondition = d3.select("#displaycondition").property("value");
+            var newPalette = d3.select("#palette").property("value");
+            changePalette(newCondition, newPalette, heatmapId);
         });
     });
 
