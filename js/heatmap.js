@@ -1566,7 +1566,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         //d3.select("#inputRange1").on("change", function() {
-        $('#inputRange1').slider().on('change', function(event) {
+        $('#inputRange1').slider().on('slideStop', function(event) {
             gtag('event', 'sectional display', {'event_category': '按鈕點擊','event_label': 'sectional display'});
             if(optionTargetDataMap == "rawdata")
             {
@@ -1593,7 +1593,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         //d3.select("#inputRange2").on("mouseup", function() {
-        $('#inputRange2').slider().on('change', function(event) {
+        $('#inputRange2').slider().on('slideStop', function(event) {
             gtag('event', 'restricted display', {'event_category': '按鈕點擊','event_label': 'restricted display'});
             if(optionTargetDataMap == "rawdata")
             {
