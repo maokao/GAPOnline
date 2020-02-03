@@ -34,3 +34,10 @@ svg text {
   font-size: 10px;
   _position:absolute; /* position fixed for IE6 */
 }
+.border_thin {
+  border: #D2D2EE;
+  border-style: solid;
+  border-width: 1px;
+  padding-bottom: 1px;
+  padding-top: 1px;
+}
