@@ -1565,6 +1565,14 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         });
 
         //==================================================
+        d3.select("#saveOrdering").on("click", function() {
+            gtag('event', 'export', {'event_category': '按鈕點擊','event_label': 'export ordering'});
+            //downloadFile(rowCurrentOrder.join("\t"), "row_ordering.txt");
+            saveTextAsFile(rowCurrentOrder.join("\t"), "row_ordering.txt");
+            saveTextAsFile(colCurrentOrder.join("\t"), "col_ordering.txt");
+        });
+
+        //==================================================
         //d3.select("#inputRange1").on("change", function() {
         $('#inputRange1').slider().on('slideStop', function(event) {
             gtag('event', 'sectional display', {'event_category': '按鈕點擊','event_label': 'sectional display'});
