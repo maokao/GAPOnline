@@ -1567,7 +1567,6 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#saveOrdering").on("click", function() {
             gtag('event', 'export', {'event_category': '按鈕點擊','event_label': 'export ordering'});
-            //downloadFile(rowCurrentOrder.join("\t"), "row_ordering.txt");
             saveTextAsFile(rowCurrentOrder.join("\t"), "row_ordering.txt");
             saveTextAsFile(colCurrentOrder.join("\t"), "col_ordering.txt");
         });
@@ -1575,11 +1574,16 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         //==================================================
         d3.select("#saveProxData").on("click", function() {
             gtag('event', 'export', {'event_category': '按鈕點擊','event_label': 'export proximity'});
-            //downloadFile(rowCurrentOrder.join("\t"), "row_ordering.txt");
             saveTextAsFile(doubleArrayToString(rowProxData), "row_prox.txt");
             saveTextAsFile(doubleArrayToString(colProxData), "col_prox.txt");
         });
-        
+
+        //==================================================
+        d3.select("#saveImages").on("click", function() {
+            gtag('event', 'export', {'event_category': '按鈕點擊','event_label': 'export Image'});
+            saveImagetoPNG(dataFileName);
+        });
+               
         //==================================================
         //d3.select("#inputRange1").on("change", function() {
         $('#inputRange1').slider().on('slideStop', function(event) {
