@@ -2947,6 +2947,25 @@ function saveTextAsFile( _text, _fileName) {
  
     downloadLink.click();
 }
+
+//#########################################################
+function doubleArrayToString(arr) {
+  let str = '';
+  for(var i = 0; i < arr.length; i++)
+  {
+    for(var j = 0; j <arr[0].length; j++)
+    {
+        str = str + arr[i][j];
+        if (j != (arr[0].length - 1)) {
+          str += '\t';
+        };
+    }
+    str += '\n';
+  }
+
+  return str;
+}
+
 //#########################################################
 function pearsonCorrelation(prefs, p1, p2, n, mode) {
     if(mode == 0)   //for row

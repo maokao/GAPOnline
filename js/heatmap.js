@@ -1573,6 +1573,14 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         });
 
         //==================================================
+        d3.select("#saveProxData").on("click", function() {
+            gtag('event', 'export', {'event_category': '按鈕點擊','event_label': 'export proximity'});
+            //downloadFile(rowCurrentOrder.join("\t"), "row_ordering.txt");
+            saveTextAsFile(doubleArrayToString(rowProxData), "row_prox.txt");
+            saveTextAsFile(doubleArrayToString(colProxData), "col_prox.txt");
+        });
+        
+        //==================================================
         //d3.select("#inputRange1").on("change", function() {
         $('#inputRange1').slider().on('slideStop', function(event) {
             gtag('event', 'sectional display', {'event_category': '按鈕點擊','event_label': 'sectional display'});
