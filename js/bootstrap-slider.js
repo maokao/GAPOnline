@@ -1348,7 +1348,7 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 						if (offset_min.right > offset_max.left) {
 							this._removeClass(this.tooltip_max, 'top');
 							this._addClass(this.tooltip_max, 'bottom');
-							this.tooltip_max.style.top = 18 + 'px';
+							this.tooltip_max.style.top = 10 + 'px';
 						} else {
 							this._removeClass(this.tooltip_max, 'bottom');
 							this._addClass(this.tooltip_max, 'top');
