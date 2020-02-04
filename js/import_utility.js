@@ -97,6 +97,13 @@ function resetAllParameters(heatmapId) {
 	ycSortOrder = false;
 	xdSortOrder = false;
 	xcSortOrder = false;
+	rdPaletteReverse = false;
+	rpPaletteReverse = false;
+	cpPaletteReverse = false;
+	ydPaletteReverse = false;
+	ycPaletteReverse = false;
+	xdPaletteReverse = false;
+	xcPaletteReverse = false;
 	$("#optionDataMap").empty();
 	$("#optionDataMap").append($("<option></option>")
 		.attr("value", "rawdata")

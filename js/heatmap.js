@@ -110,6 +110,13 @@ var ydPalette;
 var ycPalette;
 var xdPalette;
 var xcPalette;
+var rdPaletteReverse = false;
+var rpPaletteReverse = false;
+var cpPaletteReverse = false;
+var ydPaletteReverse = false;
+var ycPaletteReverse = false;
+var xdPaletteReverse = false;
+var xcPaletteReverse = false;
 var rdminInputRange1;
 var rpminInputRange1;
 var cpminInputRange1;
@@ -686,12 +693,15 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //reset input range UI
         resetInputRange(min_value,max_value);
-        rdPalette = "Spectral";
+        //rdPalette = "Spectral";
+        rdPalette = paletteName; 
         rdminInputRange1 = min_value;
         rdmaxInputRange1 = max_value;
         rdminInputRange2 = min_value;
         rdmaxInputRange2 = max_value;
-        setupHeatmap2(data,"mv",0,0,0, heatmapId, d3.interpolateSpectral);
+        setupHeatmap2(data,"mv",0,0,0, heatmapId, getColorID(rdPalette));
+        //setupHeatmap2(data,"mv",0,0,0, heatmapId, d3.interpolateSpectral);
+        
         
         if(yc>0)
         {
@@ -1441,6 +1451,10 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
            {
                 setInputRange(rdminInputRange1,rdmaxInputRange1,rdminInputRange2,rdmaxInputRange2,min_value, max_value);
                 $('#palette').val(rdPalette);
+                if(rdPaletteReverse)
+                    $("#isColorReverse").prop("checked", true);
+                else
+                    $("#isColorReverse").prop("checked", false);    
            }
            else if(optionTargetDataMap == "rp")
            {
@@ -1450,6 +1464,10 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 else
                     setInputRange(rpminInputRange1,rpmaxInputRange1,rpminInputRange2,rpmaxInputRange2,rp_min_value, rp_max_value);
                 $('#palette').val(rpPalette);
+                if(rpPaletteReverse)
+                    $("#isColorReverse").prop("checked", true);
+                else
+                    $("#isColorReverse").prop("checked", false);  
            }
            else if(optionTargetDataMap == "cp")
            {
@@ -1459,6 +1477,10 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 else
                     resetInputRange(cpminInputRange1,cpmaxInputRange1,cpminInputRange2,cpmaxInputRange2,cp_min_value, cp_max_value);
                 $('#palette').val(cpPalette);
+                if(cpPaletteReverse)
+                    $("#isColorReverse").prop("checked", true);
+                else
+                    $("#isColorReverse").prop("checked", false);  
            }
         });
 
@@ -1735,10 +1757,53 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         //==================================================
         d3.select("#saveImages").on("click", function() {
-            gtag('event', 'export', {'event_category': '按鈕點擊','event_label': 'export Image'});
+            gtag('event', 'export', {'event_category': '按鈕點擊','event_label': 'export image'});
             saveImagetoPNG(dataFileName);
         });
-               
+             
+        //==================================================
+        d3.select("#isColorReverse").on("click", function() {
+            gtag('event', 'change color', {'event_category': '按鈕點擊','event_label': 'reverse'});
+            var newCondition = d3.select("#displaycondition").property("value");
+            var newPalette = d3.select("#palette").property("value");
+            if($("#isColorReverse").prop("checked"))
+            {
+                if(optionTargetDataMap == "rawdata")
+                    rdPaletteReverse = true;
+                else if(optionTargetDataMap == "rp")
+                    rpPaletteReverse = true;
+                else if(optionTargetDataMap == "cp")
+                    cpPaletteReverse = true;
+                else if(optionTargetDataMap == "yd")
+                    ydPaletteReverse = true;
+                else if(optionTargetDataMap == "yc")
+                    ycPaletteReverse = true;
+                else if(optionTargetDataMap == "xd")
+                    xdPaletteReverse = true;
+                else if(optionTargetDataMap == "xc")
+                    xcPaletteReverse = true;
+            }
+            else
+            {
+                if(optionTargetDataMap == "rawdata")
+                    rdPaletteReverse = false;
+                else if(optionTargetDataMap == "rp")
+                    rpPaletteReverse = false;
+                else if(optionTargetDataMap == "cp")
+                    cpPaletteReverse = false;
+                else if(optionTargetDataMap == "yd")
+                    ydPaletteReverse = false;
+                else if(optionTargetDataMap == "yc")
+                    ycPaletteReverse = false;
+                else if(optionTargetDataMap == "xd")
+                    xdPaletteReverse = false;
+                else if(optionTargetDataMap == "xc")
+                    xcPaletteReverse = false;
+            }
+
+            changePalette(newCondition, newPalette, heatmapId);
+        });  
+        
         //==================================================
         //d3.select("#inputRange1").on("change", function() {
         $('#inputRange1').slider().on('slideStop', function(event) {

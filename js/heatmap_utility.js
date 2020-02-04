@@ -1125,7 +1125,14 @@ function changePalette(conditionName, paletteName, heatmapId) {
         var maxInputRange2 = $('#inputRange2').data('slider').getValue()[1];
         if(conditionName == "RangeMatrix")
         {
-            var colorScale = d3.scaleSequential()
+            var colorScale = null;;
+            if(rdPaletteReverse)
+                colorScale = d3.scaleSequential()
+                        //.domain([max_value, min_value])
+                        .domain([minInputRange2, maxInputRange2])
+                        .interpolator(colorID);  
+            else
+                colorScale = d3.scaleSequential()
                         //.domain([max_value, min_value])
                         .domain([maxInputRange2, minInputRange2])
                         .interpolator(colorID);  
@@ -1167,13 +1174,23 @@ function changePalette(conditionName, paletteName, heatmapId) {
                     {
                         if(data_row_max_value[rownum]>maxInputRange2)
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([minInputRange2, maxInputRange2])
+                                .interpolator(colorID); 
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([maxInputRange2, minInputRange2])
                                 .interpolator(colorID); 
                         }
                         else
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([minInputRange2, data_row_max_value[rownum]])
+                                .interpolator(colorID); 
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([data_row_max_value[rownum], minInputRange2])
                                 .interpolator(colorID);                   
                         }
@@ -1182,13 +1199,23 @@ function changePalette(conditionName, paletteName, heatmapId) {
                     {
                         if(data_row_max_value[rownum]>maxInputRange2)
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([data_row_min_value[rownum], maxInputRange2])
+                                .interpolator(colorID); 
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([maxInputRange2, data_row_min_value[rownum]])
                                 .interpolator(colorID);  
                         }
                         else
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([data_row_min_value[rownum], data_row_max_value[rownum]])
+                                .interpolator(colorID);  
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([data_row_max_value[rownum], data_row_min_value[rownum]])
                                 .interpolator(colorID);     
                         }
@@ -1234,13 +1261,23 @@ function changePalette(conditionName, paletteName, heatmapId) {
                     {
                         if(data_max_value[colnum]>maxInputRange2)
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([minInputRange2, maxInputRange2])
+                                .interpolator(colorID); 
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([maxInputRange2, minInputRange2])
                                 .interpolator(colorID); 
                         }
                         else
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([minInputRange2, data_max_value[colnum]])
+                                .interpolator(colorID); 
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([data_max_value[colnum], minInputRange2])
                                 .interpolator(colorID);                   
                         }
@@ -1249,13 +1286,23 @@ function changePalette(conditionName, paletteName, heatmapId) {
                     {
                         if(data_max_value[colnum]>maxInputRange2)
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([data_min_value[colnum], maxInputRange2])
+                                .interpolator(colorID);  
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([maxInputRange2, data_min_value[colnum]])
                                 .interpolator(colorID);  
                         }
                         else
                         {
-                            colorScale = d3.scaleSequential()
+                            if(rdPaletteReverse)
+                                colorScale = d3.scaleSequential()
+                                .domain([data_min_value[colnum], data_max_value[colnum]])
+                                .interpolator(colorID);   
+                            else
+                                colorScale = d3.scaleSequential()
                                 .domain([data_max_value[colnum], data_min_value[colnum]])
                                 .interpolator(colorID);    
                         }
@@ -1304,7 +1351,12 @@ function changePalette(conditionName, paletteName, heatmapId) {
                     .domain([rp_max_value, rp_min_value])
                     .interpolator(colorID);        
         }*/
-        colorScale = d3.scaleSequential()
+        if(rpPaletteReverse)
+            colorScale = d3.scaleSequential()
+                    .domain([minInputRange2, maxInputRange2])
+                    .interpolator(colorID); 
+        else
+            colorScale = d3.scaleSequential()
                     .domain([maxInputRange2, minInputRange2])
                     .interpolator(colorID); 
 
@@ -1355,7 +1407,12 @@ function changePalette(conditionName, paletteName, heatmapId) {
                     .domain([cp_max_value, cp_min_value])
                     .interpolator(colorID);        
         }*/
-        colorScale = d3.scaleSequential()
+        if(cpPaletteReverse)
+            colorScale = d3.scaleSequential()
+                    .domain([minInputRange2, maxInputRange2])
+                    .interpolator(colorID); 
+        else
+            colorScale = d3.scaleSequential()
                     .domain([maxInputRange2, minInputRange2])
                     .interpolator(colorID); 
 
@@ -1386,6 +1443,39 @@ function changePalette(conditionName, paletteName, heatmapId) {
                 return colorScale(d);
             });
     }
+}
+
+//#########################################################
+function getColorID(paletteName) {
+    var colorID = d3.interpolateRdBu;
+    if(paletteName == "RdYlGn")
+        colorID = d3.interpolateRdYlGn;
+    else if(paletteName == "Spectral")
+        colorID = d3.interpolateSpectral;
+    else if(paletteName == "RdYlBu")
+        colorID = d3.interpolateRdYlBu;
+    else if(paletteName == "RdGy")
+        colorID = d3.interpolateRdGy;
+    else if(paletteName == "RdBu")
+        colorID = d3.interpolateRdBu;
+    else if(paletteName == "PiYG")
+        colorID = d3.interpolatePiYG;
+    else if(paletteName == "PRGn")
+        colorID = d3.interpolatePRGn;
+    else if(paletteName == "BrBG")
+        colorID = d3.interpolateBrBG;
+    else if(paletteName == "PuOr")
+        colorID = d3.interpolatePuOr;
+    else if(paletteName == "Grey")
+        colorID = d3.interpolateGreys;
+    else if(paletteName == "YlGnBu")
+        colorID = d3.interpolateYlGnBu;
+    else if(paletteName == "YlOrRd")
+        colorID = d3.interpolateYlOrRd;
+    else
+        colorID = d3.interpolateRdBu;
+
+    return colorID;
 }
 
 //#########################################################
@@ -2016,7 +2106,13 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
             drawColorLegend("xc_colorspec", viewerPosTop, colorScale, "Xconti. covariates", xc_min_value[0], xc_max_value[0], false);    
         }
         else{
-            var colorScale = d3.scaleSequential()
+            var colorScale;
+            if(optionTargetDataMap == "rawdata" && rdPaletteReverse)
+                colorScale = d3.scaleSequential()
+                .domain([min_data, max_data])
+                .interpolator(colorID);  
+            else
+                colorScale = d3.scaleSequential()
                 .domain([max_data, min_data])
                 .interpolator(colorID);  
             if(mode == 0)
@@ -2918,6 +3014,18 @@ function loadExample(filename) {
         var dataFileName = "Mona_Lisa_300_217_1.txt";   
         setAllParameters(dataFileName, true, true, 0, 0, 0, 0);
         heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
+    }
+    else if(filename == "academia_sinica")
+    {
+        resetAllParameters("#heatmap");
+        removeAllColorLegend();
+        var sep = "\t";
+        var dataFileName = "Academia_Sinica.txt";   
+        setAllParameters(dataFileName, true, true, 0, 9, 3, 0);
+        $('#palette').val("Grey");
+        rdPaletteReverse = true;
+        $("#isColorReverse").prop("checked", true);
+        heatmap_display(dataFileName, "#heatmap", "Grey", sep); 
     }
 }
 
