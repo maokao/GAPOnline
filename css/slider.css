@@ -399,7 +399,7 @@
     text-align: center;
     background-color: transparent !important;
     border-radius: 4px;
-    font-size: 8px;
+    font-size: 6px;
 }
 .tooltip-main {
     display: none;
@@ -408,7 +408,7 @@
     display: none !important;
 }
 .slider .tooltip.top {
-    margin-top: -25px !important;
+    margin-top: -20px !important;
 }
 .well {
 	background: transparent !important;

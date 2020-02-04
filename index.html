@@ -367,15 +367,27 @@
             <div style="padding:10px;">Row Processing:
             <select id="rowprox" class="form-control form-control-sm">
               <option value="null" selected> ----- </option>
-              <option value="euclidean_distance">Euclidean Distance</option>
-              <option value="pearson_correlation">Pearson's Correlation</option>
-              <option value="kendalls_tau">Kendall's tau</option>
-              <option value="spearman_rank">Spearman's Rank</option>
-              <option value="atan_correlation">atan Correlation</option>
-              <option value="city_block">City-Block (L1)</option>
-              <option value="abs_pearson_correlation">abs(Pearson's Correlation)</option>
-              <option value="uncentered_correlation">Uncentered Correlation</option>
-              <option value="abs_uncentered_correlation">abs(Uncentered Correlation)</option>
+              <optgroup label =  "Continuous">
+                <option value="euclidean_distance">Euclidean Distance</option>
+                <option value="pearson_correlation">Pearson's Correlation</option>
+                <option value="kendalls_tau">Kendall's tau</option>
+                <option value="spearman_rank">Spearman's Rank</option>
+                <option value="atan_correlation">atan Correlation</option>
+                <option value="city_block">City-Block (L1)</option>
+                <option value="abs_pearson_correlation">abs(Pearson's Correlation)</option>
+                <option value="uncentered_correlation">Uncentered Correlation</option>
+                <option value="abs_uncentered_correlation">abs(Uncentered Correlation)</option>
+              </optgroup>
+              <optgroup label =  "Binary">
+                <option value="Hamman">Hamman</option>
+                <option value="Jaccard">Jaccard</option>
+                <option value="Phi">Phi</option>
+                <option value="Rao">Rao</option>
+                <option value="Rogers">Rogers</option>
+                <option value="Simple_Match">Simple Match</option>
+                <option value="Sneath">Sneath</option>
+                <option value="Yule">Yule</option>
+              </optgroup>
               <!--<option value="covariance">Covariance</option>-->
             </select>
             </div>
@@ -383,15 +395,27 @@
             <div style="padding:10px;">Column Processing:
             <select id="colprox" class="form-control form-control-sm">
               <option value="null" selected> ----- </option>
-              <option value="euclidean_distance">Euclidean Distance</option>
-              <option value="pearson_correlation">Pearson's Correlation</option>
-              <option value="kendalls_tau">Kendall's tau</option>
-              <option value="spearman_rank">Spearman's Rank</option>
-              <option value="atan_correlation">atan Correlation</option>
-              <option value="city_block">City-Block (L1)</option>
-              <option value="abs_pearson_correlation">abs(Pearson's Correlation)</option>
-              <option value="uncentered_correlation">Uncentered Correlation</option>
-              <option value="abs_uncentered_correlation">abs(Uncentered Correlation)</option>
+              <optgroup label =  "Continuous">
+                <option value="euclidean_distance">Euclidean Distance</option>
+                <option value="pearson_correlation">Pearson's Correlation</option>
+                <option value="kendalls_tau">Kendall's tau</option>
+                <option value="spearman_rank">Spearman's Rank</option>
+                <option value="atan_correlation">atan Correlation</option>
+                <option value="city_block">City-Block (L1)</option>
+                <option value="abs_pearson_correlation">abs(Pearson's Correlation)</option>
+                <option value="uncentered_correlation">Uncentered Correlation</option>
+                <option value="abs_uncentered_correlation">abs(Uncentered Correlation)</option>
+              </optgroup>
+              <optgroup label =  "Binary">
+                <option value="Hamman">Hamman</option>
+                <option value="Jaccard">Jaccard</option>
+                <option value="Phi">Phi</option>
+                <option value="Rao">Rao</option>
+                <option value="Rogers">Rogers</option>
+                <option value="Simple_Match">Simple Match</option>
+                <option value="Sneath">Sneath</option>
+                <option value="Yule">Yule</option>
+              </optgroup>
               <!--<option value="covariance">Covariance</option>-->
             </select>
             </div>

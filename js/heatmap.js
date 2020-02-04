@@ -122,6 +122,8 @@ var cpminInputRange2;
 var rdmaxInputRange2;
 var rpmaxInputRange2;
 var cpmaxInputRange2;
+var row_Scale_id;
+var col_Scale_id;
 
 //#########################################################
 function heatmap_display(url, heatmapId, paletteName, delimiter) {
@@ -562,6 +564,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         svg = d3.select(heatmapId).append("svg")
             .attr("width", viewerWidth)
             .attr("height", viewerHeight)
+            .attr("id", "gapsvg")
 	    .call(zoomListener)
             .append("g")
             .attr("id", "gap")
@@ -1029,6 +1032,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 rpPalette = "Spectral";
                 rowIsSimilarity = false;
+                row_Scale_id = 3;
             }
             else if(this.value == "pearson_correlation"){
                 var rowProxData1D = runProximity(1, 0, 0);
@@ -1036,6 +1040,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 1;
             }
             else if(this.value == "kendalls_tau"){
                 var rowProxData1D = runProximity(2, 0, 0);
@@ -1043,6 +1048,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 1;
             }
             else if(this.value == "spearman_rank"){
                 var rowProxData1D = runProximity(3, 0, 0);
@@ -1050,6 +1056,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 1;
             }
             else if(this.value == "atan_correlation"){
                 var rowProxData1D = runProximity(4, 0, 0);
@@ -1057,6 +1064,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 1;
             }
             else if(this.value == "city_block"){
                 var rowProxData1D = runProximity(5, 0, 0);
@@ -1064,6 +1072,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 rpPalette = "Spectral";
                 rowIsSimilarity = false;
+                row_Scale_id = 3;
             }
             else if(this.value == "abs_pearson_correlation"){
                 var rowProxData1D = runProximity(6, 0, 0);
@@ -1071,6 +1080,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 1;
             }
             else if(this.value == "uncentered_correlation"){
                 var rowProxData1D = runProximity(7, 0, 0);
@@ -1078,6 +1088,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 1;
             }
             else if(this.value == "abs_uncentered_correlation"){
                 var rowProxData1D = runProximity(8, 0, 0);
@@ -1085,6 +1096,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 1;
             }
             else if(this.value == "covariance"){
                 var rowProxData1D = runProximity(9, 0, 0);
@@ -1092,6 +1104,71 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 rpPalette = "RdBu";
                 rowIsSimilarity = true;
+                row_Scale_id = 2;
+            }
+            else if (this.value == "Hamman"){
+                var rowProxData1D = runProximity(20, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
+            }
+            else if (this.value == "Jaccard"){
+                var rowProxData1D = runProximity(21, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
+            }
+            else if (this.value == "Phi"){
+                var rowProxData1D = runProximity(22, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
+            }
+            else if (this.value == "Rao"){
+                var rowProxData1D = runProximity(23, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
+            }
+            else if (this.value == "Rogers"){
+                var rowProxData1D = runProximity(24, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
+            }
+            else if (this.value == "Simple_Match"){
+                var rowProxData1D = runProximity(25, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
+            }        
+            else if (this.value == "Sneath"){
+                var rowProxData1D = runProximity(26, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
+            }
+            else if (this.value == "Yule"){
+                var rowProxData1D = runProximity(27, 0, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = true;
+                row_Scale_id = 12;
             }
 
             for(i = 0; i < row_number; i++) {
@@ -1122,7 +1199,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             else
                 changeProx(rowProxData,"mv2", heatmapId, 1, colorID);
 
-            if(rowIsSimilarity)
+            //if(rowIsSimilarity)
+            if(row_Scale_id == 1)
             {
                 rpminInputRange1 = -1;
                 rpmaxInputRange1 = 1;
@@ -1157,6 +1235,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 cpPalette = "Spectral";
                 colIsSimilarity = false;
+                col_Scale_id = 3;
             }
             else if (this.value == "pearson_correlation"){
                 var colProxData1D = runProximity(1, 1, 0);
@@ -1164,6 +1243,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 1;
             }
             else if (this.value == "kendalls_tau"){
                 var colProxData1D = runProximity(2, 1, 0);
@@ -1171,6 +1251,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 1;
             }
             else if (this.value == "spearman_rank"){
                 var colProxData1D = runProximity(3, 1, 0);
@@ -1178,6 +1259,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 1;
             }
             else if (this.value == "atan_correlation"){
                 var colProxData1D = runProximity(4, 1, 0);
@@ -1185,6 +1267,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 1;
             }
             else if (this.value == "city_block"){
                 var colProxData1D = runProximity(5, 1, 0);
@@ -1192,6 +1275,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateSpectral;
                 cpPalette = "Spectral";
                 rowIsSimilarity = false;
+                col_Scale_id = 3;
             }
             else if (this.value == "abs_pearson_correlation"){
                 var colProxData1D = runProximity(6, 1, 0);
@@ -1199,6 +1283,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 1;
             }
             else if (this.value == "uncentered_correlation"){
                 var colProxData1D = runProximity(7, 1, 0);
@@ -1206,6 +1291,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 1;
             }
             else if (this.value == "abs_uncentered_correlation"){
                 var colProxData1D = runProximity(8, 1, 0);
@@ -1213,6 +1299,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 1;
             }
             else if (this.value == "covariance"){
                 var colProxData1D = runProximity(9, 1, 0);
@@ -1220,6 +1307,71 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 colorID = d3.interpolateRdBu;
                 cpPalette = "RdBu";
                 colIsSimilarity = true;
+                col_Scale_id = 2;
+            }
+            else if (this.value == "Hamman"){
+                var colProxData1D = runProximity(20, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
+            }
+            else if (this.value == "Jaccard"){
+                var colProxData1D = runProximity(21, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
+            }
+            else if (this.value == "Phi"){
+                var colProxData1D = runProximity(22, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
+            }
+            else if (this.value == "Rao"){
+                var colProxData1D = runProximity(23, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
+            }
+            else if (this.value == "Rogers"){
+                var colProxData1D = runProximity(24, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
+            }
+            else if (this.value == "Simple_Match"){
+                var colProxData1D = runProximity(25, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
+            }        
+            else if (this.value == "Sneath"){
+                var colProxData1D = runProximity(26, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
+            }
+            else if (this.value == "Yule"){
+                var colProxData1D = runProximity(27, 1, 0);
+
+                colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                colIsSimilarity = true;
+                col_Scale_id = 12;
             }
 
             for(i = 0; i < col_number; i++) {
@@ -1264,7 +1416,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             else
                 changeProx(colProxData,"mv3", heatmapId, 2, colorID);
 
-            if(colIsSimilarity)
+            //if(colIsSimilarity)
+            if(col_Scale_id == 1)
             {
                 cpminInputRange1 = -1;
                 cpmaxInputRange1 = 1;
@@ -1291,7 +1444,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
            }
            else if(optionTargetDataMap == "rp")
            {
-                if(rowIsSimilarity==true)
+                //if(rowIsSimilarity==true)
+                if(row_Scale_id == 1)
                     setInputRange(rpminInputRange1,rpmaxInputRange1,rpminInputRange2,rpmaxInputRange2,-1,1);
                 else
                     setInputRange(rpminInputRange1,rpmaxInputRange1,rpminInputRange2,rpmaxInputRange2,rp_min_value, rp_max_value);
@@ -1299,7 +1453,8 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
            }
            else if(optionTargetDataMap == "cp")
            {
-                if(colIsSimilarity==true)
+                //if(colIsSimilarity==true)
+                if(col_Scale_id == 1)
                     resetInputRange(cpminInputRange1,cpmaxInputRange1,cpminInputRange2,cpmaxInputRange2,-1,1);
                 else
                     resetInputRange(cpminInputRange1,cpmaxInputRange1,cpminInputRange2,cpmaxInputRange2,cp_min_value, cp_max_value);

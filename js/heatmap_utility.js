@@ -1959,8 +1959,9 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
             cp_max_value = max_data;
             cp_min_value = min_data;
         }
-        //if((mode==1 || mode==2) && colorID==d3.interpolateRdBu)
-        if((mode==1 && rowIsSimilarity==true) || (mode==2 && colIsSimilarity==true))
+
+        //if((mode==1 && rowIsSimilarity==true) || (mode==2 && colIsSimilarity==true))
+        if((mode==1 && row_Scale_id == 1) || (mode==2 && col_Scale_id == 1))
         {
             var colorScale = d3.scaleSequential()
                 .domain([1, -1])
@@ -2973,8 +2974,12 @@ function saveImagetoPNG(filename) {
         saveAs(blob, "pretty image.png");
     });*/
     var svg1 = d3.select("#heatmap").select("svg");
+    //var svg2 = document.getElementById('gapsvg');
+   //var bBox = svg2.getBBox();
+    //console.log(bBox.width+","+bBox.height);
     var svgString = getSVGString(svg1.node());
     svgString2Image( svgString, $(document).width(), $(document).height(), 'png', save ); // passes Blob and filesize String to the callback
+    //svgString2Image( svgString, bBox.width, bBox.height, 'png', save ); // passes Blob and filesize String to the callback
 
     function save( dataBlob, filesize ){
         saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
