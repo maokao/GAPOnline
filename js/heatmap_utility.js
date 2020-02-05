@@ -3021,7 +3021,7 @@ function loadExample(filename) {
         removeAllColorLegend();
         var sep = "\t";
         var dataFileName = "Journal_Survey.txt";   
-        setAllParameters(dataFileName, true, true, 0, 4, 3, 0);
+        setAllParameters(dataFileName, true, true, 0, 3, 3, 0);
         $('#palette').val("Grey");
         rdPaletteReverse = true;
         $("#isColorReverse").prop("checked", true);
