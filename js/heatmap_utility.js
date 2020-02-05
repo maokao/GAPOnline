@@ -3015,13 +3015,13 @@ function loadExample(filename) {
         setAllParameters(dataFileName, true, true, 0, 0, 0, 0);
         heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
     }
-    else if(filename == "academia_sinica")
+    else if(filename == "journal_survey")
     {
         resetAllParameters("#heatmap");
         removeAllColorLegend();
         var sep = "\t";
-        var dataFileName = "Academia_Sinica.txt";   
-        setAllParameters(dataFileName, true, true, 0, 9, 3, 0);
+        var dataFileName = "Journal_Survey.txt";   
+        setAllParameters(dataFileName, true, true, 0, 4, 3, 0);
         $('#palette').val("Grey");
         rdPaletteReverse = true;
         $("#isColorReverse").prop("checked", true);
