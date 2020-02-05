@@ -148,6 +148,7 @@ function resetAllParameters(heatmapId) {
     $("#colflip_side").prop("disabled",true);
 
     $('#palette').val("Spectral");
+	$("#isColorReverse").prop("checked", false);
 }
 
 //#########################################################
