@@ -149,6 +149,7 @@ function resetAllParameters(heatmapId) {
 
     $('#palette').val("Spectral");
 	$("#isColorReverse").prop("checked", false);
+	$('#displaycondition').val("RangeMatrix");
 }
 
 //#########################################################
