@@ -22,7 +22,7 @@ text.hover {
 .heatmap_tooltip {
   text-align: center;
   font-family: monospace;
-  font-size: 12pt;
+  font-size: 5pt;
   color: #000;
   position: relative;
   background: rgba(255, 255, 255, 0.8);

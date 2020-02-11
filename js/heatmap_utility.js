@@ -2303,11 +2303,11 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
                     d3.select('#colLabel_' + i).classed("hover", true);    
                 }
                 
-                if (d != null) {
+                /*if (d != null) {
                     tooltip.html('<div class="heatmap_tooltip">' + Number.parseFloat(d).toFixed(3) + '</div>');
                     tooltip.style("visibility", "visible");
                 } else
-                    tooltip.style("visibility", "hidden");
+                    tooltip.style("visibility", "hidden");*/
             })
             .on('mouseout', function(d, i) {
                 if(mode==0) {
@@ -2335,10 +2335,14 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
                 tooltip.style("visibility", "hidden");
             })
             .on("mousemove", function(d, i) {
-                tooltip.style("top", (d3.event.pageY - 55) + "px").style("left", (d3.event.pageX - 45) + "px");
+                tooltip.style("top", (d3.event.pageY - 47) + "px").style("left", (d3.event.pageX - 39) + "px");
             })
-            .on('click', function() {
-                //console.log(d3.select(this));
+            .on('click', function(d, i) {
+                if (d != null) {
+                    tooltip.html('<div class="heatmap_tooltip">' + Number.parseFloat(d).toFixed(3) + '</div>');
+                    tooltip.style("visibility", "visible");
+                } else
+                    tooltip.style("visibility", "hidden");
             });
 
 }
