@@ -1956,8 +1956,12 @@ function changeWidth(widthZoomRange, heatmapId) {
             redrawHeatmap("mv2", 10+col_number*cellWidth, 0, 1, heatmapId);    
             //if(!firstRunRowTree) 
             if (rowOrderId == "singlelinkage" || rowOrderId == "averagelinkage" || rowOrderId == "completelinkage") 
-                changeTreePosition("rowTree", col_number*cellWidth+row_number*cellHeight+10, 0, heatmapId);
+                changeTreePosition("rowTree", col_number*cellWidth+row_number*cellHeight+10+3, 0, heatmapId);
         }
+
+        redrawRowLabels(heatmapId);
+        redrawColLabels(heatmapId);
+
         if(!isColProxfirst)
         {
             var temp_y = (-10-col_number*cellWidth);
@@ -1980,8 +1984,8 @@ function changeWidth(widthZoomRange, heatmapId) {
         }
     }
 
-    redrawRowLabels(heatmapId);
-    redrawColLabels(heatmapId);
+    //redrawRowLabels(heatmapId);
+    //redrawColLabels(heatmapId);
 }
 
 //#########################################################
@@ -2019,7 +2023,7 @@ function changeHeight(heightZoomRange, heatmapId) {
         {
             redrawHeatmap("mv2", 10+col_number*cellWidth, 0, 1, heatmapId);  
             if(!firstRunRowTree) 
-                drawRowTree(treeRowData, "rowTree", col_number*cellWidth+row_number*cellHeight+10, 0, 0, heatmapId); 
+                drawRowTree(treeRowData, "rowTree", col_number*cellWidth+row_number*cellHeight+10+3, 0, 0, heatmapId); 
         }
         if(!isColProxfirst)
         {
