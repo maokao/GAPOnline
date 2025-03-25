@@ -68,8 +68,8 @@
   <script>
   $(document).ready(function() {
 
-    setAllParameters("iris.csv", true, true, 1, 0, 0, 0);
-    heatmap_display(dataFileName, "#heatmap", "Spectral", ",");
+    setAllParameters("Mona_Lisa_300_217_1.txt", true, true, 0, 0, 0, 0);
+    heatmap_display(dataFileName, "#heatmap", "Spectral", "\t");
 
   });
 
@@ -316,9 +316,9 @@
                   <div>
                     <select id="exampleFileName" class="form-control form-control-sm" onchange="changeFileInput();">
                       <option value="null"> ----- </option>
-                      <option value="iris" selected> Iris </option>
-                      <option value="crab"> Crab </option>
-                      <option value="mona_lisa"> Mona Lisa </option>
+                      <option value="mona_lisa" selected> Mona Lisa </option>
+                      <option value="iris"> Iris </option>
+                      <option value="crab"> Crab </option>                      
                       <option value="journal_survey"> Journal Survey </option>
                     </select>
                   </div>
