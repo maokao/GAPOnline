@@ -69,7 +69,7 @@
   $(document).ready(function() {
 
     setAllParameters("Mona_Lisa_300_217_1.txt", true, true, 0, 0, 0, 0);
-    heatmap_display(dataFileName, "#heatmap", "Spectral", "\t");
+    heatmap_display(dataFileName, "#heatmap", "Grey", "\t");
 
   });
 
@@ -496,12 +496,12 @@
             <div style="padding:10px;">Color Spectrum
               <select id="palette" class="form-control form-control-sm">
                 <optgroup label =  "Sequential palettes">
-                  <option value="Grey">Grey</option>
+                  <option value="Grey" selected>Grey</option>
                   <option value="YlGnBu">YlGnBu</option>
                   <option value="YlOrRd">YlOrRd</option>
                 </optgroup>
                 <optgroup label =  "Diverging palettes">
-                  <option value="Spectral" selected>Spectral</option>
+                  <option value="Spectral">Spectral</option>
                   <option value="RdYlGn">RdYlGn</option>
                   <option value="RdYlBu">RdYlBu</option>
                   <option value="RdGy">RdGy</option>

@@ -87,7 +87,7 @@ var data_max_value = [];
 var data_min_value = [];
 var data_row_max_value = [];
 var data_row_min_value = [];
-var viewerPosTop = 200;
+var viewerPosTop = 150;
 var viewerPosLeft = 100;
 var optionTargetDataMap = "rawdata";
 var isNodeLinkfirst = true;
@@ -528,8 +528,19 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         for( i=0 ;i< col_number; i++)
             colCurrentOrder[i] = i;
 
-        var x_ratio = Math.ceil(viewerWidth/(col_number+row_number/2));
-        var y_ratio = Math.ceil(viewerHeight/row_number);
+        var x_ratio = 1.0;
+        var y_ratio = 1.0;
+        if(dataFileName == 'Mona_Lisa_300_217_1.txt')
+        {
+            //x_ratio = Math.ceil(viewerWidth/(col_number+row_number/2));
+            y_ratio = Math.ceil((viewerHeight-250)/row_number);
+            x_ratio = y_ratio;
+        }
+        else
+        {
+            x_ratio = Math.ceil(viewerWidth/(col_number+row_number/2));
+            y_ratio = Math.ceil(viewerHeight/row_number);    
+        }
         cellOriWidth = x_ratio;
         cellOriHeight = y_ratio;
         cellWidth = x_ratio;

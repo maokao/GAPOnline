@@ -3021,7 +3021,7 @@ function loadExample(filename) {
         var sep = "\t";
         var dataFileName = "Mona_Lisa_300_217_1.txt";   
         setAllParameters(dataFileName, true, true, 0, 0, 0, 0);
-        heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
+        heatmap_display(dataFileName, "#heatmap", "Grey", sep); 
     }
     else if(filename == "journal_survey")
     {

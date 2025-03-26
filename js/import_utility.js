@@ -89,7 +89,7 @@ function resetAllParameters(heatmapId) {
 	data_min_value.length = 0;
 	data_row_max_value.length = 0;
 	data_row_min_value.length = 0;
-	viewerPosTop = 200;
+	viewerPosTop = 150;
 	viewerPosLeft = 100;
 	optionTargetDataMap = "rawdata";
 	isNodeLinkfirst = true;
