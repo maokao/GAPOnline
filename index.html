@@ -78,6 +78,121 @@
     loadExample(document.getElementById("exampleFileName").value);
   }
 
+  window.onload = function() {
+
+    d3.select("#rowprox")
+          .property("value", "euclidean_distance");
+
+            var rowProxData1D = runProximity(0, 0, 0);
+
+                let colorID = d3.interpolateSpectral;
+                rpPalette = "Spectral";
+                rowIsSimilarity = false;
+                row_Scale_id = 3;
+                for(i = 0; i < row_number; i++) {
+                  for(j = 0; j < row_number; j++) {
+                      rowProxData[i][j] = rowProxData1D[i*row_number+j];
+                  }
+                } 
+                $("#roworder").prop("disabled",false);
+            //console.log("a:"+rowProxData[0][1]);
+            if(isRowProxfirst)
+            {
+                setupHeatmap2(rowProxData,"mv2", col_number*cellWidth+10, 0, 1, "#heatmap", colorID);
+                $("#optionDataMap").append($("<option></option>").attr("value", "rp").text(" Row Proximity Matrix "));
+                //drawColorLegend("rp_colorspec", viewerPosTop, colorID, "Row Proximity Matrix");
+                $("#roworder option[value='averagelinkage']").removeAttr('disabled');
+                $("#roworder option[value='singlelinkage']").removeAttr('disabled');
+                $("#roworder option[value='completelinkage']").removeAttr('disabled');
+                $("#roworder option[value='r2e']").removeAttr('disabled');
+
+                $("#roworder_side option[value='averagelinkage']").removeAttr('disabled');
+                $("#roworder_side option[value='singlelinkage']").removeAttr('disabled');
+                $("#roworder_side option[value='completelinkage']").removeAttr('disabled');
+                $("#roworder_side option[value='r2e']").removeAttr('disabled');
+
+                isRowProxfirst = false;
+            }
+
+            if(row_Scale_id == 1)
+            {
+                rpminInputRange1 = -1;
+                rpmaxInputRange1 = 1;
+                rpminInputRange2 = -1;
+                rpmaxInputRange2 = 1;
+            }
+            else
+            {
+                rpminInputRange1 = rp_min_value;
+                rpmaxInputRange1 = rp_max_value;
+                rpminInputRange2 = rp_min_value;
+                rpmaxInputRange2 = rp_max_value;    
+            }
+
+    d3.select("#colprox")
+          .property("value", "pearson_correlation");
+
+            var colProxData1D = runProximity(1, 1, 0);
+
+                colorID = d3.interpolateRdBu;
+                cpPalette = "RdBu";
+                colIsSimilarity = true;
+                col_Scale_id = 1;
+
+            for(i = 0; i < col_number; i++) {
+                for(j = 0; j < col_number; j++) {
+                    colProxData[i][j] = colProxData1D[i*col_number+j];
+                }
+            }
+
+            if(isColProxfirst)
+            {
+                var colProxY = -10-col_number*cellWidth;
+                if(xc>0)
+                {
+                    if(xd>0)
+                        colProxY = colProxY + (-5+xd_Y);
+                    else
+                        colProxY = colProxY + (-5+xc_Y);
+                }
+                else
+                {
+                    if(xd>0)
+                        colProxY = colProxY + (-5+xd_Y);
+                }
+                setupHeatmap2(colProxData,"mv3", 0, colProxY, 2, "#heatmap" ,colorID);
+                changeColLabelsPosition("#heatmap", col_number);
+                $("#optionDataMap").append($("<option></option>").attr("value", "cp").text(" Column Proximity Matrix "));
+                //drawColorLegend("cp_colorspec", viewerPosTop, colorID, "Col. Proximity Matrix");
+                $("#colorder option[value='averagelinkage']").removeAttr('disabled');
+                $("#colorder option[value='singlelinkage']").removeAttr('disabled');
+                $("#colorder option[value='completelinkage']").removeAttr('disabled');
+                $("#colorder option[value='r2e']").removeAttr('disabled');
+
+                $("#colorder_side option[value='averagelinkage']").removeAttr('disabled');
+                $("#colorder_side option[value='singlelinkage']").removeAttr('disabled');
+                $("#colorder_side option[value='completelinkage']").removeAttr('disabled');
+                $("#colorder_side option[value='r2e']").removeAttr('disabled');
+
+                isColProxfirst = false;
+            }
+            if(col_Scale_id == 1)
+            {
+                cpminInputRange1 = -1;
+                cpmaxInputRange1 = 1;
+                cpminInputRange2 = -1;
+                cpmaxInputRange2 = 1;
+            }
+            else
+            {
+                cpminInputRange1 = cp_min_value;
+                cpmaxInputRange1 = cp_max_value;
+                cpminInputRange2 = cp_min_value;
+                cpmaxInputRange2 = cp_max_value;    
+            }
+
+  }
+
   </script>
 
 </head>

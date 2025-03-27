@@ -37,6 +37,7 @@ var isColProxfirst = true;
 var hasRowName = true;
 var hasColName = true;
 var yN = 1;
+var firstRun = true;
 var firstRunRowTree = true;
 var firstRunColTree = true;
 var rowIsSimilarity = false;
@@ -87,7 +88,7 @@ var data_max_value = [];
 var data_min_value = [];
 var data_row_max_value = [];
 var data_row_min_value = [];
-var viewerPosTop = 150;
+var viewerPosTop = 200;
 var viewerPosLeft = 100;
 var optionTargetDataMap = "rawdata";
 var isNodeLinkfirst = true;
@@ -143,7 +144,10 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
         .style("visibility", "hidden");
 
     function zoom() {
-        svg.attr('transform', 'translate(' + (viewerPosLeft+d3.event.transform.x) + ',' + (viewerPosTop+d3.event.transform.y-100) + ') scale(' + d3.event.transform.k + ')');
+        if(dataFileName == 'Mona_Lisa_300_217_1.txt' && firstRun == true)
+            svg.attr('transform', 'translate(' + (viewerPosLeft+d3.event.transform.x) + ',' + (viewerPosTop+d3.event.transform.y+80) + ') scale(' + d3.event.transform.k + ')');
+        else
+            svg.attr('transform', 'translate(' + (viewerPosLeft+d3.event.transform.x) + ',' + (viewerPosTop+d3.event.transform.y-150) + ') scale(' + d3.event.transform.k + ')');
     }
 
     var zoomListener = d3.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
@@ -530,10 +534,11 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         var x_ratio = 1.0;
         var y_ratio = 1.0;
-        if(dataFileName == 'Mona_Lisa_300_217_1.txt')
+        if(dataFileName == 'Mona_Lisa_300_217_1.txt' && firstRun == true)
         {
             //x_ratio = Math.ceil(viewerWidth/(col_number+row_number/2));
-            y_ratio = Math.ceil((viewerHeight-250)/row_number);
+            //y_ratio = Math.ceil((viewerHeight-250)/(row_number+col_number));
+            y_ratio = Math.ceil(viewerHeight-150)/(row_number+col_number);
             x_ratio = y_ratio;
         }
         else
@@ -586,7 +591,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 	    .call(zoomListener)
             .append("g")
             .attr("id", "gap")
-            .attr("transform", "translate(" + viewerPosLeft + "," + (viewerPosTop-100) + ")");
+            .attr("transform", "translate(" + viewerPosLeft + "," + (viewerPosTop-150) + ")");
 
         svg.append('defs')
             .append('pattern')
@@ -598,6 +603,12 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             .attr('d', 'M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2')
             .attr('stroke', '#000000')
             .attr('stroke-width', 1);
+
+        if(dataFileName == 'Mona_Lisa_300_217_1.txt' && firstRun == true)
+        {
+            svg.attr("transform", "translate(" + viewerPosLeft + "," + (viewerPosTop+80) + ")");
+            //firstRun = false;
+        }
 
         var rowSortOrder = false;
         var colSortOrder = false;        

@@ -34,6 +34,7 @@ function resetAllParameters(heatmapId) {
 	isColProxfirst = true;
 	hasRowName = true;
 	hasColName = true;
+	firstRun = false;
 	firstRunRowTree = true;
 	firstRunColTree = true;
 	rowIsSimilarity = false;
@@ -89,7 +90,7 @@ function resetAllParameters(heatmapId) {
 	data_min_value.length = 0;
 	data_row_max_value.length = 0;
 	data_row_min_value.length = 0;
-	viewerPosTop = 150;
+	viewerPosTop = 200;
 	viewerPosLeft = 100;
 	optionTargetDataMap = "rawdata";
 	isNodeLinkfirst = true;
