@@ -79,8 +79,10 @@
   }
 
   window.onload = function() {
-
-    d3.select("#rowprox")
+    setTimeout(function() {
+        
+    
+      d3.select("#rowprox")
           .property("value", "euclidean_distance");
 
             var rowProxData1D = runProximity(0, 0, 0);
@@ -129,7 +131,7 @@
                 rpmaxInputRange2 = rp_max_value;    
             }
 
-    d3.select("#colprox")
+      d3.select("#colprox")
           .property("value", "pearson_correlation");
 
             var colProxData1D = runProximity(1, 1, 0);
@@ -190,7 +192,7 @@
                 cpminInputRange2 = cp_min_value;
                 cpmaxInputRange2 = cp_max_value;    
             }
-
+    }, 1000);
   }
 
   </script>

@@ -145,7 +145,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
     function zoom() {
         if(dataFileName == 'Mona_Lisa_300_217_1.txt' && firstRun == true)
-            svg.attr('transform', 'translate(' + (viewerPosLeft+d3.event.transform.x) + ',' + (viewerPosTop+d3.event.transform.y+80) + ') scale(' + d3.event.transform.k + ')');
+            svg.attr('transform', 'translate(' + (viewerPosLeft+d3.event.transform.x) + ',' + (viewerPosTop+d3.event.transform.y+150) + ') scale(' + d3.event.transform.k + ')');
         else
             svg.attr('transform', 'translate(' + (viewerPosLeft+d3.event.transform.x) + ',' + (viewerPosTop+d3.event.transform.y-150) + ') scale(' + d3.event.transform.k + ')');
     }
@@ -606,7 +606,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
         if(dataFileName == 'Mona_Lisa_300_217_1.txt' && firstRun == true)
         {
-            svg.attr("transform", "translate(" + viewerPosLeft + "," + (viewerPosTop+80) + ")");
+            svg.attr("transform", "translate(" + viewerPosLeft + "," + (viewerPosTop+150) + ")");
             //firstRun = false;
         }
 
