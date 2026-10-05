@@ -1,5 +1,20 @@
 
 //#########################################################
+// GAP color spectra (same definitions as the GAPR R package, R/colors.R)
+// Arrays run from low -> high value. d3 interpolators used in this app map
+// t=0 to the HIGH end (scales use .domain([max, min])), so the arrays are
+// reversed before building the interpolator, matching d3.interpolateRdBu.
+var GAP_Rainbow = ['#00008C', '#004DEB', '#007359', '#66A600', '#B3E600',
+                   '#CCF200', '#FFFF00', '#FFE600', '#FFB300', '#FF6600',
+                   '#FF0000', '#D90000', '#A60000'];
+var GAP_Blue_White_Red = ['#00006B', '#00009E', '#0000BF', '#0000E8', '#2121FF', '#4A4AFF',
+                          '#7A7AFF', '#ADADFF', '#E0E0FF', '#FAFAFF', '#FFFAFA', '#FFC7C7',
+                          '#FF9494', '#FF6161', '#FF3838', '#FF0000', '#CF0000', '#AD0000',
+                          '#850000', '#520000'];
+var interpolateGAPRainbow = d3.piecewise(d3.interpolateRgb, GAP_Rainbow.slice().reverse());
+var interpolateGAPBlueRed = d3.piecewise(d3.interpolateRgb, GAP_Blue_White_Red.slice().reverse());
+
+//#########################################################
 function changeRowOrder(newOrder, heatmapId) {
     var sortedTarget = 0; //0 for rows
     var svg = d3.select(heatmapId);
@@ -1114,6 +1129,10 @@ function changePalette(conditionName, paletteName, heatmapId) {
         colorID = d3.interpolateYlGnBu;
     else if(paletteName == "YlOrRd")
         colorID = d3.interpolateYlOrRd;
+    else if(paletteName == "GAP_Rainbow")
+        colorID = interpolateGAPRainbow;
+    else if(paletteName == "GAP_Blue_Red")
+        colorID = interpolateGAPBlueRed;
     else
         colorID = d3.interpolateRdBu;
 
@@ -1472,6 +1491,10 @@ function getColorID(paletteName) {
         colorID = d3.interpolateYlGnBu;
     else if(paletteName == "YlOrRd")
         colorID = d3.interpolateYlOrRd;
+    else if(paletteName == "GAP_Rainbow")
+        colorID = interpolateGAPRainbow;
+    else if(paletteName == "GAP_Blue_Red")
+        colorID = interpolateGAPBlueRed;
     else
         colorID = d3.interpolateRdBu;
 
@@ -2357,7 +2380,7 @@ function changeProx(prefs, nowID, heatmapId, mode, colorID) {
     var max_data = d3.max(prefs, function(row) { return d3.max(row) });
     var min_data = d3.min(prefs, function(row) { return d3.min(row) });
     //console.log("max:"+ max_data);
-    if((mode==1 || mode==2) && colorID==d3.interpolateRdBu)
+    if((mode==1 || mode==2) && (colorID==d3.interpolateRdBu || colorID==interpolateGAPBlueRed))
     {
         var colorScale = d3.scaleSequential()
             .domain([1, -1])
@@ -3003,7 +3026,7 @@ function loadExample(filename) {
         var sep = ",";
         var dataFileName = "iris.csv";   
         setAllParameters(dataFileName, true, true, 1, 0, 0, 0);
-        heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
+        heatmap_display(dataFileName, "#heatmap", "GAP_Rainbow", sep); 
     }
     else if(filename == "crab")
     {
@@ -3012,7 +3035,7 @@ function loadExample(filename) {
         var sep = "\t";
         var dataFileName = "CRAB.txt";   
         setAllParameters(dataFileName, true, true, 3, 1, 0, 0);
-        heatmap_display(dataFileName, "#heatmap", "Spectral", sep); 
+        heatmap_display(dataFileName, "#heatmap", "GAP_Rainbow", sep); 
     }
     else if(filename == "mona_lisa")
     {
@@ -3084,22 +3107,77 @@ function doubleArrayToString(arr) {
 }
 
 //#########################################################
-function saveImagetoPNG(filename) {
-    /*var canvas = document.getElementById("heatmap");
-    canvas.toBlob(function(blob) {
-        saveAs(blob, "pretty image.png");
-    });*/
-    var svg1 = d3.select("#heatmap").select("svg");
-    //var svg2 = document.getElementById('gapsvg');
-   //var bBox = svg2.getBBox();
-    //console.log(bBox.width+","+bBox.height);
-    var svgString = getSVGString(svg1.node());
-    svgString2Image( svgString, $(document).width(), $(document).height(), 'png', save ); // passes Blob and filesize String to the callback
-    //svgString2Image( svgString, bBox.width, bBox.height, 'png', save ); // passes Blob and filesize String to the callback
+// Build a stand-alone copy of the WHOLE GAP figure, not just the part visible
+// in the viewer. The pan/zoom transform lives on <g id="gap">; we measure its
+// content in its own (untransformed) coordinates and size a clone to fit.
+function buildExportSVG() {
+    var svgNode = d3.select("#heatmap").select("svg").node();
+    if (!svgNode) return null;
+    var gapNode = svgNode.querySelector("#gap");
+    var bBox = gapNode.getBBox();
+    var margin = 20;
+    var width  = Math.ceil(bBox.width  + 2 * margin);
+    var height = Math.ceil(bBox.height + 2 * margin);
 
-    function save( dataBlob, filesize ){
-        saveAs( dataBlob, 'D3 vis exported to PNG.png' ); // FileSaver.js function
+    var clone = svgNode.cloneNode(true);
+    clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    clone.setAttribute("width", width);
+    clone.setAttribute("height", height);
+    clone.setAttribute("viewBox", "0 0 " + width + " " + height);
+    // keep the on-screen font (otherwise the image falls back to a serif font)
+    clone.style.fontFamily = window.getComputedStyle(svgNode).fontFamily;
+    // copy computed text styles (rules like "text.mono" in heatmap.css are not
+    // picked up by getSVGString, which made labels render at 16px in exports)
+    var srcText = svgNode.querySelectorAll("text");
+    var dstText = clone.querySelectorAll("text");
+    for (var t = 0; t < srcText.length && t < dstText.length; t++) {
+        var cs = window.getComputedStyle(srcText[t]);
+        dstText[t].style.fontSize   = cs.fontSize;
+        dstText[t].style.fontFamily = cs.fontFamily;
+        dstText[t].style.fontWeight = cs.fontWeight;
+        dstText[t].style.fill       = cs.fill;
     }
+    var cloneGap = clone.querySelector("#gap");
+    cloneGap.setAttribute("transform",
+        "translate(" + (margin - bBox.x) + "," + (margin - bBox.y) + ")");
+
+    // white background so the image is not transparent
+    var bg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    bg.setAttribute("x", 0); bg.setAttribute("y", 0);
+    bg.setAttribute("width", width); bg.setAttribute("height", height);
+    bg.setAttribute("fill", "#ffffff");
+    clone.insertBefore(bg, clone.firstChild);
+
+    return { node: clone, width: width, height: height };
+}
+
+function exportBaseName(filename) {
+    // data file name without its extension, e.g. "iris.csv" -> "iris"
+    var name = filename ? String(filename).split(/[\\/]/).pop().replace(/\.[^.]+$/, "") : "";
+    return name || "GAP";
+}
+
+function saveImagetoPNG(filename) {
+    var exp = buildExportSVG();
+    if (!exp) return;
+    var svgString = getSVGString(exp.node);
+
+    // render at 2x for sharpness, but stay within browser canvas limits
+    var maxSide = 16384, maxArea = 16384 * 16384 / 2;
+    var scale = Math.min(2, maxSide / exp.width, maxSide / exp.height,
+                         Math.sqrt(maxArea / (exp.width * exp.height)));
+    svgString2Image(svgString, exp.width, exp.height, 'png', function(dataBlob) {
+        saveAs(dataBlob, exportBaseName(filename) + '.png'); // FileSaver.js function
+    }, scale);
+}
+
+function saveImagetoSVG(filename) {
+    var exp = buildExportSVG();
+    if (!exp) return;
+    var svgString = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
+                  + getSVGString(exp.node);
+    var blob = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+    saveAs(blob, exportBaseName(filename) + '.svg');
 }
 
 // Below are the functions that handle actual exporting:
@@ -3176,22 +3254,25 @@ function getSVGString( svgNode ) {
 }
 
 
-function svgString2Image( svgString, width, height, format, callback ) {
+function svgString2Image( svgString, width, height, format, callback, scale ) {
     var format = format ? format : 'png';
+    scale = scale ? scale : 1;
 
-    var imgsrc = 'data:image/svg+xml;base64,'+ btoa( unescape( encodeURIComponent( svgString ) ) ); // Convert SVG string to data URL
+    // Blob URL instead of a base64 data URL: works for very large SVGs
+    var imgsrc = URL.createObjectURL(new Blob([svgString], {type: 'image/svg+xml;charset=utf-8'}));
 
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
 
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = Math.round(width * scale);
+    canvas.height = Math.round(height * scale);
 
     var image = new Image();
     image.onload = function() {
-        context.clearRect ( 0, 0, width, height );
-        context.drawImage(image, 0, 0, width, height);
+        context.clearRect ( 0, 0, canvas.width, canvas.height );
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
+        URL.revokeObjectURL(imgsrc);
         canvas.toBlob( function(blob) {
             var filesize = Math.round( blob.length/1024 ) + ' KB';
             if ( callback ) callback( blob, filesize );

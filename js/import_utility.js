@@ -148,7 +148,7 @@ function resetAllParameters(heatmapId) {
     $("#rowflip_side").prop("disabled",true);
     $("#colflip_side").prop("disabled",true);
 
-    $('#palette').val("Spectral");
+    $('#palette').val("GAP_Rainbow");
 	$("#isColorReverse").prop("checked", false);
 	$('#displaycondition').val("RangeMatrix");
 }
@@ -156,6 +156,7 @@ function resetAllParameters(heatmapId) {
 //#########################################################
 function setAllParameters(tmp_dataFileName, tmp_hasRowName, tmp_hasColName, tmp_yd, tmp_yc, tmp_xd, tmp_xc) {
 	dataFileName = tmp_dataFileName;
+	exportFileName = tmp_dataFileName;
 	hasRowName = tmp_hasRowName;
 	hasColName = tmp_hasColName;
 	yd = tmp_yd;
@@ -174,7 +175,8 @@ function importOK() {
 	resetAllParameters("#heatmap");
 	removeAllColorLegend();
     setAllParameters(importDataFileName, document.getElementById('importHasRowName').checked, document.getElementById('importHasColName').checked, importYdiscrCount, importYcontiCount, importXdiscrCount, importXcontiCount);
-    heatmap_display(dataFileName, "#heatmap", "Spectral", sep);
+    exportFileName = importDataOriginalName;   // dataFileName is a blob: URL here
+    heatmap_display(dataFileName, "#heatmap", "GAP_Rainbow", sep);
     document.getElementById("myModal").style.display = "none";
     $("#exampleFileName")[0].selectedIndex = 0;
 }

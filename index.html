@@ -32,11 +32,11 @@
   <!--<script type="text/javascript" src="hctree.js"></script>-->
   <script type="text/javascript" src="js/hctree_wasm.js"></script>
   <script type="text/javascript" src="js/proximity_wasm.js"></script>
-  <script src="js/heatmap_utility.js"></script>
-  <script src="js/heatmap.js"></script>
+  <script src="js/heatmap_utility.js?v=20261006c"></script>
+  <script src="js/heatmap.js?v=20261006c"></script>
   <link rel="stylesheet" href="css/heatmap.css" />  
   <link rel="stylesheet" href="css/lightbox.css" />
-  <script src="js/import_utility.js"></script>
+  <script src="js/import_utility.js?v=20261006c"></script>
   <script src="js/papaparse.min.js"></script>
   <script type="text/javascript" src="js/nodelink.js"></script>
   <script type="text/javascript" src="js/nodelinkwindow.js"></script>
@@ -60,7 +60,7 @@
   <script src="js/bootstrap-slider.js"></script>
   <script src="js/slider.js"></script>
   <script src="js/canvas-to-blob.js"></script>
-  <script src="js/FileSaver.js"></script>
+  <script src="js/FileSaver.js?v=20261006c"></script>
 
   <link rel="stylesheet"  href="css/nodelink.css">
   <link rel="stylesheet"  href="css/nodelinkwindow.css">
@@ -87,8 +87,8 @@
 
             var rowProxData1D = runProximity(0, 0, 0);
 
-                let colorID = d3.interpolateSpectral;
-                rpPalette = "Spectral";
+                let colorID = interpolateGAPRainbow;
+                rpPalette = "GAP_Rainbow";
                 rowIsSimilarity = false;
                 row_Scale_id = 3;
                 for(i = 0; i < row_number; i++) {
@@ -136,8 +136,8 @@
 
             var colProxData1D = runProximity(1, 1, 0);
 
-                colorID = d3.interpolateRdBu;
-                cpPalette = "RdBu";
+                colorID = interpolateGAPBlueRed;
+                cpPalette = "GAP_Blue_Red";
                 colIsSimilarity = true;
                 col_Scale_id = 1;
 
@@ -464,7 +464,8 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="#" id="saveOrdering">Ordering</a>
             <a class="collapse-item" href="#" id="saveProxData">Proximity</a>
-            <a class="collapse-item" href="#" id="saveImages">Images</a>
+            <a class="collapse-item" href="#" id="saveImages">Image (PNG)</a>
+            <a class="collapse-item" href="#" id="saveImagesSVG">Image (SVG)</a>
           </div>
         </div>
       </li>
@@ -627,6 +628,10 @@
                   <option value="PRGn">PRGn</option>
                   <option value="BrBG">BrBG</option>
                   <option value="PuOr">PuOr</option>
+                </optgroup>
+                <optgroup label =  "GAP palettes">
+                  <option value="GAP_Rainbow">GAP-rainbow</option>
+                  <option value="GAP_Blue_Red">GAP-Blue-Red</option>
                 </optgroup>
               </select>
               <input type="checkbox" id="isColorReverse"> reverse
@@ -934,7 +939,7 @@
   <!-- Page level custom scripts -->
   <script src="js/lightbox.js"></script>
   <script src="js/demo/datatables-demo.js"></script>
-  <script src="js/mydatatable.js"></script>
+  <script src="js/mydatatable.js?v=20261006c"></script>
   <script>
     let inputElement = document.getElementById("uploadFileName"),
       csvs = ["text/csv", "application/vnd.ms-excel"],

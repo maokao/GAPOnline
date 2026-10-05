@@ -86,7 +86,11 @@
   } // Detect WebKit inside a native macOS app
 
 
-  var isWebKit = /AppleWebKit/.test(navigator.userAgent);
+  // Fixed (upstream FileSaver 2.0.4): the old test /AppleWebKit/ also matched
+  // Chrome/Edge, which skipped the <a download> path and lost the file name
+  // (downloads were saved as "download" / "下載"). Only a native macOS WebView
+  // should take the fallback path.
+  var isWebKit = /Macintosh/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !/Safari/.test(navigator.userAgent);
   var saveAs = _global.saveAs || ( // probably in some web worker
   typeof window !== 'object' || window !== _global ? function saveAs() {}
   /* noop */

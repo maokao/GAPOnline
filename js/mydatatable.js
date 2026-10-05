@@ -4,6 +4,7 @@ function handleFiles() {
     let file = this.files[0];
 
     importDataFileName = URL.createObjectURL(file);
+    importDataOriginalName = file.name;
     $('#filepath').html("<b>File: "+file.name+"</b>");
     importDataFileExtension = getFileExtension(file.name);
     var sep = ",";
