@@ -15,7 +15,7 @@ function runHCTree(sortedTarget, hctType, flipType, nowID, x, y, heatmapId, isSi
           {
             for(j = 0; j < row_number; j++)
             {
-              inputRowProx[i*row_number+j] = 1.0-rowProxData[i][j]; 
+              inputRowProx[i*row_number+j] = (rowProxData[i][j] == null) ? NaN : 1.0-rowProxData[i][j]; 
             }
           }         
         }
@@ -25,12 +25,13 @@ function runHCTree(sortedTarget, hctType, flipType, nowID, x, y, heatmapId, isSi
           {
             for(j = 0; j < row_number; j++)
             {
-              inputRowProx[i*row_number+j] = rowProxData[i][j]; 
+              inputRowProx[i*row_number+j] = (rowProxData[i][j] == null) ? NaN : rowProxData[i][j]; 
             }
           }
         }
 
 
+        imputeMissingProx(inputRowProx, row_number, "max");
         var bytes_per_element = inputRowProx.BYTES_PER_ELEMENT;   // 8 bytes each element
          console.log("bytes_per_element:"+inputRowProx.BYTES_PER_ELEMENT);
 
@@ -73,10 +74,10 @@ function runHCTree(sortedTarget, hctType, flipType, nowID, x, y, heatmapId, isSi
           [input_ptr, output_left_ptr, output_right_ptr, output_hgt_ptr, output_order_ptr, row_number, row_number, 0]       //input value
         );
 */
-        var output_left_array = new Int32Array(Module.HEAP32.buffer, output_left_ptr, row_number-1); // extract data to another JS array
-        var output_right_array = new Int32Array(Module.HEAP32.buffer, output_right_ptr, row_number-1); // extract data to another JS array
-        var output_hgt_array = new Float64Array(Module.HEAPF64.buffer, output_hgt_ptr, row_number-1); // extract data to another JS array
-        var output_order_array = new Int32Array(Module.HEAP32.buffer, output_order_ptr, row_number); // extract data to another JS array
+        var output_left_array = new Int32Array(Module.HEAP32.buffer, output_left_ptr, row_number-1).slice(); // copy before free // extract data to another JS array
+        var output_right_array = new Int32Array(Module.HEAP32.buffer, output_right_ptr, row_number-1).slice(); // copy before free // extract data to another JS array
+        var output_hgt_array = new Float64Array(Module.HEAPF64.buffer, output_hgt_ptr, row_number-1).slice(); // copy before free // extract data to another JS array
+        var output_order_array = new Int32Array(Module.HEAP32.buffer, output_order_ptr, row_number).slice(); // copy before free // extract data to another JS array
 
         // 要測試的 function 結束 =======
         end = new Date().getTime();
@@ -126,9 +127,9 @@ function runHCTree(sortedTarget, hctType, flipType, nowID, x, y, heatmapId, isSi
         {
           for(i = 0; i < col_number; i++)
           {
-            for(j = 0; j < row_number; j++)
+            for(j = 0; j < col_number; j++)  // was row_number (bug when rows < columns)
             {
-              inputColProx[i*col_number+j] = 1.0-colProxData[i][j]; 
+              inputColProx[i*col_number+j] = (colProxData[i][j] == null) ? NaN : 1.0-colProxData[i][j]; 
             }
           }
         }
@@ -136,13 +137,14 @@ function runHCTree(sortedTarget, hctType, flipType, nowID, x, y, heatmapId, isSi
         {
           for(i = 0; i < col_number; i++)
           {
-            for(j = 0; j < row_number; j++)
+            for(j = 0; j < col_number; j++)  // was row_number (bug when rows < columns)
             {
-              inputColProx[i*col_number+j] = colProxData[i][j]; 
+              inputColProx[i*col_number+j] = (colProxData[i][j] == null) ? NaN : colProxData[i][j]; 
             }
           }          
         }
 
+        imputeMissingProx(inputColProx, col_number, "max");
         var bytes_per_element = inputColProx.BYTES_PER_ELEMENT;   // 8 bytes each element
          console.log("bytes_per_element:"+inputColProx.BYTES_PER_ELEMENT);
 
@@ -184,10 +186,10 @@ function runHCTree(sortedTarget, hctType, flipType, nowID, x, y, heatmapId, isSi
           [input_ptr, output_left_ptr, output_right_ptr, output_hgt_ptr, output_order_ptr, row_number, row_number, 0]       //input value
         );
 */
-        var output_left_array = new Int32Array(Module.HEAP32.buffer, output_left_ptr, col_number-1); // extract data to another JS array
-        var output_right_array = new Int32Array(Module.HEAP32.buffer, output_right_ptr, col_number-1); // extract data to another JS array
-        var output_hgt_array = new Float64Array(Module.HEAPF64.buffer, output_hgt_ptr, col_number-1); // extract data to another JS array
-        var output_order_array = new Int32Array(Module.HEAP32.buffer, output_order_ptr, col_number); // extract data to another JS array
+        var output_left_array = new Int32Array(Module.HEAP32.buffer, output_left_ptr, col_number-1).slice(); // copy before free // extract data to another JS array
+        var output_right_array = new Int32Array(Module.HEAP32.buffer, output_right_ptr, col_number-1).slice(); // copy before free // extract data to another JS array
+        var output_hgt_array = new Float64Array(Module.HEAPF64.buffer, output_hgt_ptr, col_number-1).slice(); // copy before free // extract data to another JS array
+        var output_order_array = new Int32Array(Module.HEAP32.buffer, output_order_ptr, col_number).slice(); // copy before free // extract data to another JS array
 
         // 要測試的 function 結束 =======
         end = new Date().getTime();

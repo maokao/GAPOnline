@@ -13,6 +13,90 @@ var GAP_Blue_White_Red = ['#00006B', '#00009E', '#0000BF', '#0000E8', '#2121FF',
                           '#850000', '#520000'];
 var interpolateGAPRainbow = d3.piecewise(d3.interpolateRgb, GAP_Rainbow.slice().reverse());
 var interpolateGAPBlueRed = d3.piecewise(d3.interpolateRgb, GAP_Blue_White_Red.slice().reverse());
+// GAP_d: 16-category discrete palette (GAPR R/colors.R), used for discrete covariates
+var GAP_d = ['#FF0000', '#008000', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF', '#808080', '#FF8000',
+             '#800080', '#80FF00', '#804040', '#808000', '#408080', '#FF8080', '#000080', '#FFFFFF'];
+
+//#########################################################
+// Missing-value handling
+// Empty cells and NA-like tokens are stored as null (drawn with the hatch
+// pattern). Non-numeric text is also stored as null and reported to the user.
+// (Previously Number("") silently turned empty cells into 0.)
+var MISSING_TOKENS = /^(|na|n\/a|nan|null|none|\.|\?|-)$/i;
+var parseStats = { missing: 0, nonNumeric: 0, examples: [] };
+
+function resetParseStats() {
+    parseStats = { missing: 0, nonNumeric: 0, examples: [] };
+}
+
+function parseGAPCell(value, rowObj, colKey) {
+    if (value === undefined || value === null) { parseStats.missing++; return null; }
+    var str = String(value).trim();
+    if (MISSING_TOKENS.test(str)) { parseStats.missing++; return null; }
+    var num = Number(str);
+    if (!isFinite(num)) {
+        parseStats.nonNumeric++;
+        if (parseStats.examples.length < 5) {
+            var rowLabel = "";
+            if (rowObj) {
+                var keys = Object.keys(rowObj);
+                rowLabel = (typeof hasRowName !== "undefined" && hasRowName && keys.length) ? rowObj[keys[0]] : "";
+            }
+            parseStats.examples.push('"' + str + '"' + (rowLabel !== "" ? ' (row "' + rowLabel + '", column "' + colKey + '")' : ' (column "' + colKey + '")'));
+        }
+        return null;
+    }
+    return num;
+}
+
+function reportParseStats() {
+    if (parseStats.missing + parseStats.nonNumeric == 0) return;
+    var msg = "Data check:\n";
+    if (parseStats.missing > 0)
+        msg += "- " + parseStats.missing + " empty / NA cell(s) were treated as missing values.\n";
+    if (parseStats.nonNumeric > 0)
+        msg += "- " + parseStats.nonNumeric + " non-numeric cell(s) were also treated as missing values, e.g.\n    "
+             + parseStats.examples.join("\n    ") + "\n";
+    msg += "\nMissing cells are drawn with a hatched pattern. Proximities are computed from the "
+         + "pairwise-complete observations of each pair of rows / columns.";
+    setTimeout(function() { alert(msg); }, 0);   // after the heatmap has been drawn
+}
+
+function isMissingValue(v) {
+    return v === null || v === undefined || (typeof v === "number" && isNaN(v));
+}
+
+function proxValueOrNull(v) {
+    return isMissingValue(v) ? null : v;
+}
+
+// [min, max] of column j / row i of a matrix, ignoring missing values
+function columnExtent(M, j) {
+    var mn, mx;
+    for (var r = 0; r < M.length; r++) {
+        var v = M[r][j];
+        if (isMissingValue(v)) continue;
+        if (mn === undefined || v < mn) mn = v;
+        if (mx === undefined || v > mx) mx = v;
+    }
+    return [mn, mx];
+}
+function rowExtent(M, i) {
+    var mn, mx, row = M[i];
+    for (var c = 0; c < row.length; c++) {
+        var v = row[c];
+        if (isMissingValue(v)) continue;
+        if (mn === undefined || v < mn) mn = v;
+        if (mx === undefined || v > mx) mx = v;
+    }
+    return [mn, mx];
+}
+function integerRange(mn, mx) {
+    var out = [];
+    if (mn === undefined || mx === undefined) return out;
+    for (var k = mn; k <= mx; k++) out.push(k);
+    return out;
+}
 
 //#########################################################
 function changeRowOrder(newOrder, heatmapId) {
@@ -2091,7 +2175,7 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
         else if(mode==11)   //yd
         {
             var legend_text = [];
-            for(i=0 ; i <9 ; i++)
+            for(i=0 ; i < colorID.length ; i++)
             {
                 //temp_value = i+parseFloat(minValue);
                 temp_value = i;
@@ -2113,7 +2197,7 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
         else if(mode==13)   //xd
         {
             var legend_text = [];
-            for(i=0 ; i <9 ; i++)
+            for(i=0 ; i < colorID.length ; i++)
             {
                 //temp_value = i+parseFloat(minValue);
                 temp_value = i;
@@ -2455,7 +2539,8 @@ function drawColorLegend(svgId, viewerPosTop, colorScale, displayText, minValue,
                 .interpolator(colorID);*/
         //console.log(colorScale);
 
-        var legendElementWidth=30;
+        var nDiscrete = (isDiscrete && colorScale.range) ? colorScale.range().length : 9;
+        var legendElementWidth = isDiscrete ? 270 / nDiscrete : 30;
 
         var basediv = d3.select("#mv_color").append("div")
                     .attr("class", "dropdown-item d-flex align-items-center")
@@ -2484,7 +2569,7 @@ function drawColorLegend(svgId, viewerPosTop, colorScale, displayText, minValue,
         */
         if(isDiscrete)
         {
-            for(i=0 ; i <9 ; i++)
+            for(i=0 ; i < nDiscrete ; i++)
             {
                 //temp_value = i+parseFloat(minValue);
                 temp_value = i;
@@ -3095,7 +3180,7 @@ function doubleArrayToString(arr) {
   {
     for(var j = 0; j <arr[0].length; j++)
     {
-        str = str + arr[i][j];
+        str = str + (isMissingValue(arr[i][j]) ? "NA" : arr[i][j]);
         if (j != (arr[0].length - 1)) {
           str += '\t';
         };

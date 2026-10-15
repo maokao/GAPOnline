@@ -160,6 +160,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
     d3.text(url).then(function(textString) {
         var dataset;
+        resetParseStats();
         var psv = d3.dsvFormat(delimiter);
         if(hasColName)
         {         
@@ -335,7 +336,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             tempdata = [];
             for( j=0 ;j< col_number; j++ )
             {
-                tempdata.push(Number(dataset[i+xCov][dataset.columns[j+yCov+yN]]));
+                tempdata.push(parseGAPCell(dataset[i+xCov][dataset.columns[j+yCov+yN]], dataset[i+xCov], dataset.columns[j+yCov+yN]));
                 //tempdata.push(Object.values(dataset[i+xCov])[j+yCov+yN]);
             } 
             data.push(tempdata);  
@@ -348,7 +349,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0 ;j< col_number; j++)
                 {
-                    tempdata.push(Number(dataset[i][dataset.columns[j+yCov+yN]]));
+                    tempdata.push(parseGAPCell(dataset[i][dataset.columns[j+yCov+yN]], dataset[i], dataset.columns[j+yCov+yN]));
                     //tempdata.push(Object.values(dataset[i])[j+yCov+yN]);
                 }   
                 xdData.push(tempdata);   
@@ -390,7 +391,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0 ;j< col_number; j++)
                 {
-                    tempdata.push(Number(dataset[i+xd][dataset.columns[j+yCov+yN]]));
+                    tempdata.push(parseGAPCell(dataset[i+xd][dataset.columns[j+yCov+yN]], dataset[i+xd], dataset.columns[j+yCov+yN]));
                 }   
                 xcData.push(tempdata);   
             }
@@ -420,7 +421,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0; j<yd; j++ )
                 {
-                    tempdata.push(Number(dataset[i+xCov][dataset.columns[j+yN]]));
+                    tempdata.push(parseGAPCell(dataset[i+xCov][dataset.columns[j+yN]], dataset[i+xCov], dataset.columns[j+yN]));
                     //tempdata.push(Object.values(dataset[i+xCov])[j+yN]);
                 } 
                 ydData.push(tempdata);  
@@ -464,7 +465,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 tempdata = [];
                 for( j=0 ;j< yc; j++ )
                 {
-                    tempdata.push(Number(dataset[i+xCov][dataset.columns[j+yd+yN]]));
+                    tempdata.push(parseGAPCell(dataset[i+xCov][dataset.columns[j+yd+yN]], dataset[i+xCov], dataset.columns[j+yd+yN]));
                     //tempdata.push(Object.values(dataset[i+xCov])[j+yd+yN]);
                 } 
                 ycData.push(tempdata);  
@@ -488,6 +489,12 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 }
             }
         }
+
+        // Recompute covariate ranges ignoring missing values (null)
+        for(var jj=0; jj<yd; jj++) { var ex=columnExtent(ydData,jj); yd_min_value[jj]=ex[0]; yd_max_value[jj]=ex[1]; yd_cate_col[jj]=integerRange(ex[0],ex[1]); }
+        for(var jj=0; jj<yc; jj++) { var ex=columnExtent(ycData,jj); yc_min_value[jj]=ex[0]; yc_max_value[jj]=ex[1]; }
+        for(var ii=0; ii<xd; ii++) { var ex=rowExtent(xdData,ii); xd_min_value[ii]=ex[0]; xd_max_value[ii]=ex[1]; xd_cate_col[ii]=integerRange(ex[0],ex[1]); }
+        for(var ii=0; ii<xc; ii++) { var ex=rowExtent(xcData,ii); xc_min_value[ii]=ex[0]; xc_max_value[ii]=ex[1]; }
 
         max_value = d3.max(data, function(row) { return d3.max(row) });
         min_value = d3.min(data, function(row) { return d3.min(row) });
@@ -527,6 +534,11 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 }
             }
         }
+
+        // Recompute data ranges ignoring missing values (null)
+        for(var jj=0; jj<col_number; jj++) { var ex=columnExtent(data,jj); data_min_value[jj]=ex[0]; data_max_value[jj]=ex[1]; }
+        for(var ii=0; ii<row_number; ii++) { var ex=rowExtent(data,ii); data_row_min_value[ii]=ex[0]; data_row_max_value[ii]=ex[1]; }
+        reportParseStats();
 
         //console.log(max_value);
         for( i=0 ;i< row_number; i++)
@@ -740,7 +752,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             //yd_X = yc_X -5-yd*cellWidth;
             setupydLabel(yd_X-col_fontsize/2, -5, heatmapId);
             //ydPalette = "GAP_Rainbow";
-            setupHeatmap2(ydData,"mv11",yd_X,0,11, heatmapId, d3.schemeSet1);
+            setupHeatmap2(ydData,"mv11",yd_X,0,11, heatmapId, GAP_d);
             $("#optionDataMap").append($("<option></option>").attr("value", "yd").text("Ydisc. covariates"));
         }
         if(xc>0)
@@ -756,7 +768,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
             //yd_X = yc_X -5-yd*cellWidth;
             setupxdLabel(col_number*cellWidth+5, xd_Y+xcov_cellHeight-row_fontsize/2, heatmapId);
             //xdPalette = "GAP_Rainbow";
-            setupHeatmap2(xdData,"mv13",0,xd_Y,13, heatmapId, d3.schemeSet1);
+            setupHeatmap2(xdData,"mv13",0,xd_Y,13, heatmapId, GAP_d);
             $("#optionDataMap").append($("<option></option>").attr("value", "xd").text("Xdisc. covariates"));
         }
 
@@ -1207,7 +1219,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
             for(i = 0; i < row_number; i++) {
                 for(j = 0; j < row_number; j++) {
-                    rowProxData[i][j] = rowProxData1D[i*row_number+j];
+                    rowProxData[i][j] = proxValueOrNull(rowProxData1D[i*row_number+j]);
                 }
             } 
 
@@ -1410,7 +1422,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
 
             for(i = 0; i < col_number; i++) {
                 for(j = 0; j < col_number; j++) {
-                    colProxData[i][j] = colProxData1D[i*col_number+j];
+                    colProxData[i][j] = proxValueOrNull(colProxData1D[i*col_number+j]);
                 }
             }
 

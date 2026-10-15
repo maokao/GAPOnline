@@ -28,15 +28,15 @@
   <script type="text/javascript" src="js/dendrogram.js"></script>
   <script type="text/javascript" src="js/seriation.js"></script>
   <!--<script type="text/javascript" src="r2e.js"></script>-->
-  <script type="text/javascript" src="js/r2e_wasm.js"></script>
+  <script type="text/javascript" src="js/r2e_wasm.js?v=20261015"></script>
   <!--<script type="text/javascript" src="hctree.js"></script>-->
-  <script type="text/javascript" src="js/hctree_wasm.js"></script>
-  <script type="text/javascript" src="js/proximity_wasm.js"></script>
-  <script src="js/heatmap_utility.js?v=20261006c"></script>
-  <script src="js/heatmap.js?v=20261006c"></script>
+  <script type="text/javascript" src="js/hctree_wasm.js?v=20261015"></script>
+  <script type="text/javascript" src="js/proximity_wasm.js?v=20261015"></script>
+  <script src="js/heatmap_utility.js?v=20261015"></script>
+  <script src="js/heatmap.js?v=20261015"></script>
   <link rel="stylesheet" href="css/heatmap.css" />  
   <link rel="stylesheet" href="css/lightbox.css" />
-  <script src="js/import_utility.js?v=20261006c"></script>
+  <script src="js/import_utility.js?v=20261015"></script>
   <script src="js/papaparse.min.js"></script>
   <script type="text/javascript" src="js/nodelink.js"></script>
   <script type="text/javascript" src="js/nodelinkwindow.js"></script>
@@ -60,7 +60,7 @@
   <script src="js/bootstrap-slider.js"></script>
   <script src="js/slider.js"></script>
   <script src="js/canvas-to-blob.js"></script>
-  <script src="js/FileSaver.js?v=20261006c"></script>
+  <script src="js/FileSaver.js?v=20261015"></script>
 
   <link rel="stylesheet"  href="css/nodelink.css">
   <link rel="stylesheet"  href="css/nodelinkwindow.css">
@@ -93,7 +93,7 @@
                 row_Scale_id = 3;
                 for(i = 0; i < row_number; i++) {
                   for(j = 0; j < row_number; j++) {
-                      rowProxData[i][j] = rowProxData1D[i*row_number+j];
+                      rowProxData[i][j] = proxValueOrNull(rowProxData1D[i*row_number+j]);
                   }
                 } 
                 $("#roworder").prop("disabled",false);
@@ -143,7 +143,7 @@
 
             for(i = 0; i < col_number; i++) {
                 for(j = 0; j < col_number; j++) {
-                    colProxData[i][j] = colProxData1D[i*col_number+j];
+                    colProxData[i][j] = proxValueOrNull(colProxData1D[i*col_number+j]);
                 }
             }
 
@@ -875,7 +875,7 @@
 
 
         </div>
-        <div class="div_right_bottom"><p style="text-align:right;white-space:pre-wrap;" class="">©&nbsp;<a href="http://gap.stat.sinica.edu.tw" target="_blank" style="color: #858796;">Lab for Information Visualzation</a><br>Institute of Statistical Science, Academia Sinica</br>Web Design By <a href="https://www.linkedin.com/in/chiun-how-kao/" target="_blank" style="color: #858796;text-decoration:underline;">Chiun-How Kao</a> 2020</p></div>
+        <div class="div_right_bottom"><p style="text-align:right;white-space:pre-wrap;" class="">©&nbsp;<a href="http://gap.stat.sinica.edu.tw" target="_blank" style="color: #858796;">Lab for Information Visualization</a><br>Institute of Statistical Science, Academia Sinica</br>Web Design By <a href="https://www.linkedin.com/in/chiun-how-kao/" target="_blank" style="color: #858796;text-decoration:underline;">Chiun-How Kao</a> 2020</p></div>
         <!-- /.container-fluid -->
 
       </div>
@@ -939,7 +939,7 @@
   <!-- Page level custom scripts -->
   <script src="js/lightbox.js"></script>
   <script src="js/demo/datatables-demo.js"></script>
-  <script src="js/mydatatable.js?v=20261006c"></script>
+  <script src="js/mydatatable.js?v=20261015"></script>
   <script>
     let inputElement = document.getElementById("uploadFileName"),
       csvs = ["text/csv", "application/vnd.ms-excel"],
