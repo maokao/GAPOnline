@@ -852,6 +852,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                 });
                 console.log(sorted);
                 colCurrentOrder = sorted;
+                if (typeof refreshClusterLines === "function") refreshClusterLines();
                 t.select("#mv").selectAll(".cell")
                     .attr("x", function(d) {
                         var col = parseInt(d3.select(this).attr("col"));
@@ -980,6 +981,7 @@ function heatmap_display(url, heatmapId, paletteName, delimiter) {
                     }
                 });
                 rowCurrentOrder = sorted;
+                if (typeof refreshClusterLines === "function") refreshClusterLines();
                 t.select("#mv").selectAll(".row")
                     .attr("y", function(d) {
                         var row = parseInt(d3.select(this).attr("id"));

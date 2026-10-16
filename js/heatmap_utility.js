@@ -100,6 +100,7 @@ function integerRange(mn, mx) {
 
 //#########################################################
 function changeRowOrder(newOrder, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     var sortedTarget = 0; //0 for rows
     var svg = d3.select(heatmapId);
     if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage")
@@ -344,6 +345,7 @@ function changeRowOrder(newOrder, heatmapId) {
 
 //#########################################################
 function changeColOrder(newOrder, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     var sortedTarget = 1; //1 for columns
     var svg = d3.select(heatmapId);
     if (newOrder == "r2e" || newOrder == "singlelinkage" || newOrder == "averagelinkage" || newOrder == "completelinkage")
@@ -890,6 +892,7 @@ function changeOrder(newOrder, heatmapId) {
 
 //#########################################################
 function changeRowFlip(newFlip, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     var sortedTarget = 0; //0 for rows
     var svg = d3.select(heatmapId);
     //$("#rowflip").prop("disabled",false);
@@ -1010,6 +1013,7 @@ function changeRowFlip(newFlip, heatmapId) {
 
 //#########################################################
 function changeColFlip(newFlip, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     var sortedTarget = 1; //1 for columns
     var svg = d3.select(heatmapId);
     //$("#colflip").prop("disabled",false);
@@ -1186,6 +1190,7 @@ function changeColFlip(newFlip, heatmapId) {
 
 //#########################################################
 function changePalette(conditionName, paletteName, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     var colorID = d3.interpolateRdBu;
     //console.log("conditionName: "+conditionName);
     //var colors = colorbrewer[paletteName][classesNumber];
@@ -1740,6 +1745,7 @@ function redrawColLabels(heatmapId) {
 
 //#########################################################
 function redrawHeatmap(nowID, x, y, mode, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
 
         //console.log("nowID: "+nowID+","+max_data);
         var svg = d3.select(heatmapId);
@@ -2030,6 +2036,7 @@ function changeTreePosition(nowID, X, Y, mode, heatmapId) {
 
 //#########################################################
 function changeWidth(widthZoomRange, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     cellWidth = cellOriWidth*widthZoomRange/50;
     xcov_cellWidth = cellWidth;
 
@@ -2097,6 +2104,7 @@ function changeWidth(widthZoomRange, heatmapId) {
 
 //#########################################################
 function changeHeight(heightZoomRange, heatmapId) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     cellHeight = cellOriHeight*heightZoomRange/50;
     ycov_cellHeight = cellHeight;
 
@@ -2146,6 +2154,7 @@ function changeHeight(heightZoomRange, heatmapId) {
 }
 //#########################################################
 function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
         var svg = d3.select(heatmapId).select("svg").select("#gap");
         var max_data = d3.max(nowdata, function(row) { return d3.max(row) });
         var min_data = d3.min(nowdata, function(row) { return d3.min(row) });
@@ -2460,6 +2469,7 @@ function setupHeatmap2(nowdata, nowID, x, y, mode, heatmapId, colorID) {
 
 //#########################################################
 function changeProx(prefs, nowID, heatmapId, mode, colorID) {
+    if (typeof refreshClusterLines === "function") refreshClusterLines();
     var svg = d3.select(heatmapId).select("svg").select("#gap").select("#"+nowID+"");
     var max_data = d3.max(prefs, function(row) { return d3.max(row) });
     var min_data = d3.min(prefs, function(row) { return d3.min(row) });
@@ -2892,6 +2902,7 @@ function sortByValuesCov(rORc, i, sortOrder, target) {
                     }
                 });
                 colCurrentOrder = sorted;
+                if (typeof refreshClusterLines === "function") refreshClusterLines();
                 t.select("#mv").selectAll(".cell")
                     .attr("x", function(d) {
                         var col = parseInt(d3.select(this).attr("col"));
@@ -3011,6 +3022,7 @@ function sortByValuesCov(rORc, i, sortOrder, target) {
                     }
                 });
                 rowCurrentOrder = sorted;
+                if (typeof refreshClusterLines === "function") refreshClusterLines();
                 t.select("#mv").selectAll(".row")
                     .attr("y", function(d) {
                         var row = parseInt(d3.select(this).attr("id"));

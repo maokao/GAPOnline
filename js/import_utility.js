@@ -41,6 +41,7 @@ function resetAllParameters(heatmapId) {
 	colIsSimilarity = false;
 	treeRowData = null;
 	treeColData = null;
+	if (typeof resetTreeCuts === "function") resetTreeCuts();
 	row_output_left_array = null;
 	row_output_right_array = null;
 	row_output_hgt_array = null;
